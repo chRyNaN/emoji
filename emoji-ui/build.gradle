@@ -1,0 +1,50 @@
+import com.chrynan.emoji.buildSrc.LibraryConstants
+
+apply plugin: "kotlin-multiplatform"
+
+group LibraryConstants.group
+version LibraryConstants.versionName
+
+kotlin {
+    targets {
+        jvm()
+        js()
+        ios()
+    }
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-stdlib-common"
+
+                implementation project(":emoji-core")
+            }
+        }
+    }
+}
+
+configurations {
+    compileClasspath
+}
+
+publishing {
+    publications {
+        kotlinMultiplatform {
+            artifactId = "emoji-ui"
+        }
+        jvm {
+            artifactId = "emoji-ui-jvm"
+        }
+        js {
+            artifactId = "emoji-ui-js"
+        }
+        iosArm64 {
+            artifactId = "emoji-ui-ios-arm64"
+        }
+        iosX64 {
+            artifactId = "emoji-ui-ios-x64"
+        }
+        metadata {
+            artifactId = "emoji-ui-metadata"
+        }
+    }
+}

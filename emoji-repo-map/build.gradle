@@ -1,0 +1,52 @@
+import com.chrynan.emoji.buildSrc.LibraryConstants
+import com.chrynan.emoji.buildSrc.plugin.KotlinMapGeneratorPlugin
+
+apply plugin: "kotlin-multiplatform"
+apply plugin: KotlinMapGeneratorPlugin
+
+group LibraryConstants.group
+version LibraryConstants.versionName
+
+kotlin {
+    targets {
+        jvm()
+        js()
+        ios()
+    }
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-stdlib-common"
+
+                api project(":emoji-core")
+            }
+        }
+    }
+}
+
+configurations {
+    compileClasspath
+}
+
+publishing {
+    publications {
+        kotlinMultiplatform {
+            artifactId = "emoji-repo-map"
+        }
+        jvm {
+            artifactId = "emoji-repo-map-jvm"
+        }
+        js {
+            artifactId = "emoji-repo-map-js"
+        }
+        iosArm64 {
+            artifactId = "emoji-repo-map-ios-arm64"
+        }
+        iosX64 {
+            artifactId = "emoji-repo-map-ios-x64"
+        }
+        metadata {
+            artifactId = "emoji-repo-map-metadata"
+        }
+    }
+}

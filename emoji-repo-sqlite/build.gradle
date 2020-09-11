@@ -1,0 +1,55 @@
+import com.chrynan.emoji.buildSrc.LibraryConstants
+import com.chrynan.emoji.buildSrc.plugin.SqliteGeneratorPlugin
+
+apply plugin: "kotlin-multiplatform"
+apply plugin: "com.squareup.sqldelight"
+apply plugin: SqliteGeneratorPlugin
+
+group LibraryConstants.group
+version LibraryConstants.versionName
+
+kotlin {
+    targets {
+        jvm()
+        ios()
+    }
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-stdlib-common"
+
+                api project(":emoji-core")
+            }
+        }
+    }
+}
+
+configurations {
+    compileClasspath
+}
+
+sqldelight {
+    EmojiDatabase {
+        packageName = "com.chrynan.emoji.repo.sqlite"
+    }
+}
+
+publishing {
+    publications {
+        kotlinMultiplatform {
+            artifactId = "emoji-repo-sqlite"
+        }
+        jvm {
+            artifactId = "emoji-repo-sqlite-jvm"
+        }
+        iosArm64 {
+            artifactId = "emoji-repo-sqlite-ios-arm64"
+        }
+        iosX64 {
+            artifactId = "emoji-repo-sqlite-ios-x64"
+        }
+        metadata {
+            artifactId = "emoji-repo-sqlite-metadata"
+        }
+    }
+}
