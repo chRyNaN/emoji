@@ -12,7 +12,7 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.0.1"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.0"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10"
         classpath "digital.wup:android-maven-publish:3.6.2"
         classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4"
         classpath "org.jetbrains.kotlin:kotlin-serialization:1.4.0"
@@ -39,11 +39,13 @@ subprojects {
     bintray {
         user = project.findProperty("BINTRAY_USER") ?: System.getenv("BINTRAY_USER")
         key = project.findProperty("BINTRAY_KEY") ?: System.getenv("BINTRAY_KEY")
+
         pkg {
             repo = LibraryConstants.bintrayRepo
             name = LibraryConstants.repoName
             licenses = [LibraryConstants.license]
             vcsUrl = LibraryConstants.vcsUrl
+
             version {
                 name = LibraryConstants.versionName
                 desc = LibraryConstants.versionDescription
