@@ -70,3 +70,18 @@ fun Emoji.shortcodeName(lookupChar: Char = Emoji.DEFAULT_SHORTCODE_CHAR): String
  */
 fun Emoji.shortcodeAliases(lookupChar: Char = Emoji.DEFAULT_SHORTCODE_CHAR): List<String> =
     aliases.map { "$lookupChar$it$lookupChar" }
+
+operator fun Emoji.contains(name: String): Boolean = this.name.contains(name) || this.aliases.any { it.contains(name) }
+
+fun Emoji.contains(name: String, ignoreCase: Boolean): Boolean =
+    this.name.contains(name, ignoreCase) || this.aliases.any { it.contains(name, ignoreCase) }
+
+fun Emoji.containsShortcode(
+    shortcode: String,
+    lookupChar: Char = Emoji.DEFAULT_SHORTCODE_CHAR,
+    ignoreCase: Boolean = false
+): Boolean {
+    val formattedShortcode = shortcode.removePrefix("$lookupChar").removeSuffix("$lookupChar")
+
+    return contains(formattedShortcode, ignoreCase)
+}
