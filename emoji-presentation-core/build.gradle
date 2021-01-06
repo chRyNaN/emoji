@@ -1,0 +1,54 @@
+import com.chrynan.emoji.buildSrc.LibraryConstants
+
+apply plugin: "kotlin-multiplatform"
+apply plugin: "kotlinx-serialization"
+
+group LibraryConstants.group
+version LibraryConstants.versionName
+
+kotlin {
+    targets {
+        jvm()
+        js()
+        ios()
+    }
+    sourceSets {
+        all {
+            languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
+        }
+        commonMain {
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-stdlib-common"
+
+                api project(":emoji-core")
+            }
+        }
+    }
+}
+
+configurations {
+    compileClasspath
+}
+
+publishing {
+    publications {
+        kotlinMultiplatform {
+            artifactId = "emoji-presentation-core"
+        }
+        jvm {
+            artifactId = "emoji-presentation-core-jvm"
+        }
+        js {
+            artifactId = "emoji-presentation-core-js"
+        }
+        iosArm64 {
+            artifactId = "emoji-presentation-core-ios-arm64"
+        }
+        iosX64 {
+            artifactId = "emoji-presentation-core-ios-x64"
+        }
+        metadata {
+            artifactId = "emoji-presentation-core-metadata"
+        }
+    }
+}
