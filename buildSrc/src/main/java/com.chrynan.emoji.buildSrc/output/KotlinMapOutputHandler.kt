@@ -33,7 +33,13 @@ class KotlinMapOutputHandler {
                 val icon = if (emoji.icon == null) "null" else "\"${emoji.icon}\""
                 val category = if (emoji.category == null) "null" else "\"${emoji.category}\""
                 val group = if (emoji.group == null) "null" else "\"${emoji.group}\""
-                val aliasString = if(emoji.alias.isEmpty()) "emptyList()" else "listOf(${emoji.alias.joinToString(",") { "\"$it\"" }})"
+                val aliasString = if (emoji.alias.isEmpty()) "emptyList()" else "listOf(${
+                    emoji.alias.joinToString(",") {
+                        "\"${
+                            it.replace(":", "").trim()
+                        }\""
+                    }
+                })"
 
                 "|      Emoji(unicodeString = \"${emoji.unicode}\", char = \"${emoji.char}\", name = \"${emoji.name}\", aliases = $aliasString, category = $category, group = $group, iconUri = $icon)".trimMargin()
             }

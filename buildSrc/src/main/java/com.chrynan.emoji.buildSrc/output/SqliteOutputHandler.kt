@@ -32,10 +32,11 @@ class SqliteOutputHandler {
                 val icon = emoji.icon?.let { "\"$it\"" } ?: "NULL"
                 val category = emoji.category?.let { "\"$it\"" } ?: "NULL"
                 val group = emoji.group?.let { "\"$it\"" } ?: "NULL"
+                val aliasString = emoji.alias.joinToString(",") { it.replace(":", "").trim() }
 
                 """
                     |   $insertText
-                    |   VALUES("${emoji.unicode}", "${emoji.char}", "${emoji.name}", "${emoji.alias.joinToString(",")}", $category, $group, $icon);
+                    |   VALUES("${emoji.unicode}", "${emoji.char}", "${emoji.name}", "$aliasString", $category, $group, $icon);
                 """.trimMargin()
             }
 
