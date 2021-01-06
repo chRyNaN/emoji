@@ -11,8 +11,8 @@ data class MimicEmoji(
     val char: String,
     val name: String,
     val alias: List<String>,
-    val category: String,
-    val group: String,
+    val category: String? = null,
+    val group: String? = null,
     val icon: String? = null
 ) {
 
@@ -33,8 +33,8 @@ data class MimicEmoji(
             val name = (map[NAME_NAME] as? String) ?: return null
             val aliasList = (map[NAME_ALIAS] as? List<String>)
             val aliasString = (map[NAME_ALIAS] as? String)
-            val category = (map[NAME_CATEGORY] as? String) ?: return null
-            val group = (map[NAME_GROUP] as? String) ?: return null
+            val category = (map[NAME_CATEGORY] as? String?)
+            val group = (map[NAME_GROUP] as? String?)
             val icon = (map[NAME_ICON] as? String)
 
             return MimicEmoji(

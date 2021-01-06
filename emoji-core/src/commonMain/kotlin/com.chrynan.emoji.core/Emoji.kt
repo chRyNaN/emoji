@@ -30,8 +30,8 @@ data class Emoji(
     @SerialName(value = "char") val char: String,
     @SerialName(value = "name") val name: String,
     @SerialName(value = "alias") val aliases: List<String> = emptyList(),
-    @SerialName(value = "category") val category: String,
-    @SerialName(value = "group") val group: String,
+    @SerialName(value = "category") val category: String? = null,
+    @SerialName(value = "group") val group: String? = null,
     @SerialName(value = "icon") val iconUri: String? = null
 ) {
 

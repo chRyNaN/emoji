@@ -14,7 +14,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class EmojiCategory(
-    @SerialName(value = "name") val name: String,
+    @SerialName(value = "name") val name: String? = null,
     @SerialName(value = "groups") val groups: List<EmojiGroup>,
     @SerialName(value = "icon") val icon: Emoji? = null
 )

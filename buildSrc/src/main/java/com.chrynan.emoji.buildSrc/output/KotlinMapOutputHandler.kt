@@ -31,11 +31,14 @@ class KotlinMapOutputHandler {
         val lists = emojiLists.mapIndexed { index: Int, emojis: List<MimicEmoji> ->
             val initializations = emojis.joinToString(separator = ",\n") { emoji ->
                 val icon = if (emoji.icon == null) "null" else "\"${emoji.icon}\""
+                val category = if (emoji.category == null) "null" else "\"${emoji.category}\""
+                val group = if (emoji.group == null) "null" else "\"${emoji.group}\""
+
                 "|      Emoji(unicodeString = \"${emoji.unicode}\", char = \"${emoji.char}\", name = \"${emoji.name}\", aliases = listOf(\"${
                     emoji.alias.joinToString(
                         ","
                     )
-                }\"), category = \"${emoji.category}\", group = \"${emoji.group}\", iconUri = $icon)".trimMargin()
+                }\"), category = $category, group = $group, iconUri = $icon)".trimMargin()
             }
 
             """

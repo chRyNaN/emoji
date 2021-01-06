@@ -12,7 +12,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class EmojiGroup(
-    @SerialName(value = "name") val name: String,
+    @SerialName(value = "name") val name: String? = null,
     @SerialName(value = "emojis") val emojis: List<Emoji>,
     @SerialName(value = "icon") val icon: Emoji? = null
 )
