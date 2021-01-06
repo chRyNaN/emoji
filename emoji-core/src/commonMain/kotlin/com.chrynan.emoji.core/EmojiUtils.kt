@@ -53,3 +53,20 @@ fun Collection<EmojiCategory>.allEmojisFromCategories(): List<Emoji> = flatMap {
  * [Collection].
  */
 fun Collection<EmojiGroup>.allEmojisFromGroups(): List<Emoji> = flatMap { it.emojis }
+
+/**
+ * Converts this [Emoji.name] to a name that is useful for quick lookup. The resulting [String] is equivalent to
+ * "$lookupChar$name$lookupChar".
+ *
+ * Note that this does not check if the name already begins or ends with the [lookupChar].
+ */
+fun Emoji.lookupName(lookupChar: Char = Emoji.DEFAULT_LOOKUP_CHAR): String = "$lookupChar$name$lookupChar"
+
+/**
+ * Converts these [Emoji.aliases] to aliases that are useful for quick lookup. The resulting [String]s are equivalent to
+ * "$lookupChar$alias$lookupChar".
+ *
+ * Note that this does not check if the aliases already begin or end with the [lookupChar].
+ */
+fun Emoji.lookupAliases(lookupChar: Char = Emoji.DEFAULT_LOOKUP_CHAR): List<String> =
+    aliases.map { "$lookupChar$it$lookupChar" }

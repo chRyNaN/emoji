@@ -45,5 +45,8 @@ data class Emoji(
      */
     val unicodeList: List<String> by lazy { unicodeString.split("U+", " ", ignoreCase = true) }
 
-    companion object
+    companion object {
+
+        const val DEFAULT_LOOKUP_CHAR = ':'
+    }
 }
