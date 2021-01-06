@@ -33,7 +33,7 @@ class SqliteOutputHandler {
 
                 """
                     |   $insertText
-                    |   VALUES("${emoji.unicode}", "${emoji.char}", "${emoji.name}", "${emoji.alias}", "${emoji.category}", "${emoji.group}", $icon);
+                    |   VALUES("${emoji.unicode}", "${emoji.char}", "${emoji.name}", "${emoji.alias.joinToString(",")}", "${emoji.category}", "${emoji.group}", $icon);
                 """.trimMargin()
             }
 

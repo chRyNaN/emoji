@@ -10,7 +10,7 @@ data class MimicEmoji(
     val unicode: String,
     val char: String,
     val name: String,
-    val alias: String,
+    val alias: List<String>,
     val category: String,
     val group: String,
     val icon: String? = null
@@ -26,11 +26,13 @@ data class MimicEmoji(
         private const val NAME_GROUP = "group"
         private const val NAME_ICON = "icon"
 
+        @Suppress("UNCHECKED_CAST")
         fun fromJsonMap(map: Map<String, Any?>): MimicEmoji? {
             val unicode = (map[NAME_UNICODE] as? String) ?: return null
             val char = (map[NAME_CHAR] as? String) ?: return null
             val name = (map[NAME_NAME] as? String) ?: return null
-            val alias = (map[NAME_ALIAS] as? String) ?: return null
+            val aliasList = (map[NAME_ALIAS] as? List<String>)
+            val aliasString = (map[NAME_ALIAS] as? String)
             val category = (map[NAME_CATEGORY] as? String) ?: return null
             val group = (map[NAME_GROUP] as? String) ?: return null
             val icon = (map[NAME_ICON] as? String)
@@ -39,7 +41,7 @@ data class MimicEmoji(
                 unicode = unicode,
                 char = char,
                 name = name,
-                alias = alias,
+                alias = aliasList ?: aliasString?.split(",")?.map { it.trim() } ?: emptyList(),
                 category = category,
                 group = group,
                 icon = icon

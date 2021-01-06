@@ -20,8 +20,9 @@ class KotlinMapEmojiRepository : EmojiRepository {
     override suspend fun getByName(name: String): Emoji =
         map[name] ?: throw InvalidEmojiIdentifierException(identifier = name)
 
-    override suspend fun getByAlias(alias: String): Emoji = map.entries.firstOrNull { it.value.alias == alias }?.value
-        ?: throw InvalidEmojiIdentifierException(identifier = alias)
+    override suspend fun getByAlias(alias: String): Emoji =
+        map.entries.firstOrNull { it.value.aliases.contains(alias) }?.value
+            ?: throw InvalidEmojiIdentifierException(identifier = alias)
 
     override suspend fun getAll(): Sequence<Emoji> = map.asSequence().map { it.value }
 }

@@ -17,7 +17,7 @@ import kotlinx.serialization.Serializable
  * @property [char] The actual emoji character representation of this emoji (ex: 😀). Note that this is not a Kotlin
  * [Char] value but is actually a [String].
  * @property [name] The name of this emoji.
- * @property [alias] The alias name of this emoji (ex: :name:). This is useful for applications that show emoji results
+ * @property [aliases] The alias name of this emoji (ex: :name:). This is useful for applications that show emoji results
  * to the User as they type beginning with a certain character (usually ':').
  * @property [category] The name of the category this emoji belongs to. This is useful for partitioning emojis.
  * @property [group] The name of the group this emoji belongs to within the [category]. This is useful for fine grained
@@ -29,7 +29,7 @@ data class Emoji(
     @SerialName(value = "unicode") val unicodeString: String,
     @SerialName(value = "char") val char: String,
     @SerialName(value = "name") val name: String,
-    @SerialName(value = "alias") val alias: String,
+    @SerialName(value = "alias") val aliases: List<String> = emptyList(),
     @SerialName(value = "category") val category: String,
     @SerialName(value = "group") val group: String,
     @SerialName(value = "icon") val iconUri: String? = null

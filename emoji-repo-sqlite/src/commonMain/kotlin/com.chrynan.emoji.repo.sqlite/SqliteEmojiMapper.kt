@@ -13,7 +13,7 @@ internal class SqliteEmojiMapper {
             unicodeString = sqliteEmoji.unicode,
             char = sqliteEmoji.char,
             name = sqliteEmoji.name,
-            alias = sqliteEmoji.alias,
+            aliases = sqliteEmoji.alias.split(","),
             category = sqliteEmoji.category,
             group = sqliteEmoji.group,
             iconUri = sqliteEmoji.icon
