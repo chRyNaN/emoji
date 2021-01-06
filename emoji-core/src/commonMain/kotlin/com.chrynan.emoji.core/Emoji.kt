@@ -64,6 +64,11 @@ sealed class Emoji {
         }
     }
 
+    /**
+     * Represents a Custom [Emoji] and all of it's related data. A Custom [Emoji] does not have a unicode value or
+     * character representing the [Emoji]. Instead it is represented by a [uri] value that points to a resource that
+     * illustrates the [Emoji].
+     */
     @Serializable
     data class Custom(
         @SerialName(value = "name") override val name: String,

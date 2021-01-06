@@ -74,7 +74,7 @@ class SqliteOutputHandler {
             |getByAlias:
             |SELECT *
             |FROM emoji
-            |WHERE alias = ?;
+            |WHERE instr("alias", :alias);
             |
             |getAll:
             |SELECT *
