@@ -16,7 +16,9 @@ kotlin {
         commonMain {
             dependencies {
                 implementation "org.jetbrains.kotlin:kotlin-stdlib-common"
-                implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC"
+
+                // Kotlinx Serialization
+                api "org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.1"
             }
         }
     }
