@@ -44,4 +44,6 @@ data class Emoji(
      * Note that this is derived data from the [unicodeString] value and lazily initialized.
      */
     val unicodeList: List<String> by lazy { unicodeString.split("U+", " ", ignoreCase = true) }
+
+    companion object
 }
