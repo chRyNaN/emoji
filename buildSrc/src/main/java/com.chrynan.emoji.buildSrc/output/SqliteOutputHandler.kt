@@ -23,20 +23,26 @@ class SqliteOutputHandler {
     }
 
     private fun createSqliteOutput(emojiLists: List<List<MimicEmoji>>): String {
-        val insertText = "INSERT INTO emoji (unicode, char, name, alias, category, \"group\", icon)"
+        val insertText =
+            "INSERT INTO emoji (type, unicode, char, name, alias, category, \"group\", icon, uri, static_uri, mime_type)"
 
         val initialInsertFunctions = emojiLists.mapIndexed { index: Int, emojis: List<MimicEmoji> ->
             val functionName = "initialInsert$index:\n"
 
             val insertStatements = emojis.joinToString(separator = "\n") { emoji ->
+                val unicode = emoji.unicode?.let { "\"$it\"" } ?: "NULL"
+                val char = emoji.char?.let { "\"$it\"" } ?: "NULL"
                 val icon = emoji.icon?.let { "\"$it\"" } ?: "NULL"
                 val category = emoji.category?.let { "\"$it\"" } ?: "NULL"
                 val group = emoji.group?.let { "\"$it\"" } ?: "NULL"
-                val aliasString = emoji.alias.joinToString(",") { it.replace(":", "").trim() }
+                val aliasString = emoji.aliases.joinToString(",") { it.replace(":", "").trim() }
+                val uri = emoji.uri?.let { "\"$it\"" } ?: "NULL"
+                val staticUri = emoji.static_uri?.let { "\"$it\"" } ?: "NULL"
+                val mimeType = emoji.mime_type?.let { "\"$it\"" } ?: "NULL"
 
                 """
                     |   $insertText
-                    |   VALUES("${emoji.unicode}", "${emoji.char}", "${emoji.name}", "$aliasString", $category, $group, $icon);
+                    |   VALUES("${emoji.type}", $unicode, $char, "${emoji.name}", "$aliasString", $category, $group, $icon, $uri, $staticUri, $mimeType);
                 """.trimMargin()
             }
 
@@ -45,13 +51,17 @@ class SqliteOutputHandler {
 
         return """
             |CREATE TABLE emoji (
-            |    unicode TEXT NOT NULL,
-            |    char TEXT NOT NULL,
+            |    type TEXT NOT NULL,
+            |    unicode TEXT DEFAULT NULL,
+            |    char TEXT DEFAULT NULL,
             |    name TEXT NOT NULL,
             |    alias TEXT NOT NULL,
             |    category TEXT DEFAULT NULL,
             |    "group" TEXT DEFAULT NULL,
-            |    icon TEXT DEFAULT NULL
+            |    icon TEXT DEFAULT NULL,
+            |    uri TEXT DEFAULT NULL,
+            |    static_uri TEXT DEFAULT NULL,
+            |    mime_type TEXT DEFAULT NULL
             |);
             |
             |$initialInsertFunctions

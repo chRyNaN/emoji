@@ -33,15 +33,22 @@ class KotlinMapOutputHandler {
                 val icon = if (emoji.icon == null) "null" else "\"${emoji.icon}\""
                 val category = if (emoji.category == null) "null" else "\"${emoji.category}\""
                 val group = if (emoji.group == null) "null" else "\"${emoji.group}\""
-                val aliasString = if (emoji.alias.isEmpty()) "emptyList()" else "listOf(${
-                    emoji.alias.joinToString(",") {
+                val aliasString = if (emoji.aliases.isEmpty()) "emptyList()" else "listOf(${
+                    emoji.aliases.joinToString(",") {
                         "\"${
                             it.replace(":", "").trim()
                         }\""
                     }
                 })"
+                val uri = if (emoji.uri == null) "" else "\"${emoji.uri}\""
+                val staticUri = if (emoji.static_uri == null) "null" else "\"${emoji.static_uri}\""
+                val mimeType = if (emoji.mime_type == null) "null" else "\"${emoji.mime_type}\""
 
-                "|      Emoji(unicodeString = \"${emoji.unicode}\", char = \"${emoji.char}\", name = \"${emoji.name}\", aliases = $aliasString, category = $category, group = $group, iconUri = $icon)".trimMargin()
+                if (emoji.type == "unicode") {
+                    "|      Emoji.Unicode(unicodeString = \"${emoji.unicode}\", char = \"${emoji.char}\", name = \"${emoji.name}\", aliases = $aliasString, category = $category, group = $group, iconUri = $icon)".trimMargin()
+                } else {
+                    "|      Emoji.Custom(name = \"${emoji.name}\", aliases = $aliasString, category = $category, group = $group, uri = $uri, staticUri = $staticUri, mimeType = $mimeType)".trimMargin()
+                }
             }
 
             """

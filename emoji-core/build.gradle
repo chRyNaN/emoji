@@ -13,12 +13,15 @@ kotlin {
         ios()
     }
     sourceSets {
+        all {
+            languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
+        }
         commonMain {
             dependencies {
                 implementation "org.jetbrains.kotlin:kotlin-stdlib-common"
 
                 // Kotlinx Serialization
-                api "org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.1"
+                api "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
             }
         }
     }

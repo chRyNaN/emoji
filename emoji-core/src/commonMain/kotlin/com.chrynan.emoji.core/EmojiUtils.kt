@@ -60,7 +60,7 @@ fun Collection<EmojiGroup>.allEmojisFromGroups(): List<Emoji> = flatMap { it.emo
  *
  * Note that this does not check if the name already begins or ends with the [lookupChar].
  */
-fun Emoji.lookupName(lookupChar: Char = Emoji.DEFAULT_LOOKUP_CHAR): String = "$lookupChar$name$lookupChar"
+fun Emoji.shortcodeName(lookupChar: Char = Emoji.DEFAULT_SHORTCODE_CHAR): String = "$lookupChar$name$lookupChar"
 
 /**
  * Converts these [Emoji.aliases] to aliases that are useful for quick lookup. The resulting [String]s are equivalent to
@@ -68,5 +68,5 @@ fun Emoji.lookupName(lookupChar: Char = Emoji.DEFAULT_LOOKUP_CHAR): String = "$l
  *
  * Note that this does not check if the aliases already begin or end with the [lookupChar].
  */
-fun Emoji.lookupAliases(lookupChar: Char = Emoji.DEFAULT_LOOKUP_CHAR): List<String> =
+fun Emoji.shortcodeAliases(lookupChar: Char = Emoji.DEFAULT_SHORTCODE_CHAR): List<String> =
     aliases.map { "$lookupChar$it$lookupChar" }
