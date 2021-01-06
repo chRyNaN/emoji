@@ -1,21 +1,26 @@
 # emoji
+
 Kotlin Multi-platform Emoji Support Library.
 
 ## Using the library
+
 **Create an Emoji:**
+
 ```kotlin
-Emoji(
+Emoji.Unicode(
     unicodeString = "U+1F600",
     char = "😀",
-    name = "grinning face", 
-    alias = ":grinning_face:", 
-    category = "Smileys & Emotion", 
-    group = "face-smiling", 
-    iconUri = null)
+    name = "grinning face",
+    alias = ":grinning_face:",
+    category = "Smileys & Emotion",
+    group = "face-smiling",
+    iconUri = null
+)
 ```
 
 **Accessing Emojis:**
 Emojis can be retrieved from a `EmojiRepository` instance:
+
 ```kotlin
 val emojiByName = emojiRepository.getByName("grinning face")
 val emojiByAlias = emojiRepository.getByAlias(":grinning_face:")
@@ -23,38 +28,49 @@ val allEmojis = emojiRepository.getAll()
 ```
 
 **Retrieving an EmojiRepository:**
-The `EmojiRepository` interface is in the `emoji-core` module but there are different implementations in the `emoji-repo-map` and `emoji-repo-sqlite` modules.
-Note that the `emoji-repo-sqlite` module uses the [sqldelight](https://github.com/cashapp/sqldelight) library and requires a `SqlDriver` to obtain an instance of the `SqliteEmojiRepository`.
+The `EmojiRepository` interface is in the `emoji-core` module but there are different implementations in
+the `emoji-repo-map` and `emoji-repo-sqlite` modules. Note that the `emoji-repo-sqlite` module uses
+the [sqldelight](https://github.com/cashapp/sqldelight) library and requires a `SqlDriver` to obtain an instance of
+the `SqliteEmojiRepository`.
 
 `emoji-repo-map`:
+
 ```
 val repo = KotlinMapEmojiRepository()
 ```
 
 `emoji-repo-sqlite`:
+
 ```kotlin
 val database = EmojiDatabase(sqldriver)
 val repo = SqliteEmojiRepository(database)
 ```
 
 **Initializing an EmojiRepository:**
-Before the `EmojiRepository` implementation class is used for the first time, it has to be initialized by calling the `init()` function. This loads the emoji data set.
-Note that the `init()` function is only on the implementation classes and not on the `EmojiRepository` interface.
+Before the `EmojiRepository` implementation class is used for the first time, it has to be initialized by calling
+the `init()` function. This loads the emoji data set. Note that the `init()` function is only on the implementation
+classes and not on the `EmojiRepository` interface.
+
 ```kotlin
 repository.init()
 ```
 
 **Categorizing Emojis:**
-It may be useful to have the Emojis grouped by their `category` and/or `group` properties. There are convenience functions to achieve this.
+It may be useful to have the Emojis grouped by their `category` and/or `group` properties. There are convenience
+functions to achieve this.
+
 ```kotlin
 repository.getAll().categorize() // List<EmojiCategory>
 repository.getAll().group() // List<EmojiGroup>
 ```
 
 ## Building the library
-The library is provided through [Bintray](https://bintray.com/chrynan/chrynan). Checkout the [releases page](https://github.com/chRyNaN/emoji/releases) to get the latest version.
+
+The library is provided through [Bintray](https://bintray.com/chrynan/chrynan). Checkout
+the [releases page](https://github.com/chRyNaN/emoji/releases) to get the latest version.
 
 ### Repository
+
 ```groovy
 repositories {
     maven {
@@ -64,91 +80,31 @@ repositories {
 ```
 
 ### core Dependencies
-**Kotlin Common:**
+
 ```groovy
 implementation "com.chrynan.emoji:emoji-core:$VERSION"
 ```
 
-**Kotlin JVM:**
-```groovy
-implementation "com.chrynan.emoji:emoji-core-jvm:$VERSION"
-```
-
-**Kotlin JS:**
-
-```groovy
-implementation "com.chrynan.emoji:emoji-core-js:$VERSION"
-```
-
-**Kotlin iOS ARM64:**
-```groovy
-implementation "com.chryan.emoji:emoji-core-ios-arm64:$VERSION"
-```
-
-**Kotlin iOS x64:**
-```groovy
-implementation "com.chrynan.emoji:emoji-core-ios-x64:$VERSION"
-```
-
 ### emoji-repo-map Dependencies
-**Kotlin Common:**
+
 ```groovy
 implementation "com.chrynan.emoji:emoji-repo-map:$VERSION"
 ```
 
-**Kotlin JVM:**
-```groovy
-implementation "com.chrynan.emoji:emoji-repo-map-jvm:$VERSION"
-```
-
-**Kotlin JS:**
-
-```groovy
-implementation "com.chrynan.emoji:emoji-repo-map-js:$VERSION"
-```
-
 ### emoji-repo-sqlite Dependencies
-**Kotlin Common:**
+
 ```groovy
 implementation "com.chrynan.emoji:emoji-repo-sqlite:$VERSION"
 ```
 
-**Kotlin JVM:**
-```groovy
-implementation "com.chrynan.emoji:emoji-repo-sqlite-jvm:$VERSION"
-```
-
-**Kotlin JS:**
-
-```groovy
-implementation "com.chrynan.emoji:emoji-repo-sqlite-js:$VERSION"
-```
-
-**Kotlin iOS ARM64:**
-```groovy
-implementation "com.chryan.emoji:emoji-repo-sqlite-ios-arm64:$VERSION"
-```
-
-**Kotlin iOS x64:**
-```groovy
-implementation "com.chrynan.emoji:emoji-repo-sqlite-ios-x64:$VERSION"
-```
-
-**Kotlin iOS ARM64:**
-```groovy
-implementation "com.chryan.emoji:emoji-repo-map-ios-arm64:$VERSION"
-```
-
-**Kotlin iOS x64:**
-```groovy
-implementation "com.chrynan.emoji:emoji-repo-map-ios-x64:$VERSION"
-```
-
 ## Project Status
-This project is still in the early stages of development but should be good to use and test out for the `emoji-core`, `emoji-repo-map`, and `emoji-repo-sqlite` modules.
-The `emoji-ui` module is still in early development and is eventually intended to provide Emoji related UI components.
+
+This project is still in the early stages of development but should be good to use and test out for the `emoji-core`
+, `emoji-repo-map`, and `emoji-repo-sqlite` modules. The `emoji-ui` module is still in early development and is
+eventually intended to provide Emoji related UI components.
 
 ## License
+
 ```
 Copyright 2020 chRyNaN
 
