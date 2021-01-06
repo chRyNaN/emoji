@@ -3,6 +3,7 @@
 package com.chrynan.emoji.repo.map
 
 import com.chrynan.emoji.core.Emoji
+import com.chrynan.emoji.core.EmojiMutableRepository
 import com.chrynan.emoji.core.EmojiRepository
 import com.chrynan.emoji.core.InvalidEmojiIdentifierException
 
@@ -13,7 +14,8 @@ import com.chrynan.emoji.core.InvalidEmojiIdentifierException
  * called. The KotlinMapEmojiRepository.init() function sets up the initial data set by loading all of the [Emoji]s
  * into the map.
  */
-class KotlinMapEmojiRepository : EmojiRepository {
+class KotlinMapEmojiRepository : EmojiRepository,
+    EmojiMutableRepository {
 
     internal val map = mutableMapOf<String, Emoji>()
 
@@ -25,4 +27,22 @@ class KotlinMapEmojiRepository : EmojiRepository {
             ?: throw InvalidEmojiIdentifierException(identifier = alias)
 
     override suspend fun getAll(): Sequence<Emoji> = map.asSequence().map { it.value }
+
+    override suspend fun insert(emoji: Emoji) {
+        if (map[emoji.name] != null) throw IllegalStateException("Cannot insert Emoji since it already exists.")
+
+        map[emoji.name] = emoji
+    }
+
+    override suspend fun update(emoji: Emoji) {
+        map[emoji.name] = emoji
+    }
+
+    override suspend fun delete(emoji: Emoji) {
+        map.remove(emoji.name)
+    }
+
+    override suspend fun deleteAll() {
+        map.clear()
+    }
 }

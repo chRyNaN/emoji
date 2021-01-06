@@ -79,6 +79,37 @@ class SqliteOutputHandler {
             |getAll:
             |SELECT *
             |FROM emoji;
+            |
+            |insert:
+            |INSERT INTO emoji
+            |VALUES ?;
+            |
+            |update {
+            |   UPDATE emoji
+            |   SET type = :type,
+            |       unicode = :unicode,
+            |       char = :char,
+            |       name = :name,
+            |       alias = :alias,
+            |       category = :category,
+            |       group = :group,
+            |       icon = :icon,
+            |       uri = :uri,
+            |       static_uri = :static_uri,
+            |       mime_type = :mime_type
+            |   WHERE type = :type AND name = :name;
+            |
+            |   INSERT OR IGNORE INTO emoji (type, unicode, char, name, alias, category, group, icon, uri, static_uri, mime_type)
+            |   VALUES (:type, :unicode, :char, :name, :alias, :category, :group, :icon, :uri, :static_uri, :mime_type);
+            |}
+            |
+            |delete:
+            |DELETE FROM emoji
+            |WHERE name = ?;
+            |
+            |deleteAll:
+            |DELETE FROM emoji;
+            |
         """.trimMargin()
     }
 

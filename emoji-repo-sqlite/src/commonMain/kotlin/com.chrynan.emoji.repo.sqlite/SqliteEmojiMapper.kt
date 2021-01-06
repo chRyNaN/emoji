@@ -30,4 +30,19 @@ internal class SqliteEmojiMapper {
                 mimeType = sqliteEmoji.mime_type
             )
         }
+
+    fun mapToDb(emoji: com.chrynan.emoji.core.Emoji): Emoji =
+        Emoji(
+            type = emoji.typeName,
+            name = emoji.name,
+            alias = emoji.aliases.joinToString(","),
+            category = emoji.category,
+            group = emoji.group,
+            unicode = if (emoji is com.chrynan.emoji.core.Emoji.Unicode) emoji.unicodeString else null,
+            char = if (emoji is com.chrynan.emoji.core.Emoji.Unicode) emoji.char else null,
+            icon = if (emoji is com.chrynan.emoji.core.Emoji.Unicode) emoji.iconUri else null,
+            uri = if (emoji is com.chrynan.emoji.core.Emoji.Custom) emoji.uri else null,
+            static_uri = if (emoji is com.chrynan.emoji.core.Emoji.Custom) emoji.staticUri else null,
+            mime_type = if (emoji is com.chrynan.emoji.core.Emoji.Custom) emoji.mimeType else null
+        )
 }
