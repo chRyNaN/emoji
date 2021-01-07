@@ -60,7 +60,7 @@ inline fun CharSequence.emojify(
     crossinline onSuccess: (request: ImageRequest, metadata: ImageResult.Metadata) -> Unit = { _, _ -> }
 ): CharSequence =
     emojifyAll(
-        shortcodeEmojiMap = emojis.associateBy { it.name },
+        shortcodeEmojiMap = emojis.associateBy { it.emoji.name },
         context = context,
         onSuccess = onSuccess,
         onError = onError
