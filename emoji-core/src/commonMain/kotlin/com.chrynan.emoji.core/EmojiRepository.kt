@@ -23,4 +23,13 @@ interface EmojiRepository {
      * Retrieves a [Sequence] of all [Emoji]s.
      */
     suspend fun getAll(): Sequence<Emoji>
+
+    /**
+     * Searches for [Emoji]s by the provided [query] value. At the very least, this function should search
+     * for an [Emoji] with an [Emoji.name] value equal to [query] and any [Emoji.aliases] equal to [query].
+     *
+     * Note that this returns a [List] of [Emoji]s because it may be possible that the query matches multiple
+     * [Emoji]s, such as, matching the name of one [Emoji] and the alias of another.
+     */
+    suspend fun search(query: String): List<Emoji>
 }

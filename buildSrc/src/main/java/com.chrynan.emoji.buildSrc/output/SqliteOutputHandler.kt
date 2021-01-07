@@ -80,6 +80,11 @@ class SqliteOutputHandler {
             |SELECT *
             |FROM emoji;
             |
+            |search:
+            |SELECT *
+            |FROM emoji
+            |WHERE name = :query OR instr("alias", :query);
+            |
             |insert:
             |INSERT INTO emoji
             |VALUES ?;

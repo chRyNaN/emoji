@@ -37,6 +37,11 @@ class SqliteEmojiRepository(internal val database: EmojiDatabase) : EmojiReposit
         return sqliteEmojis.asSequence().map { mapper.map(it) }
     }
 
+    override suspend fun search(query: String): List<Emoji> =
+        database.emojiQueries.search(query).executeAsList().map {
+            mapper.map(it)
+        }
+
     override suspend fun insert(emoji: Emoji) {
         database.emojiQueries.transaction {
             if (database.emojiQueries.getByName(name = emoji.name).executeAsList()
