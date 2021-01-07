@@ -39,6 +39,10 @@ dependencies {
 
     implementation "androidx.appcompat:appcompat:1.2.0"
 
+    // Kotlin Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
+
     api "androidx.emoji:emoji:1.1.0"
     api "androidx.emoji:emoji-appcompat:1.1.0"
 
