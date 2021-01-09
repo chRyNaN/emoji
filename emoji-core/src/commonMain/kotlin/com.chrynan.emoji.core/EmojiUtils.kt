@@ -85,3 +85,11 @@ fun Emoji.containsShortcode(
 
     return contains(formattedShortcode, ignoreCase)
 }
+
+/**
+ * Converts this [CharSequence] shortcode to a value that is useful for quick lookup. The resulting [String] is
+ * equivalent to "$lookupChar$this$lookupChar".
+ *
+ * Note that this does not check if this [CharSequence] already begins or ends with the [lookupChar].
+ */
+fun CharSequence.asShortcode(lookupChar: Char = Emoji.DEFAULT_SHORTCODE_CHAR): String = "$lookupChar$this$lookupChar"

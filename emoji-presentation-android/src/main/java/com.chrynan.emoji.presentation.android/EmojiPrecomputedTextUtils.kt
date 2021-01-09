@@ -5,6 +5,7 @@ package com.chrynan.emoji.presentation.android
 import android.widget.TextView
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
+import com.chrynan.emoji.core.Emoji
 import com.chrynan.emoji.presentation.core.EmojiViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -17,13 +18,15 @@ suspend inline fun precomputeEmojiText(
     charSequence: CharSequence,
     emojis: List<EmojiViewModel>,
     textView: TextView,
-    crossinline onEmojiTextCreated: (CharSequence) -> CharSequence = { it }
+    crossinline onEmojiTextCreated: (CharSequence) -> CharSequence = { it },
+    lookupChar: Char? = Emoji.DEFAULT_SHORTCODE_CHAR
 ): PrecomputedTextCompat {
     val params = TextViewCompat.getTextMetricsParams(textView)
 
     val text = charSequence.emojify(
         emojis = emojis,
-        context = textView.context
+        context = textView.context,
+        lookupChar = lookupChar
     )
 
     val resultText = onEmojiTextCreated(text)
@@ -56,7 +59,8 @@ inline fun TextView.emojifyAsync(
     coroutineScope: CoroutineScope,
     calculateDispatcher: CoroutineDispatcher,
     renderDispatcher: CoroutineDispatcher,
-    crossinline onEmojiTextCreated: (CharSequence) -> CharSequence = { it }
+    crossinline onEmojiTextCreated: (CharSequence) -> CharSequence = { it },
+    lookupChar: Char? = Emoji.DEFAULT_SHORTCODE_CHAR
 ): Job {
     val ref = WeakReference(this)
 
@@ -65,7 +69,8 @@ inline fun TextView.emojifyAsync(
             charSequence = charSequence,
             emojis = emojis,
             textView = this@emojifyAsync,
-            onEmojiTextCreated = onEmojiTextCreated
+            onEmojiTextCreated = onEmojiTextCreated,
+            lookupChar = lookupChar
         )
 
         coroutineScope.launch(renderDispatcher) {

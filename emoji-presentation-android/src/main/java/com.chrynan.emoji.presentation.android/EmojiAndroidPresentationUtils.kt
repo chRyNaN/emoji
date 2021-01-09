@@ -10,13 +10,26 @@ import coil.Coil
 import coil.request.ImageRequest
 import coil.request.ImageResult
 import com.chrynan.emoji.core.Emoji
+import com.chrynan.emoji.core.shortcodeName
 import com.chrynan.emoji.presentation.core.EmojiViewModel
 import java.util.regex.Pattern
 
-fun CharSequence.emojify(emojiViewModel: EmojiViewModel, viewToUpdate: View): CharSequence =
-    emojify(shortcode = emojiViewModel.emoji.name, emojiViewModel = emojiViewModel, viewToUpdate = viewToUpdate)
+fun CharSequence.emojify(
+    emojiViewModel: EmojiViewModel,
+    viewToUpdate: View,
+    lookupChar: Char? = Emoji.DEFAULT_SHORTCODE_CHAR
+): CharSequence =
+    emojify(
+        shortcode = if (lookupChar == null) emojiViewModel.emoji.name else emojiViewModel.emoji.shortcodeName(lookupChar = lookupChar),
+        emojiViewModel = emojiViewModel,
+        viewToUpdate = viewToUpdate
+    )
 
-fun CharSequence.emojify(shortcode: String, emojiViewModel: EmojiViewModel, viewToUpdate: View): CharSequence =
+fun CharSequence.emojify(
+    shortcode: String,
+    emojiViewModel: EmojiViewModel,
+    viewToUpdate: View
+): CharSequence =
     emojify(
         shortcode = shortcode,
         emojiViewModel = emojiViewModel,
@@ -29,10 +42,11 @@ inline fun CharSequence.emojify(
     emojiViewModel: EmojiViewModel,
     context: Context,
     crossinline onError: (request: ImageRequest, throwable: Throwable) -> Unit = { _, _ -> },
-    crossinline onSuccess: (request: ImageRequest, metadata: ImageResult.Metadata) -> Unit = { _, _ -> }
+    crossinline onSuccess: (request: ImageRequest, metadata: ImageResult.Metadata) -> Unit = { _, _ -> },
+    lookupChar: Char? = Emoji.DEFAULT_SHORTCODE_CHAR
 ): CharSequence =
     emojify(
-        shortcode = emojiViewModel.emoji.name,
+        shortcode = if (lookupChar == null) emojiViewModel.emoji.name else emojiViewModel.emoji.shortcodeName(lookupChar = lookupChar),
         emojiViewModel = emojiViewModel,
         context = context,
         onSuccess = onSuccess,
@@ -57,10 +71,15 @@ inline fun CharSequence.emojify(
     emojis: List<EmojiViewModel>,
     context: Context,
     crossinline onError: (request: ImageRequest, throwable: Throwable) -> Unit = { _, _ -> },
-    crossinline onSuccess: (request: ImageRequest, metadata: ImageResult.Metadata) -> Unit = { _, _ -> }
+    crossinline onSuccess: (request: ImageRequest, metadata: ImageResult.Metadata) -> Unit = { _, _ -> },
+    lookupChar: Char? = Emoji.DEFAULT_SHORTCODE_CHAR
 ): CharSequence =
     emojifyAll(
-        shortcodeEmojiMap = emojis.associateBy { it.emoji.name },
+        shortcodeEmojiMap = emojis.associateBy {
+            if (lookupChar == null) it.emoji.name else it.emoji.shortcodeName(
+                lookupChar = lookupChar
+            )
+        },
         context = context,
         onSuccess = onSuccess,
         onError = onError
@@ -196,20 +215,22 @@ inline fun CharSequence.emojifyAll(
     return builder
 }
 
-fun TextView.emojify(emojiViewModel: EmojiViewModel) {
-    text = text.emojify(emojiViewModel = emojiViewModel, viewToUpdate = this)
+fun TextView.emojify(emojiViewModel: EmojiViewModel, lookupChar: Char? = Emoji.DEFAULT_SHORTCODE_CHAR) {
+    text = text.emojify(emojiViewModel = emojiViewModel, viewToUpdate = this, lookupChar = lookupChar)
 }
 
 fun TextView.emojify(shortcode: String, emojiViewModel: EmojiViewModel) {
     text = text.emojify(shortcode = shortcode, emojiViewModel = emojiViewModel, viewToUpdate = this)
 }
 
-fun TextView.emojify(emojis: List<EmojiViewModel>) {
+fun TextView.emojify(emojis: List<EmojiViewModel>, lookupChar: Char? = Emoji.DEFAULT_SHORTCODE_CHAR) {
     text = text.emojify(
         emojis = emojis,
         context = context,
         onError = { _, _ -> invalidate() },
-        onSuccess = { _, _ -> invalidate() })
+        onSuccess = { _, _ -> invalidate() },
+        lookupChar = lookupChar
+    )
 }
 
 fun TextView.emojify(emojis: Map<String, EmojiViewModel>) {
