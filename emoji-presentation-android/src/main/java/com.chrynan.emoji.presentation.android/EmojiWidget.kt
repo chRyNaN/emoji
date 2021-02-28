@@ -13,6 +13,9 @@ import coil.load
 import com.chrynan.emoji.core.Emoji
 import com.chrynan.emoji.presentation.core.EmojiViewModel
 
+/**
+ * An Android [View] that can display an [EmojiViewModel].
+ */
 class EmojiWidget : FrameLayout {
 
     var emojiViewModel: EmojiViewModel? = null
@@ -71,4 +74,19 @@ class EmojiWidget : FrameLayout {
 
     @Suppress("MemberVisibilityCanBePrivate")
     val emojiTextView: TextView by lazy { findViewById(R.id.emojiWidgetTextView) }
+}
+
+/**
+ * A convenience function for creating an [EmojiWidget] for the provided [viewModel]. This is shorthand for creating an
+ * [EmojiWidget] and assigning the [viewModel] to its [EmojiWidget.emojiViewModel] property.
+ */
+fun EmojiWidget(
+    context: Context,
+    viewModel: EmojiViewModel,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+): EmojiWidget {
+    val widget = EmojiWidget(context = context, attrs = attrs, defStyleAttr = defStyleAttr)
+    widget.emojiViewModel = viewModel
+    return widget
 }
