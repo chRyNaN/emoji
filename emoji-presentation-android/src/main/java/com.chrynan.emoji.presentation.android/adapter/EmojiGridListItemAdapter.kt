@@ -10,10 +10,10 @@ import com.chrynan.emoji.presentation.core.listener.EmojiListItemSelectedListene
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel
 
 @Adapter
-class EmojiListItemAdapter(private val listener: EmojiListItemSelectedListener) :
+class EmojiGridListItemAdapter(private val listener: EmojiListItemSelectedListener) :
     AnotherAdapter<EmojiViewModel>() {
 
-    override val viewType: ViewType = AdapterViewType.from(EmojiListItemAdapter::class.java)
+    override val viewType: ViewType = AdapterViewType.from(EmojiGridListItemAdapter::class.java)
 
     override fun onHandlesItem(item: Any): Boolean = item is EmojiViewModel
 

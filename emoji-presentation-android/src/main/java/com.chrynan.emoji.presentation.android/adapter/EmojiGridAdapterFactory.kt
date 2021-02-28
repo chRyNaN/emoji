@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 
 class EmojiGridAdapterFactory(
     dispatchers: CoroutineDispatchers,
-    emojiListItemAdapter: EmojiListItemAdapter,
+    emojiListItemAdapter: EmojiGridListItemAdapter,
     context: Context,
     gridColumnCount: Int = 5
 ) : BaseAdapterFactory<ListItemViewModel>() {
