@@ -10,7 +10,7 @@ import com.chrynan.emoji.presentation.core.viewmodel.ListItemViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 
 class EmojiCategoryAdapterFactory(
-    dispatchers: CoroutineDispatchers,
+    dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers,
     emojiCategoryListItemAdapter: EmojiCategoryListItemAdapter,
     context: Context
 ) : BaseAdapterFactory<ListItemViewModel>() {

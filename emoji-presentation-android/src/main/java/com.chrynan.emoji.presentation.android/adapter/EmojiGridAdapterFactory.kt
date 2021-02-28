@@ -10,7 +10,7 @@ import com.chrynan.emoji.presentation.core.viewmodel.ListItemViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 
 class EmojiGridAdapterFactory(
-    dispatchers: CoroutineDispatchers,
+    dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers,
     emojiListItemAdapter: EmojiGridListItemAdapter,
     context: Context,
     gridColumnCount: Int = 5
