@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.chrynan.aaaah.*
-import com.chrynan.emoji.presentation.android.EmojiWidget
 import com.chrynan.emoji.presentation.android.R
+import com.chrynan.emoji.presentation.android.widget.EmojiWidget
 import com.chrynan.emoji.presentation.core.listener.EmojiListItemSelectedListener
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel
 

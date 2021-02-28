@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.chrynan.emoji.presentation.android
+package com.chrynan.emoji.presentation.android.span
 
 import android.graphics.Canvas
 import android.graphics.Paint

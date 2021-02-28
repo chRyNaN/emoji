@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.chrynan.emoji.presentation.android
+package com.chrynan.emoji.presentation.android.util
 
 import android.widget.TextView
 import androidx.core.text.PrecomputedTextCompat

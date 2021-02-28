@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.chrynan.emoji.presentation.android
+package com.chrynan.emoji.presentation.android.util
 
 import android.content.Context
 import android.text.SpannableStringBuilder
@@ -11,6 +11,7 @@ import coil.request.ImageRequest
 import coil.request.ImageResult
 import com.chrynan.emoji.core.Emoji
 import com.chrynan.emoji.core.shortcodeName
+import com.chrynan.emoji.presentation.android.span.ImageTargetSpan
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel
 import java.util.regex.Pattern
 

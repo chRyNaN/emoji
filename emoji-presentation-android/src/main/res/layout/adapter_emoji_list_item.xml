@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.chrynan.emoji.presentation.android.EmojiWidget
+<com.chrynan.emoji.presentation.android.widget.EmojiWidget
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/adapterEmojiWidget"
         android:layout_width="match_parent"

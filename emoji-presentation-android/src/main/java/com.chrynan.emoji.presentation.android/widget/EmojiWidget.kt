@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.chrynan.emoji.presentation.android
+package com.chrynan.emoji.presentation.android.widget
 
 import android.content.Context
 import android.util.AttributeSet
@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import coil.load
 import com.chrynan.emoji.core.Emoji
+import com.chrynan.emoji.presentation.android.R
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel
 
 /**
