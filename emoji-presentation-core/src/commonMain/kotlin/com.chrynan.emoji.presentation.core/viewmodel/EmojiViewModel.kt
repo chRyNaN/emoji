@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.chrynan.emoji.presentation.core
+package com.chrynan.emoji.presentation.core.viewmodel
 
 import com.chrynan.emoji.core.Emoji
 
@@ -17,7 +17,10 @@ data class EmojiViewModel(
     val emoji: Emoji,
     val isIconPreferred: Boolean = false,
     val isStaticUriPreferred: Boolean = false
-)
+) : ListItemViewModel {
+
+    override val uniqueId: Long = hashCode().toLong()
+}
 
 /**
  * A convenience function for converting this [Emoji] into an [EmojiViewModel].

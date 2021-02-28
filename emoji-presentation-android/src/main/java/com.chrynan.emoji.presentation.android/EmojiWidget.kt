@@ -12,7 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import coil.load
 import com.chrynan.emoji.core.Emoji
-import com.chrynan.emoji.presentation.core.EmojiViewModel
+import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel
 
 /**
  * An Android [View] that can display an [EmojiViewModel].

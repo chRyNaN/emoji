@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import com.chrynan.emoji.core.Emoji
-import com.chrynan.emoji.presentation.core.EmojiViewModel
+import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

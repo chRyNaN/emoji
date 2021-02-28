@@ -23,6 +23,11 @@ kotlin {
                 api project(":emoji-core")
             }
         }
+        jvmMain {
+            dependencies {
+                api "com.chrynan.aaaah:aaaah-core:0.8.0"
+            }
+        }
     }
 }
 

@@ -11,7 +11,7 @@ import coil.request.ImageRequest
 import coil.request.ImageResult
 import com.chrynan.emoji.core.Emoji
 import com.chrynan.emoji.core.shortcodeName
-import com.chrynan.emoji.presentation.core.EmojiViewModel
+import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel
 import java.util.regex.Pattern
 
 fun CharSequence.emojify(
