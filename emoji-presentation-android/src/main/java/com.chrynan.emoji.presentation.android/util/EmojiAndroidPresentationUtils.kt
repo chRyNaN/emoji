@@ -241,3 +241,64 @@ fun TextView.emojify(emojis: Map<String, EmojiViewModel>) {
         onError = { _, _ -> invalidate() },
         onSuccess = { _, _ -> invalidate() })
 }
+
+inline fun EmojiViewModel.toCharSequence(
+    context: Context,
+    onBuildStart: (SpannableStringBuilder) -> Unit = {},
+    onBuildEnd: (SpannableStringBuilder) -> Unit = {},
+    crossinline onImageLoadError: (request: ImageRequest, throwable: Throwable) -> Unit = { _, _ -> },
+    crossinline onImageLoadSuccess: (request: ImageRequest, metadata: ImageResult.Metadata) -> Unit = { _, _ -> }
+): CharSequence {
+    val builder = SpannableStringBuilder()
+
+    onBuildStart.invoke(builder)
+
+    when (val emoji = this.emoji) {
+        is Emoji.Unicode -> {
+            if (this.isIconPreferred && emoji.iconUri != null) {
+                val span = ImageTargetSpan()
+
+                val l = builder.length
+                builder.append(" ")
+                builder.setSpan(span, l, l + 1, 0)
+
+                val request = ImageRequest.Builder(context)
+                    .data(emoji.iconUri)
+                    .crossfade(false)
+                    .target(span)
+                    .listener(
+                        onSuccess = { request, metadata -> onImageLoadSuccess(request, metadata) },
+                        onError = { request, throwable -> onImageLoadError(request, throwable) })
+                    .build()
+
+                Coil.imageLoader(context).enqueue(request)
+            } else {
+                builder.append(emoji.char)
+            }
+        }
+        is Emoji.Custom -> {
+            val uri = if (this.isStaticUriPreferred && emoji.staticUri != null) emoji.staticUri else emoji.uri
+
+            val span = ImageTargetSpan()
+
+            val l = builder.length
+            builder.append(" ")
+            builder.setSpan(span, l, l + 1, 0)
+
+            val request = ImageRequest.Builder(context)
+                .data(uri)
+                .crossfade(false)
+                .target(span)
+                .listener(
+                    onSuccess = { request, metadata -> onImageLoadSuccess(request, metadata) },
+                    onError = { request, throwable -> onImageLoadError(request, throwable) })
+                .build()
+
+            Coil.imageLoader(context).enqueue(request)
+        }
+    }
+
+    onBuildEnd.invoke(builder)
+
+    return builder
+}
