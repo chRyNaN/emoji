@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.chrynan.emoji.presentation.android.dialog.EmojiBottomSheetDialogFragment
+import com.chrynan.emoji.presentation.android.dialog.EmojiBottomSheetDialogFragmentFactory
+import com.chrynan.emoji.presentation.android.util.showEmojiBottomSheetDialogFragment
 import com.chrynan.emoji.presentation.core.listener.EmojiListItemSelectedListener
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel
 import com.chrynan.emoji.repo.sqlite.EmojiDatabase
@@ -14,7 +16,8 @@ import com.squareup.sqldelight.android.AndroidSqliteDriver
 class MainActivity : AppCompatActivity(),
     EmojiListItemSelectedListener {
 
-    private val repository = SqliteEmojiRepository(EmojiDatabase(AndroidSqliteDriver(EmojiDatabase.Schema, this)))
+    private val repository =
+        SqliteEmojiRepository(EmojiDatabase(AndroidSqliteDriver(EmojiDatabase.Schema, this)))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,13 +26,7 @@ class MainActivity : AppCompatActivity(),
         val emojiDialogButton = findViewById<Button>(R.id.emojiDialogButton)
 
         emojiDialogButton.setOnClickListener {
-            val dialog = EmojiBottomSheetDialogFragment(
-                repository = repository,
-                context = this,
-                uncategorizedTitle = ""
-            )
-
-            dialog.show(supportFragmentManager, null)
+            supportFragmentManager.showEmojiBottomSheetDialogFragment(repository = repository)
         }
     }
 

@@ -2,7 +2,6 @@
 
 package com.chrynan.emoji.presentation.android.dialog
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chrynan.aaaah.bindAdapterFactory
 import com.chrynan.aaaah.calculateAndDispatchDiff
 import com.chrynan.dispatchers.CoroutineDispatchers
-import com.chrynan.dispatchers.dispatchers
 import com.chrynan.emoji.core.EmojiRepository
 import com.chrynan.emoji.presentation.android.R
 import com.chrynan.emoji.presentation.android.adapter.EmojiCategoryAdapterFactory
@@ -26,42 +24,66 @@ import com.chrynan.emoji.presentation.core.listener.EmojiCategoryListItemSelecte
 import com.chrynan.emoji.presentation.core.listener.EmojiListItemSelectedListener
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiCategoryListItemViewModel
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.*
 
 abstract class BaseEmojiBottomSheetDialogFragment : BaseBottomSheetDialogFragment(),
     EmojiListItemSelectedListener,
     EmojiCategoryListItemSelectedListener {
 
-    abstract val repository: EmojiRepository
+    protected abstract val repository: EmojiRepository
 
-    abstract val emojiGridAdapterFactory: EmojiGridAdapterFactory
+    protected open val dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers
 
-    abstract val emojiCategoryAdapterFactory: EmojiCategoryAdapterFactory
+    protected open val errorHandler: (exception: Throwable, message: String) -> Unit = { _, _ -> }
 
-    abstract val listener: EmojiListItemSelectedListener
+    protected open val emojiListItemSelectedListener: EmojiListItemSelectedListener? = null
 
-    abstract val emojiCategoryMapper: EmojiCategoryListMapper
+    protected open val gridColumnCount: Int = 5
 
-    open val emojiMapper: EmojiMapper = EmojiMapper()
+    protected open val uncategorizedTitle: CharSequence = "No Category"
 
-    open val errorHandler: (exception: Throwable, message: String) -> Unit = { _, _ -> }
+    private val emojiGridAdapterFactory: EmojiGridAdapterFactory by lazy {
+        EmojiGridAdapterFactory(
+            context = requireContext(),
+            gridColumnCount = gridColumnCount,
+            dispatchers = dispatchers,
+            emojiListItemAdapter = EmojiGridListItemAdapter(listener = this)
+        )
+    }
 
-    open val ioDispatcher: CoroutineDispatcher = dispatchers.io
+    private val emojiCategoryAdapterFactory: EmojiCategoryAdapterFactory by lazy {
+        EmojiCategoryAdapterFactory(
+            context = requireContext(),
+            dispatchers = dispatchers,
+            emojiCategoryListItemAdapter = EmojiCategoryListItemAdapter(listener = this)
+        )
+    }
 
-    open val mainDispatcher: CoroutineDispatcher = dispatchers.main
+    private val emojiCategoryMapper: EmojiCategoryListMapper by lazy {
+        EmojiCategoryListMapper(uncategorizedTitle = uncategorizedTitle)
+    }
+
+    private val emojiMapper: EmojiMapper = EmojiMapper()
+
+    private lateinit var listener: EmojiListItemSelectedListener
 
     private var currentCategory: EmojiCategoryListItemViewModel? = null
     private var emojiCategories: List<EmojiCategoryListItemViewModel> = emptyList()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.dialog_emoji_bottom_sheet, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.dialog_emoji_bottom_sheet, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        listener = emojiListItemSelectedListener ?: getParentCallbackOrThrow()
+
         val dialogEmojiRecyclerView = view.findViewById<RecyclerView>(R.id.dialogEmojiRecyclerView)
-        val dialogEmojiCategoryRecyclerView = view.findViewById<RecyclerView>(R.id.dialogEmojiCategoryRecyclerView)
+        val dialogEmojiCategoryRecyclerView =
+            view.findViewById<RecyclerView>(R.id.dialogEmojiCategoryRecyclerView)
 
         dialogEmojiRecyclerView?.bindAdapterFactory(emojiGridAdapterFactory)
         dialogEmojiCategoryRecyclerView?.bindAdapterFactory(emojiCategoryAdapterFactory)
@@ -72,7 +94,7 @@ abstract class BaseEmojiBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
             .mapEach { it.copy(isSelected = it.category == currentCategory?.category) }
             .onEach { emojiCategories = it }
             .onStart { emit(emojiCategories) }
-            .flowOn(ioDispatcher)
+            .flowOn(dispatchers.io)
             .calculateAndDispatchDiff(emojiCategoryAdapterFactory)
             .mapNotNull { currentCategory?.emojis }
             .calculateAndDispatchDiff(emojiGridAdapterFactory)
@@ -97,191 +119,12 @@ abstract class BaseEmojiBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
 
         flow { emit(emojiCategories) }
             .calculateAndDispatchDiff(emojiCategoryAdapterFactory)
-            .catch { errorHandler(it, "Error loading emoji categories in EmojiBottomSheetDialogFragment.") }
+            .catch {
+                errorHandler(
+                    it,
+                    "Error loading emoji categories in EmojiBottomSheetDialogFragment."
+                )
+            }
             .launchIn(this)
     }
 }
-
-@Suppress("FunctionName")
-fun EmojiBottomSheetDialogFragment(
-    repository: EmojiRepository,
-    emojiGridAdapterFactory: EmojiGridAdapterFactory,
-    emojiCategoryAdapterFactory: EmojiCategoryAdapterFactory,
-    listener: EmojiListItemSelectedListener? = null,
-    categoryMapper: EmojiCategoryListMapper,
-    emojiMapper: EmojiMapper = EmojiMapper(),
-    ioDispatcher: CoroutineDispatcher = dispatchers.io,
-    mainDispatcher: CoroutineDispatcher = dispatchers.main,
-    errorHandler: (exception: Throwable, message: String) -> Unit = { _, _ -> }
-): BaseEmojiBottomSheetDialogFragment =
-    object : BaseEmojiBottomSheetDialogFragment() {
-
-        override val repository: EmojiRepository
-            get() = repository
-
-        override val emojiGridAdapterFactory: EmojiGridAdapterFactory
-            get() = emojiGridAdapterFactory
-
-        override val emojiCategoryAdapterFactory: EmojiCategoryAdapterFactory
-            get() = emojiCategoryAdapterFactory
-
-        override val listener: EmojiListItemSelectedListener
-            get() = listener ?: getParentCallbackOrThrow()
-
-        override val emojiCategoryMapper: EmojiCategoryListMapper
-            get() = categoryMapper
-
-        override val emojiMapper: EmojiMapper
-            get() = emojiMapper
-
-        override val errorHandler: (exception: Throwable, message: String) -> Unit
-            get() = errorHandler
-
-        override val ioDispatcher: CoroutineDispatcher
-            get() = ioDispatcher
-
-        override val mainDispatcher: CoroutineDispatcher
-            get() = mainDispatcher
-    }
-
-@Suppress("FunctionName")
-fun EmojiBottomSheetDialogFragment(
-    repository: EmojiRepository,
-    emojiGridAdapterFactory: EmojiGridAdapterFactory,
-    emojiCategoryAdapterFactory: EmojiCategoryAdapterFactory,
-    listener: EmojiListItemSelectedListener? = null,
-    uncategorizedTitle: CharSequence,
-    emojiMapper: EmojiMapper = EmojiMapper(),
-    ioDispatcher: CoroutineDispatcher = dispatchers.io,
-    mainDispatcher: CoroutineDispatcher = dispatchers.main,
-    errorHandler: (exception: Throwable, message: String) -> Unit = { _, _ -> }
-): BaseEmojiBottomSheetDialogFragment =
-    object : BaseEmojiBottomSheetDialogFragment() {
-
-        override val repository: EmojiRepository
-            get() = repository
-
-        override val emojiGridAdapterFactory: EmojiGridAdapterFactory
-            get() = emojiGridAdapterFactory
-
-        override val emojiCategoryAdapterFactory: EmojiCategoryAdapterFactory
-            get() = emojiCategoryAdapterFactory
-
-        override val listener: EmojiListItemSelectedListener
-            get() = listener ?: getParentCallbackOrThrow()
-
-        override val emojiCategoryMapper: EmojiCategoryListMapper
-            get() = EmojiCategoryListMapper(uncategorizedTitle = uncategorizedTitle)
-
-        override val emojiMapper: EmojiMapper
-            get() = emojiMapper
-
-        override val errorHandler: (exception: Throwable, message: String) -> Unit
-            get() = errorHandler
-
-        override val ioDispatcher: CoroutineDispatcher
-            get() = ioDispatcher
-
-        override val mainDispatcher: CoroutineDispatcher
-            get() = mainDispatcher
-    }
-
-@Suppress("FunctionName")
-fun EmojiBottomSheetDialogFragment(
-    repository: EmojiRepository,
-    context: Context,
-    gridColumnCount: Int = 5,
-    listener: EmojiListItemSelectedListener? = null,
-    categoryMapper: EmojiCategoryListMapper,
-    emojiMapper: EmojiMapper = EmojiMapper(),
-    dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers,
-    errorHandler: (exception: Throwable, message: String) -> Unit = { _, _ -> }
-): BaseEmojiBottomSheetDialogFragment =
-    object : BaseEmojiBottomSheetDialogFragment() {
-
-        override val repository: EmojiRepository
-            get() = repository
-
-        override val emojiGridAdapterFactory: EmojiGridAdapterFactory
-            get() = EmojiGridAdapterFactory(
-                context = context,
-                gridColumnCount = gridColumnCount,
-                dispatchers = dispatchers,
-                emojiListItemAdapter = EmojiGridListItemAdapter(listener = this)
-            )
-
-        override val emojiCategoryAdapterFactory: EmojiCategoryAdapterFactory
-            get() = EmojiCategoryAdapterFactory(
-                context = context,
-                dispatchers = dispatchers,
-                emojiCategoryListItemAdapter = EmojiCategoryListItemAdapter(listener = this)
-            )
-
-        override val listener: EmojiListItemSelectedListener
-            get() = listener ?: getParentCallbackOrThrow()
-
-        override val emojiCategoryMapper: EmojiCategoryListMapper
-            get() = categoryMapper
-
-        override val emojiMapper: EmojiMapper
-            get() = emojiMapper
-
-        override val errorHandler: (exception: Throwable, message: String) -> Unit
-            get() = errorHandler
-
-        override val ioDispatcher: CoroutineDispatcher
-            get() = dispatchers.io
-
-        override val mainDispatcher: CoroutineDispatcher
-            get() = dispatchers.main
-    }
-
-@Suppress("FunctionName")
-fun EmojiBottomSheetDialogFragment(
-    repository: EmojiRepository,
-    context: Context,
-    uncategorizedTitle: CharSequence,
-    gridColumnCount: Int = 5,
-    listener: EmojiListItemSelectedListener? = null,
-    emojiMapper: EmojiMapper = EmojiMapper(),
-    dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers,
-    errorHandler: (exception: Throwable, message: String) -> Unit = { _, _ -> }
-): BaseEmojiBottomSheetDialogFragment =
-    object : BaseEmojiBottomSheetDialogFragment() {
-
-        override val repository: EmojiRepository
-            get() = repository
-
-        override val emojiGridAdapterFactory: EmojiGridAdapterFactory
-            get() = EmojiGridAdapterFactory(
-                context = context,
-                gridColumnCount = gridColumnCount,
-                dispatchers = dispatchers,
-                emojiListItemAdapter = EmojiGridListItemAdapter(listener = this)
-            )
-
-        override val emojiCategoryAdapterFactory: EmojiCategoryAdapterFactory
-            get() = EmojiCategoryAdapterFactory(
-                context = context,
-                dispatchers = dispatchers,
-                emojiCategoryListItemAdapter = EmojiCategoryListItemAdapter(listener = this)
-            )
-
-        override val listener: EmojiListItemSelectedListener
-            get() = listener ?: getParentCallbackOrThrow()
-
-        override val emojiCategoryMapper: EmojiCategoryListMapper
-            get() = EmojiCategoryListMapper(uncategorizedTitle = uncategorizedTitle)
-
-        override val emojiMapper: EmojiMapper
-            get() = emojiMapper
-
-        override val errorHandler: (exception: Throwable, message: String) -> Unit
-            get() = errorHandler
-
-        override val ioDispatcher: CoroutineDispatcher
-            get() = dispatchers.io
-
-        override val mainDispatcher: CoroutineDispatcher
-            get() = dispatchers.main
-    }

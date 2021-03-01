@@ -50,6 +50,8 @@ dependencies {
     // Database - Sqldelight
     implementation "com.squareup.sqldelight:android-driver:1.4.3"
 
+    implementation "androidx.emoji:emoji-bundled:1.1.0"
+
     implementation project(":emoji-repo-sqlite")
     implementation project(":emoji-presentation-android")
 }
