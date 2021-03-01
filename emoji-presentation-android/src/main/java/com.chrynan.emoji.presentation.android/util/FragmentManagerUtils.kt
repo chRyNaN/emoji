@@ -36,7 +36,8 @@ fun FragmentManager.showEmojiBottomSheetDialogFragment(
     emojiListItemSelectedListener: EmojiListItemSelectedListener? = null,
     gridColumnCount: Int = 5,
     uncategorizedTitle: CharSequence = "No Category",
-    fragmentTag: String? = null
+    fragmentTag: String? = null,
+    retainFragmentFactory: Boolean = true
 ): EmojiBottomSheetDialogFragment {
     val factory = EmojiBottomSheetDialogFragmentFactory(
         repository = repository,
@@ -48,7 +49,11 @@ fun FragmentManager.showEmojiBottomSheetDialogFragment(
         uncategorizedTitle = uncategorizedTitle
     )
 
-    delegateFragmentFactory(factory)
+    if (retainFragmentFactory) {
+        delegateFragmentFactory(factory)
+    } else {
+        fragmentFactory = factory
+    }
 
     val fragment = EmojiBottomSheetDialogFragment(
         repository = repository,
@@ -78,7 +83,8 @@ fun FragmentManager.showEmojiBottomSheetDialogFragmentNow(
     emojiListItemSelectedListener: EmojiListItemSelectedListener? = null,
     gridColumnCount: Int = 5,
     uncategorizedTitle: CharSequence = "No Category",
-    fragmentTag: String? = null
+    fragmentTag: String? = null,
+    retainFragmentFactory: Boolean = true
 ): EmojiBottomSheetDialogFragment {
     val factory = EmojiBottomSheetDialogFragmentFactory(
         repository = repository,
@@ -90,7 +96,11 @@ fun FragmentManager.showEmojiBottomSheetDialogFragmentNow(
         uncategorizedTitle = uncategorizedTitle
     )
 
-    delegateFragmentFactory(factory)
+    if (retainFragmentFactory) {
+        delegateFragmentFactory(factory)
+    } else {
+        fragmentFactory = factory
+    }
 
     val fragment = EmojiBottomSheetDialogFragment(
         repository = repository,
