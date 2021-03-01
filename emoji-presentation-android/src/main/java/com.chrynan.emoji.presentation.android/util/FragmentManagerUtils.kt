@@ -2,6 +2,7 @@
 
 package com.chrynan.emoji.presentation.android.util
 
+import androidx.annotation.StyleRes
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.FragmentManager
 import com.chrynan.dispatchers.CoroutineDispatchers
@@ -36,6 +37,7 @@ fun FragmentManager.showEmojiBottomSheetDialogFragment(
     emojiListItemSelectedListener: EmojiListItemSelectedListener? = null,
     gridColumnCount: Int = 5,
     uncategorizedTitle: CharSequence = "No Category",
+    @StyleRes customStyle: Int? = null,
     fragmentTag: String? = null,
     retainFragmentFactory: Boolean = true
 ): EmojiBottomSheetDialogFragment {
@@ -46,7 +48,8 @@ fun FragmentManager.showEmojiBottomSheetDialogFragment(
         errorHandler = errorHandler,
         emojiListItemSelectedListener = emojiListItemSelectedListener,
         gridColumnCount = gridColumnCount,
-        uncategorizedTitle = uncategorizedTitle
+        uncategorizedTitle = uncategorizedTitle,
+        customStyle = customStyle
     )
 
     if (retainFragmentFactory) {
@@ -62,7 +65,8 @@ fun FragmentManager.showEmojiBottomSheetDialogFragment(
         errorHandler = errorHandler,
         emojiListItemSelectedListener = emojiListItemSelectedListener,
         gridColumnCount = gridColumnCount,
-        uncategorizedTitle = uncategorizedTitle
+        uncategorizedTitle = uncategorizedTitle,
+        customStyle = customStyle
     )
 
     fragment.show(this, fragmentTag)
@@ -83,6 +87,7 @@ fun FragmentManager.showEmojiBottomSheetDialogFragmentNow(
     emojiListItemSelectedListener: EmojiListItemSelectedListener? = null,
     gridColumnCount: Int = 5,
     uncategorizedTitle: CharSequence = "No Category",
+    @StyleRes customStyle: Int? = null,
     fragmentTag: String? = null,
     retainFragmentFactory: Boolean = true
 ): EmojiBottomSheetDialogFragment {
@@ -93,7 +98,8 @@ fun FragmentManager.showEmojiBottomSheetDialogFragmentNow(
         errorHandler = errorHandler,
         emojiListItemSelectedListener = emojiListItemSelectedListener,
         gridColumnCount = gridColumnCount,
-        uncategorizedTitle = uncategorizedTitle
+        uncategorizedTitle = uncategorizedTitle,
+        customStyle = customStyle
     )
 
     if (retainFragmentFactory) {
@@ -109,7 +115,8 @@ fun FragmentManager.showEmojiBottomSheetDialogFragmentNow(
         errorHandler = errorHandler,
         emojiListItemSelectedListener = emojiListItemSelectedListener,
         gridColumnCount = gridColumnCount,
-        uncategorizedTitle = uncategorizedTitle
+        uncategorizedTitle = uncategorizedTitle,
+        customStyle = customStyle
     )
 
     fragment.showNow(this, fragmentTag)

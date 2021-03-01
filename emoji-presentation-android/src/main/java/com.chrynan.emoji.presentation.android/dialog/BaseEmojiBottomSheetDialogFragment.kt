@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StyleRes
 import androidx.recyclerview.widget.RecyclerView
 import com.chrynan.aaaah.bindAdapterFactory
 import com.chrynan.aaaah.calculateAndDispatchDiff
@@ -25,6 +26,7 @@ import com.chrynan.emoji.presentation.core.listener.EmojiCategoryListItemSelecte
 import com.chrynan.emoji.presentation.core.listener.EmojiListItemSelectedListener
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiCategoryListItemViewModel
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.flow.*
 
 abstract class BaseEmojiBottomSheetDialogFragment : BaseBottomSheetDialogFragment(),
@@ -45,6 +47,9 @@ abstract class BaseEmojiBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
     protected open val gridColumnCount: Int = 5
 
     protected open val uncategorizedTitle: CharSequence = "No Category"
+
+    @StyleRes
+    protected open val customStyle: Int? = null
 
     private val emojiGridAdapterFactory: EmojiGridAdapterFactory by lazy {
         EmojiGridAdapterFactory(
@@ -73,6 +78,14 @@ abstract class BaseEmojiBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
 
     private var currentCategory: EmojiCategoryListItemViewModel? = null
     private var emojiCategories: List<EmojiCategoryListItemViewModel> = emptyList()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        customStyle?.let {
+            setStyle(BottomSheetDialogFragment.STYLE_NORMAL, it)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

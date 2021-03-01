@@ -1,5 +1,6 @@
 package com.chrynan.emoji.presentation.android.dialog
 
+import androidx.annotation.StyleRes
 import androidx.fragment.app.Fragment
 import com.chrynan.dispatchers.CoroutineDispatchers
 import com.chrynan.emoji.core.EmojiRepository
@@ -14,7 +15,8 @@ class EmojiBottomSheetDialogFragmentFactory(
     private val errorHandler: (exception: Throwable, message: String) -> Unit = { _, _ -> },
     private val emojiListItemSelectedListener: EmojiListItemSelectedListener? = null,
     private val gridColumnCount: Int = 5,
-    private val uncategorizedTitle: CharSequence = "No Category"
+    private val uncategorizedTitle: CharSequence = "No Category",
+    @StyleRes private val customStyle: Int? = null
 ) : DelegatableFragmentFactory() {
 
     override fun handlesFragment(
@@ -35,7 +37,8 @@ class EmojiBottomSheetDialogFragmentFactory(
                 errorHandler = errorHandler,
                 emojiListItemSelectedListener = emojiListItemSelectedListener,
                 gridColumnCount = gridColumnCount,
-                uncategorizedTitle = uncategorizedTitle
+                uncategorizedTitle = uncategorizedTitle,
+                customStyle = customStyle
             )
         } else {
             super.instantiate(classLoader, className)
