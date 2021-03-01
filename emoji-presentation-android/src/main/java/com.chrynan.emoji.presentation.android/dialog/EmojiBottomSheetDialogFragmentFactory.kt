@@ -3,10 +3,13 @@ package com.chrynan.emoji.presentation.android.dialog
 import androidx.fragment.app.Fragment
 import com.chrynan.dispatchers.CoroutineDispatchers
 import com.chrynan.emoji.core.EmojiRepository
+import com.chrynan.emoji.presentation.android.util.collatorCompareBy
 import com.chrynan.emoji.presentation.core.listener.EmojiListItemSelectedListener
+import com.chrynan.emoji.presentation.core.viewmodel.EmojiCategoryListItemViewModel
 
 class EmojiBottomSheetDialogFragmentFactory(
     private val repository: EmojiRepository,
+    private val categoryComparator: Comparator<EmojiCategoryListItemViewModel> = collatorCompareBy { it.category.toString() },
     private val dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers,
     private val errorHandler: (exception: Throwable, message: String) -> Unit = { _, _ -> },
     private val emojiListItemSelectedListener: EmojiListItemSelectedListener? = null,
@@ -27,6 +30,7 @@ class EmojiBottomSheetDialogFragmentFactory(
         ) {
             EmojiBottomSheetDialogFragment(
                 repository = repository,
+                categoryComparator = categoryComparator,
                 dispatchers = dispatchers,
                 errorHandler = errorHandler,
                 emojiListItemSelectedListener = emojiListItemSelectedListener,

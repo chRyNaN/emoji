@@ -16,6 +16,7 @@ import com.chrynan.emoji.presentation.android.adapter.EmojiCategoryAdapterFactor
 import com.chrynan.emoji.presentation.android.adapter.EmojiCategoryListItemAdapter
 import com.chrynan.emoji.presentation.android.adapter.EmojiGridAdapterFactory
 import com.chrynan.emoji.presentation.android.adapter.EmojiGridListItemAdapter
+import com.chrynan.emoji.presentation.android.util.collatorCompareBy
 import com.chrynan.emoji.presentation.android.util.getParentCallbackOrThrow
 import com.chrynan.emoji.presentation.android.util.mapEach
 import com.chrynan.emoji.presentation.core.EmojiCategoryListMapper
@@ -31,6 +32,9 @@ abstract class BaseEmojiBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
     EmojiCategoryListItemSelectedListener {
 
     protected abstract val repository: EmojiRepository
+
+    protected open val categoryComparator: Comparator<EmojiCategoryListItemViewModel> =
+        collatorCompareBy { it.category.toString() }
 
     protected open val dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers
 
@@ -90,6 +94,7 @@ abstract class BaseEmojiBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
 
         flow { emit(repository.getAll().toList()) }
             .map { emojiCategoryMapper.map(it) }
+            .map { it.sortedWith(categoryComparator) }
             .onEach { currentCategory = it.firstOrNull() }
             .mapEach { it.copy(isSelected = it.category == currentCategory?.category) }
             .onEach { emojiCategories = it }

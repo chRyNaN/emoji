@@ -10,6 +10,7 @@ import com.chrynan.emoji.presentation.android.dialog.DelegateFragmentFactory
 import com.chrynan.emoji.presentation.android.dialog.EmojiBottomSheetDialogFragment
 import com.chrynan.emoji.presentation.android.dialog.EmojiBottomSheetDialogFragmentFactory
 import com.chrynan.emoji.presentation.core.listener.EmojiListItemSelectedListener
+import com.chrynan.emoji.presentation.core.viewmodel.EmojiCategoryListItemViewModel
 
 internal fun FragmentManager.delegateFragmentFactory(factory: FragmentFactory) {
     val currentFactory = fragmentFactory
@@ -29,6 +30,7 @@ internal fun FragmentManager.delegateFragmentFactory(factory: FragmentFactory) {
  */
 fun FragmentManager.showEmojiBottomSheetDialogFragment(
     repository: EmojiRepository,
+    categoryComparator: Comparator<EmojiCategoryListItemViewModel> = collatorCompareBy { it.category.toString() },
     dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers,
     errorHandler: (exception: Throwable, message: String) -> Unit = { _, _ -> },
     emojiListItemSelectedListener: EmojiListItemSelectedListener? = null,
@@ -38,6 +40,7 @@ fun FragmentManager.showEmojiBottomSheetDialogFragment(
 ): EmojiBottomSheetDialogFragment {
     val factory = EmojiBottomSheetDialogFragmentFactory(
         repository = repository,
+        categoryComparator = categoryComparator,
         dispatchers = dispatchers,
         errorHandler = errorHandler,
         emojiListItemSelectedListener = emojiListItemSelectedListener,
@@ -49,6 +52,7 @@ fun FragmentManager.showEmojiBottomSheetDialogFragment(
 
     val fragment = EmojiBottomSheetDialogFragment(
         repository = repository,
+        categoryComparator = categoryComparator,
         dispatchers = dispatchers,
         errorHandler = errorHandler,
         emojiListItemSelectedListener = emojiListItemSelectedListener,
@@ -68,6 +72,7 @@ fun FragmentManager.showEmojiBottomSheetDialogFragment(
  */
 fun FragmentManager.showEmojiBottomSheetDialogFragmentNow(
     repository: EmojiRepository,
+    categoryComparator: Comparator<EmojiCategoryListItemViewModel> = collatorCompareBy { it.category.toString() },
     dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers,
     errorHandler: (exception: Throwable, message: String) -> Unit = { _, _ -> },
     emojiListItemSelectedListener: EmojiListItemSelectedListener? = null,
@@ -77,6 +82,7 @@ fun FragmentManager.showEmojiBottomSheetDialogFragmentNow(
 ): EmojiBottomSheetDialogFragment {
     val factory = EmojiBottomSheetDialogFragmentFactory(
         repository = repository,
+        categoryComparator = categoryComparator,
         dispatchers = dispatchers,
         errorHandler = errorHandler,
         emojiListItemSelectedListener = emojiListItemSelectedListener,
@@ -88,6 +94,7 @@ fun FragmentManager.showEmojiBottomSheetDialogFragmentNow(
 
     val fragment = EmojiBottomSheetDialogFragment(
         repository = repository,
+        categoryComparator = categoryComparator,
         dispatchers = dispatchers,
         errorHandler = errorHandler,
         emojiListItemSelectedListener = emojiListItemSelectedListener,

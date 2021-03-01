@@ -3,8 +3,6 @@ package com.chrynan.emoji.sample.android
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.chrynan.emoji.presentation.android.dialog.EmojiBottomSheetDialogFragment
-import com.chrynan.emoji.presentation.android.dialog.EmojiBottomSheetDialogFragmentFactory
 import com.chrynan.emoji.presentation.android.util.showEmojiBottomSheetDialogFragment
 import com.chrynan.emoji.presentation.core.listener.EmojiListItemSelectedListener
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel
