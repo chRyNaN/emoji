@@ -4,6 +4,7 @@ import androidx.annotation.StyleRes
 import androidx.fragment.app.Fragment
 import com.chrynan.dispatchers.CoroutineDispatchers
 import com.chrynan.emoji.core.EmojiRepository
+import com.chrynan.emoji.presentation.android.R
 import com.chrynan.emoji.presentation.android.util.collatorCompareBy
 import com.chrynan.emoji.presentation.core.listener.EmojiListItemSelectedListener
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiCategoryListItemViewModel
@@ -16,7 +17,7 @@ class EmojiBottomSheetDialogFragmentFactory(
     private val emojiListItemSelectedListener: EmojiListItemSelectedListener? = null,
     private val gridColumnCount: Int = 5,
     private val uncategorizedTitle: CharSequence = "No Category",
-    @StyleRes private val customStyle: Int? = null
+    @StyleRes private val customStyle: Int? = R.style.EmojiBottomSheetStyle
 ) : DelegatableFragmentFactory() {
 
     override fun handlesFragment(

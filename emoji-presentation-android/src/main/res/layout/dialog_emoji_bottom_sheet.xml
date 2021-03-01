@@ -3,19 +3,22 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:background="?attr/emojiBottomSheetDialogBackgroundColor">
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/dialogEmojiRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
+            android:paddingStart="?attr/emojiBottomSheetDialogPaddingStart"
+            android:paddingEnd="?attr/emojiBottomSheetDialogPaddingEnd"
+            android:paddingTop="?attr/emojiBottomSheetDialogPaddingTop"
+            android:paddingBottom="?attr/emojiBottomSheetDialogPaddingBottom"
             android:clipToPadding="false"
             android:clipChildren="false"
             app:layout_constraintBottom_toTopOf="@+id/dialogEmojiCategoryRecyclerView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_min="220dp"
+            app:layout_constraintHeight_min="?attr/emojiBottomSheetDialogPeekHeight"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,9 +26,10 @@
             android:id="@+id/dialogEmojiCategoryRecyclerView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
+            android:layout_marginBottom="?attr/emojiBottomSheetDialogCategoryContainerPaddingBottom"
+            android:paddingStart="?attr/emojiBottomSheetDialogCategoryContainerPaddingStart"
+            android:paddingEnd="?attr/emojiBottomSheetDialogCategoryContainerPaddingEnd"
+            android:layout_marginTop="?attr/emojiBottomSheetDialogCategoryContainerPaddingTop"
             android:clipToPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

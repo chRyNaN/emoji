@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="EmojiBottomSheetStyle" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="emojiBottomSheetDialogPaddingTop">12dp</item>
+        <item name="emojiBottomSheetDialogPaddingBottom">12dp</item>
+        <item name="emojiBottomSheetDialogPaddingStart">0dp</item>
+        <item name="emojiBottomSheetDialogPaddingEnd">0dp</item>
+        <item name="emojiBottomSheetDialogCategoryContainerPaddingTop">0dp</item>
+        <item name="emojiBottomSheetDialogCategoryContainerPaddingBottom">16dp</item>
+        <item name="emojiBottomSheetDialogCategoryContainerPaddingStart">12dp</item>
+        <item name="emojiBottomSheetDialogCategoryContainerPaddingEnd">12dp</item>
+        <item name="emojiBottomSheetDialogPeekHeight">300dp</item>
+        <item name="emojiBottomSheetDialogItemSize">48dp</item>
+        <item name="emojiBottomSheetDialogBackgroundLeftCornerRadius">16dp</item>
+        <item name="emojiBottomSheetDialogBackgroundRightCornerRadius">16dp</item>
+
+        <item name="emojiBottomSheetDialogBackgroundColor">?attr/colorSurface</item>
+        <item name="emojiBottomSheetDialogCategoryTextColor">?attr/colorOnSurface</item>
+        <item name="emojiBottomSheetDialogCategorySelectedTextColor">?attr/colorControlActivated
+        </item>
+        <item name="emojiBottomSheetDialogCategoryBackgroundColor">?attr/colorSurface</item>
+        <item name="emojiBottomSheetDialogCategorySelectedBackgroundColor">?attr/colorControlHighlight</item>
+
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="behavior_peekHeight">?attr/emojiBottomSheetDialogPeekHeight</item>
+        <item name="android:background">@drawable/bg_emoji_bottom_sheet</item>
+        <item name="shapeAppearanceOverlay">@style/BottomSheetDialogBackgroundShape</item>
+        <item name="listPreferredItemHeightSmall">64dp</item>
+    </style>
+
+    <style name="BottomSheetDialogBackgroundShape" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">?attr/emojiBottomSheetDialogBackgroundRightCornerRadius
+        </item>
+        <item name="cornerSizeTopLeft">?attr/emojiBottomSheetDialogBackgroundLeftCornerRadius</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+
+</resources>

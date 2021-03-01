@@ -49,7 +49,7 @@ abstract class BaseEmojiBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
     protected open val uncategorizedTitle: CharSequence = "No Category"
 
     @StyleRes
-    protected open val customStyle: Int? = null
+    protected open val customStyle: Int? = R.style.EmojiBottomSheetStyle
 
     private val emojiGridAdapterFactory: EmojiGridAdapterFactory by lazy {
         EmojiGridAdapterFactory(

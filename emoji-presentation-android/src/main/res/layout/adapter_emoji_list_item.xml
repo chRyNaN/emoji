@@ -6,8 +6,8 @@
 
     <com.chrynan.emoji.presentation.android.widget.EmojiWidget
             android:id="@+id/adapterEmojiWidget"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="?attr/emojiBottomSheetDialogItemSize"
+            android:layout_height="?attr/emojiBottomSheetDialogItemSize"
             android:layout_gravity="center_horizontal"
             android:stateListAnimator="@animator/emoji_item_selected_animator" />
 

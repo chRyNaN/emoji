@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.FragmentManager
 import com.chrynan.dispatchers.CoroutineDispatchers
 import com.chrynan.emoji.core.EmojiRepository
+import com.chrynan.emoji.presentation.android.R
 import com.chrynan.emoji.presentation.android.dialog.DelegateFragmentFactory
 import com.chrynan.emoji.presentation.android.dialog.EmojiBottomSheetDialogFragment
 import com.chrynan.emoji.presentation.android.dialog.EmojiBottomSheetDialogFragmentFactory
@@ -37,7 +38,7 @@ fun FragmentManager.showEmojiBottomSheetDialogFragment(
     emojiListItemSelectedListener: EmojiListItemSelectedListener? = null,
     gridColumnCount: Int = 5,
     uncategorizedTitle: CharSequence = "No Category",
-    @StyleRes customStyle: Int? = null,
+    @StyleRes customStyle: Int? = R.style.EmojiBottomSheetStyle,
     fragmentTag: String? = null,
     retainFragmentFactory: Boolean = true
 ): EmojiBottomSheetDialogFragment {
@@ -87,7 +88,7 @@ fun FragmentManager.showEmojiBottomSheetDialogFragmentNow(
     emojiListItemSelectedListener: EmojiListItemSelectedListener? = null,
     gridColumnCount: Int = 5,
     uncategorizedTitle: CharSequence = "No Category",
-    @StyleRes customStyle: Int? = null,
+    @StyleRes customStyle: Int? = R.style.EmojiBottomSheetStyle,
     fragmentTag: String? = null,
     retainFragmentFactory: Boolean = true
 ): EmojiBottomSheetDialogFragment {

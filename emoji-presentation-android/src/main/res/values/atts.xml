@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="emojiBottomSheetDialogPaddingTop" format="dimension" />
+    <attr name="emojiBottomSheetDialogPaddingBottom" format="dimension" />
+    <attr name="emojiBottomSheetDialogPaddingStart" format="dimension" />
+    <attr name="emojiBottomSheetDialogPaddingEnd" format="dimension" />
+    <attr name="emojiBottomSheetDialogCategoryContainerPaddingTop" format="dimension" />
+    <attr name="emojiBottomSheetDialogCategoryContainerPaddingBottom" format="dimension" />
+    <attr name="emojiBottomSheetDialogCategoryContainerPaddingStart" format="dimension" />
+    <attr name="emojiBottomSheetDialogCategoryContainerPaddingEnd" format="dimension" />
+    <attr name="emojiBottomSheetDialogPeekHeight" format="dimension" />
+    <attr name="emojiBottomSheetDialogItemSize" format="dimension" />
+    <attr name="emojiBottomSheetDialogBackgroundLeftCornerRadius" format="dimension" />
+    <attr name="emojiBottomSheetDialogBackgroundRightCornerRadius" format="dimension" />
+
+    <attr name="emojiBottomSheetDialogBackgroundColor" format="reference|color" />
+    <attr name="emojiBottomSheetDialogCategoryTextColor" format="reference|color" />
+    <attr name="emojiBottomSheetDialogCategorySelectedTextColor" format="reference|color" />
+    <attr name="emojiBottomSheetDialogCategoryBackgroundColor" format="reference|color" />
+    <attr name="emojiBottomSheetDialogCategorySelectedBackgroundColor" format="reference|color" />
+
+</resources>
