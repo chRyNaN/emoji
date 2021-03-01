@@ -4,6 +4,7 @@ package com.chrynan.emoji.presentation.android.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import coil.load
 import com.chrynan.emoji.core.Emoji
 import com.chrynan.emoji.presentation.android.R
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel
+import kotlin.math.min
 
 /**
  * An Android [View] that can display an [EmojiViewModel].
@@ -64,7 +66,11 @@ class EmojiWidget : FrameLayout {
 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         LayoutInflater.from(context).inflate(R.layout.widget_emoji, this)
 
         emojiImageView.visibility = View.INVISIBLE
@@ -76,6 +82,21 @@ class EmojiWidget : FrameLayout {
 
     @Suppress("MemberVisibilityCanBePrivate")
     val emojiTextView: TextView by lazy { findViewById(R.id.emojiWidgetTextView) }
+
+    private var currentTextSizeInPx: Float = 0f
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+
+        val newTextSizeInPx = min(w, h) / 2f
+
+        if (newTextSizeInPx != currentTextSizeInPx) {
+            emojiTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, newTextSizeInPx)
+            currentTextSizeInPx = newTextSizeInPx
+        }
+    }
+
+    private fun pixelsToSp(px: Int): Float = px / resources.displayMetrics.scaledDensity
 }
 
 /**

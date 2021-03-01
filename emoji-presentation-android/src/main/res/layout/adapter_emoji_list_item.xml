@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.chrynan.emoji.presentation.android.widget.EmojiWidget
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/adapterEmojiWidget"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:stateListAnimator="@animator/emoji_item_selected_animator"/>
+        android:clipChildren="false">
+
+    <com.chrynan.emoji.presentation.android.widget.EmojiWidget
+            android:id="@+id/adapterEmojiWidget"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_horizontal"
+            android:stateListAnimator="@animator/emoji_item_selected_animator" />
+
+</FrameLayout>

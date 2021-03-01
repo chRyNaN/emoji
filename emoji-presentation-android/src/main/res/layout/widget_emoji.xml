@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-       xmlns:tools="http://schemas.android.com/tools"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       tools:parentTag="android.widget.FrameLayout"
-       android:id="@+id/emojiWidgetContainer">
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:parentTag="android.widget.FrameLayout"
+        android:id="@+id/emojiWidgetContainer">
 
     <ImageView
             android:id="@+id/emojiWidgetImageView"
@@ -14,17 +12,18 @@
             android:contentDescription="@null"
             android:scaleType="fitCenter"
             android:visibility="gone"
-            tools:visibility="visible"/>
+            tools:visibility="visible" />
 
     <androidx.emoji.widget.EmojiTextView
             android:id="@+id/emojiWidgetTextView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_gravity="center_horizontal"
             android:ellipsize="end"
             android:maxLines="1"
             android:singleLine="true"
             android:visibility="gone"
-            tools:visibility="visible"/>
+            tools:visibility="visible" />
 
 </merge>
