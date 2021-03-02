@@ -2,7 +2,7 @@ package com.chrynan.emoji.presentation.core.listener
 
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiCategoryListItemViewModel
 
-interface EmojiCategoryListItemSelectedListener {
+fun interface EmojiCategoryListItemSelectedListener {
 
     fun onEmojiCategoryListItemSelected(item: EmojiCategoryListItemViewModel)
 }
