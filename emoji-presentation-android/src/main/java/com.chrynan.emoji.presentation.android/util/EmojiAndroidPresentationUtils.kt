@@ -3,302 +3,124 @@
 package com.chrynan.emoji.presentation.android.util
 
 import android.content.Context
-import android.text.SpannableStringBuilder
 import android.view.View
 import android.widget.TextView
-import coil.Coil
 import coil.request.ImageRequest
 import coil.request.ImageResult
 import com.chrynan.emoji.core.Emoji
-import com.chrynan.emoji.core.shortcodeName
-import com.chrynan.emoji.presentation.android.span.ImageTargetSpan
+import com.chrynan.emoji.core.shortCodeAliases
+import com.chrynan.emoji.core.shortCodeName
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel
-import java.util.regex.Pattern
 
+/**
+ * Converts this [CharSequence] into an [Emoji] text [CharSequence] for the provided
+ * [emojiViewModels].
+ *
+ * @param [emojiViewModels] The [List] of [EmojiViewModel]s to display in the resulting
+ * [CharSequence].
+ *
+ * @param [viewToUpdate] The Android [View] to call [View.invalidate] on when the [Emoji]s have
+ * finished rendering.
+ *
+ * @param [lookupChar] The lookup character used for short codes.
+ *
+ * @param [allowDuplicateLookupChars] Whether to allow duplicat consecutive [lookupChar]s.
+ *
+ * @return The [CharSequence] containing the [Emoji] glyphs.
+ *
+ * @see [emojify]
+ */
 fun CharSequence.emojify(
-    emojiViewModel: EmojiViewModel,
+    emojiViewModels: List<EmojiViewModel>,
     viewToUpdate: View,
-    lookupChar: Char? = Emoji.DEFAULT_SHORTCODE_CHAR
+    lookupChar: Char? = Emoji.DEFAULT_SHORTCODE_CHAR,
+    allowDuplicateLookupChars: Boolean = false
 ): CharSequence =
     emojify(
-        shortcode = if (lookupChar == null) emojiViewModel.emoji.name else emojiViewModel.emoji.shortcodeName(lookupChar = lookupChar),
-        emojiViewModel = emojiViewModel,
-        viewToUpdate = viewToUpdate
-    )
-
-fun CharSequence.emojify(
-    shortcode: String,
-    emojiViewModel: EmojiViewModel,
-    viewToUpdate: View
-): CharSequence =
-    emojify(
-        shortcode = shortcode,
-        emojiViewModel = emojiViewModel,
+        emojiViewModels = emojiViewModels,
+        lookupChar = lookupChar,
         context = viewToUpdate.context,
-        onSuccess = { _, _ -> viewToUpdate.invalidate() },
-        onError = { _, _ -> viewToUpdate.invalidate() }
+        allowDuplicateLookupChars = allowDuplicateLookupChars,
+        onImageLoadingSuccess = { _, _ -> viewToUpdate.invalidate() },
+        onImageLoadingError = { _, _ -> viewToUpdate.invalidate() }
     )
 
+/**
+ * Converts this [CharSequence] into an [Emoji] text [CharSequence] for the provided
+ * [emojiViewModels].
+ *
+ * @param [emojiViewModels] The [List] of [EmojiViewModel]s to display in the resulting
+ * [CharSequence].
+ *
+ * @param [onImageLoadingError] The callback function that is invoked when an error loading an
+ * [Emoji] image is encountered. Note that not all [Emoji] glyphs use images.
+ *
+ * @param [onImageLoadingSuccess] The callback function that is invoked when an [Emoji] image is
+ * successfully rendered. Note that not all [Emoji] glyphs use images.
+ *
+ * @param [lookupChar] The lookup character used for short codes.
+ *
+ * @param [allowDuplicateLookupChars] Whether to allow duplicat consecutive [lookupChar]s.
+ *
+ * @return The [CharSequence] containing the [Emoji] glyphs.
+ */
 inline fun CharSequence.emojify(
-    emojiViewModel: EmojiViewModel,
+    emojiViewModels: List<EmojiViewModel>,
     context: Context,
-    crossinline onError: (request: ImageRequest, throwable: Throwable) -> Unit = { _, _ -> },
-    crossinline onSuccess: (request: ImageRequest, metadata: ImageResult.Metadata) -> Unit = { _, _ -> },
-    lookupChar: Char? = Emoji.DEFAULT_SHORTCODE_CHAR
-): CharSequence =
-    emojify(
-        shortcode = if (lookupChar == null) emojiViewModel.emoji.name else emojiViewModel.emoji.shortcodeName(lookupChar = lookupChar),
-        emojiViewModel = emojiViewModel,
-        context = context,
-        onSuccess = onSuccess,
-        onError = onError
-    )
+    crossinline onImageLoadingError: (request: ImageRequest, throwable: Throwable) -> Unit = { _, _ -> },
+    crossinline onImageLoadingSuccess: (request: ImageRequest, metadata: ImageResult.Metadata) -> Unit = { _, _ -> },
+    lookupChar: Char? = Emoji.DEFAULT_SHORTCODE_CHAR,
+    allowDuplicateLookupChars: Boolean = false
+): CharSequence {
+    var source = this
 
-inline fun CharSequence.emojify(
-    shortcode: String,
-    emojiViewModel: EmojiViewModel,
-    context: Context,
-    crossinline onError: (request: ImageRequest, throwable: Throwable) -> Unit = { _, _ -> },
-    crossinline onSuccess: (request: ImageRequest, metadata: ImageResult.Metadata) -> Unit = { _, _ -> }
-): CharSequence =
-    emojifyAll(
-        shortcodeEmojiMap = mapOf(shortcode to emojiViewModel),
-        context = context,
-        onSuccess = onSuccess,
-        onError = onError
-    )
-
-inline fun CharSequence.emojify(
-    emojis: List<EmojiViewModel>,
-    context: Context,
-    crossinline onError: (request: ImageRequest, throwable: Throwable) -> Unit = { _, _ -> },
-    crossinline onSuccess: (request: ImageRequest, metadata: ImageResult.Metadata) -> Unit = { _, _ -> },
-    lookupChar: Char? = Emoji.DEFAULT_SHORTCODE_CHAR
-): CharSequence =
-    emojifyAll(
-        shortcodeEmojiMap = emojis.associateBy {
-            if (lookupChar == null) it.emoji.name else it.emoji.shortcodeName(
-                lookupChar = lookupChar
+    emojiViewModels.forEach { emojiViewModel ->
+        val shortCodes = lookupChar?.let {
+            emojiViewModel.emoji.shortCodeAliases(
+                lookupChar = lookupChar,
+                allowDuplicateLookupChars = allowDuplicateLookupChars
+            ) + emojiViewModel.emoji.shortCodeName(
+                lookupChar = lookupChar,
+                allowDuplicateLookupChars = allowDuplicateLookupChars
             )
-        },
-        context = context,
-        onSuccess = onSuccess,
-        onError = onError
-    )
+        } ?: emojiViewModel.emoji.aliases + emojiViewModel.emoji.name
 
-inline fun CharSequence.emojify(
-    shortcode: String,
-    uri: String?,
-    context: Context,
-    crossinline onError: (request: ImageRequest, throwable: Throwable) -> Unit = { _, _ -> },
-    crossinline onSuccess: (request: ImageRequest, metadata: ImageResult.Metadata) -> Unit = { _, _ -> }
-): CharSequence = emojify(
-    shortcodeUriMap = mapOf(shortcode to uri),
-    context = context,
-    onError = onError,
-    onSuccess = onSuccess
-)
-
-inline fun CharSequence.emojify(
-    shortcodeUriMap: Map<String, String?>,
-    context: Context,
-    crossinline onError: (request: ImageRequest, throwable: Throwable) -> Unit = { _, _ -> },
-    crossinline onSuccess: (request: ImageRequest, metadata: ImageResult.Metadata) -> Unit = { _, _ -> }
-): CharSequence {
-    val builder = SpannableStringBuilder.valueOf(this)
-
-    shortcodeUriMap.entries.forEach { (shortcode, uri) ->
-        val matcher = Pattern.compile(shortcode, Pattern.LITERAL)
-            .matcher(this)
-
-        while (matcher.find()) {
-            val span = ImageTargetSpan()
-
-            builder.setSpan(span, matcher.start(), matcher.end(), 0)
-
-            val request = ImageRequest.Builder(context)
-                .data(uri)
-                .crossfade(false)
-                .target(span)
-                .listener(
-                    onSuccess = { request, metadata -> onSuccess(request, metadata) },
-                    onError = { request, throwable -> onError(request, throwable) })
-                .build()
-
-            Coil.imageLoader(context).enqueue(request)
-        }
+        source = renderEmojiToCharSequenceSource(
+            source = source,
+            context = context,
+            shortCodes = shortCodes,
+            emojiViewModel = emojiViewModel,
+            onImageLoadSuccess = onImageLoadingSuccess,
+            onImageLoadError = onImageLoadingError
+        )
     }
 
-    return builder
+    return source
 }
 
-fun CharSequence.emojify(
-    shortcode: String,
-    char: String
-): CharSequence = emojify(shortcodeCharMap = mapOf(shortcode to char))
-
-fun CharSequence.emojify(
-    shortcodeCharMap: Map<String, String>
-): CharSequence {
-    val builder = SpannableStringBuilder.valueOf(this)
-
-    shortcodeCharMap.entries.forEach { (shortcode, char) ->
-        val matcher = Pattern.compile(shortcode, Pattern.LITERAL)
-            .matcher(this)
-
-        while (matcher.find()) {
-            builder.replace(matcher.start(), matcher.end(), char)
-        }
-    }
-
-    return builder
-}
-
-inline fun CharSequence.emojifyAll(
-    shortcodeEmojiMap: Map<String, EmojiViewModel?>,
-    context: Context,
-    crossinline onError: (request: ImageRequest, throwable: Throwable) -> Unit = { _, _ -> },
-    crossinline onSuccess: (request: ImageRequest, metadata: ImageResult.Metadata) -> Unit = { _, _ -> }
-): CharSequence {
-    val builder = SpannableStringBuilder.valueOf(this)
-
-    shortcodeEmojiMap.entries.forEach { (shortcode, emojiViewModel) ->
-        if (emojiViewModel != null) {
-            val matcher = Pattern.compile(shortcode, Pattern.LITERAL)
-                .matcher(this)
-
-            while (matcher.find()) {
-                when (val emoji = emojiViewModel.emoji) {
-                    is Emoji.Unicode -> {
-                        if (emojiViewModel.isIconPreferred && emoji.iconUri != null) {
-                            val span = ImageTargetSpan()
-
-                            builder.setSpan(span, matcher.start(), matcher.end(), 0)
-
-                            val request = ImageRequest.Builder(context)
-                                .data(emoji.iconUri)
-                                .crossfade(false)
-                                .target(span)
-                                .listener(
-                                    onSuccess = { request, metadata -> onSuccess(request, metadata) },
-                                    onError = { request, throwable -> onError(request, throwable) })
-                                .build()
-
-                            Coil.imageLoader(context).enqueue(request)
-                        } else {
-                            builder.replace(matcher.start(), matcher.end(), emoji.char)
-                        }
-                    }
-                    is Emoji.Custom -> {
-                        val uri =
-                            if (emojiViewModel.isStaticUriPreferred && emoji.staticUri != null) emoji.staticUri else emoji.uri
-
-                        val span = ImageTargetSpan()
-
-                        builder.setSpan(span, matcher.start(), matcher.end(), 0)
-
-                        val request = ImageRequest.Builder(context)
-                            .data(uri)
-                            .crossfade(false)
-                            .target(span)
-                            .listener(
-                                onSuccess = { request, metadata -> onSuccess(request, metadata) },
-                                onError = { request, throwable -> onError(request, throwable) })
-                            .build()
-
-                        Coil.imageLoader(context).enqueue(request)
-                    }
-                }
-            }
-        }
-    }
-
-    return builder
-}
-
-fun TextView.emojify(emojiViewModel: EmojiViewModel, lookupChar: Char? = Emoji.DEFAULT_SHORTCODE_CHAR) {
-    text = text.emojify(emojiViewModel = emojiViewModel, viewToUpdate = this, lookupChar = lookupChar)
-}
-
-fun TextView.emojify(shortcode: String, emojiViewModel: EmojiViewModel) {
-    text = text.emojify(shortcode = shortcode, emojiViewModel = emojiViewModel, viewToUpdate = this)
-}
-
-fun TextView.emojify(emojis: List<EmojiViewModel>, lookupChar: Char? = Emoji.DEFAULT_SHORTCODE_CHAR) {
+/**
+ * A convenience function for calling [emojify] with [this] [TextView] as the view to update.
+ *
+ * @param [emojiViewModels] The [List] of [EmojiViewModel]s to display in the resulting
+ * [CharSequence].
+ *
+ * @param [lookupChar] The lookup character used for short codes.
+ *
+ * @param [allowDuplicateLookupChars] Whether to allow duplicat consecutive [lookupChar]s.
+ *
+ * @see [emojify]
+ */
+fun TextView.emojify(
+    emojis: List<EmojiViewModel>,
+    lookupChar: Char? = Emoji.DEFAULT_SHORTCODE_CHAR,
+    allowDuplicateLookupChars: Boolean = false
+) {
     text = text.emojify(
-        emojis = emojis,
+        emojiViewModels = emojis,
         context = context,
-        onError = { _, _ -> invalidate() },
-        onSuccess = { _, _ -> invalidate() },
-        lookupChar = lookupChar
+        onImageLoadingError = { _, _ -> invalidate() },
+        onImageLoadingSuccess = { _, _ -> invalidate() },
+        lookupChar = lookupChar,
+        allowDuplicateLookupChars = allowDuplicateLookupChars
     )
-}
-
-fun TextView.emojify(emojis: Map<String, EmojiViewModel>) {
-    text = text.emojifyAll(
-        shortcodeEmojiMap = emojis,
-        context = context,
-        onError = { _, _ -> invalidate() },
-        onSuccess = { _, _ -> invalidate() })
-}
-
-inline fun EmojiViewModel.toCharSequence(
-    context: Context,
-    onBuildStart: (SpannableStringBuilder) -> Unit = {},
-    onBuildEnd: (SpannableStringBuilder) -> Unit = {},
-    crossinline onImageLoadError: (request: ImageRequest, throwable: Throwable) -> Unit = { _, _ -> },
-    crossinline onImageLoadSuccess: (request: ImageRequest, metadata: ImageResult.Metadata) -> Unit = { _, _ -> }
-): CharSequence {
-    val builder = SpannableStringBuilder()
-
-    onBuildStart.invoke(builder)
-
-    when (val emoji = this.emoji) {
-        is Emoji.Unicode -> {
-            if (this.isIconPreferred && emoji.iconUri != null) {
-                val span = ImageTargetSpan()
-
-                val l = builder.length
-                builder.append(" ")
-                builder.setSpan(span, l, l + 1, 0)
-
-                val request = ImageRequest.Builder(context)
-                    .data(emoji.iconUri)
-                    .crossfade(false)
-                    .target(span)
-                    .listener(
-                        onSuccess = { request, metadata -> onImageLoadSuccess(request, metadata) },
-                        onError = { request, throwable -> onImageLoadError(request, throwable) })
-                    .build()
-
-                Coil.imageLoader(context).enqueue(request)
-            } else {
-                builder.append(emoji.char)
-            }
-        }
-        is Emoji.Custom -> {
-            val uri = if (this.isStaticUriPreferred && emoji.staticUri != null) emoji.staticUri else emoji.uri
-
-            val span = ImageTargetSpan()
-
-            val l = builder.length
-            builder.append(" ")
-            builder.setSpan(span, l, l + 1, 0)
-
-            val request = ImageRequest.Builder(context)
-                .data(uri)
-                .crossfade(false)
-                .target(span)
-                .listener(
-                    onSuccess = { request, metadata -> onImageLoadSuccess(request, metadata) },
-                    onError = { request, throwable -> onImageLoadError(request, throwable) })
-                .build()
-
-            Coil.imageLoader(context).enqueue(request)
-        }
-    }
-
-    onBuildEnd.invoke(builder)
-
-    return builder
 }

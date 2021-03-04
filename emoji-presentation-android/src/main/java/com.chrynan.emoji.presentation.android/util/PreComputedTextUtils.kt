@@ -28,10 +28,10 @@ import java.lang.ref.WeakReference
  *
  * @see [PrecomputedTextCompat]
  */
-@Suppress("RedundantSuspendModifier")
+@Suppress("RedundantSuspendModifier", "REDUNDANT_INLINE_SUSPEND_FUNCTION_TYPE")
 suspend inline fun preComputeText(
     textView: TextView,
-    computeText: () -> CharSequence,
+    computeText: suspend () -> CharSequence,
     onBeforeComputeText: () -> Unit = {},
     onAfterComputeText: (CharSequence) -> Unit = {}
 ): PrecomputedTextCompat {
@@ -51,9 +51,10 @@ suspend inline fun preComputeText(
  *
  * @see [preComputeText]
  */
+@Suppress("REDUNDANT_INLINE_SUSPEND_FUNCTION_TYPE")
 @JvmName("preComputeTextForTextView")
 suspend inline fun TextView.preComputeText(
-    computeText: () -> CharSequence,
+    computeText: suspend () -> CharSequence,
     onBeforeComputeText: () -> Unit = {},
     onAfterComputeText: (CharSequence) -> Unit = {}
 ): PrecomputedTextCompat = preComputeText(
@@ -75,7 +76,7 @@ suspend inline fun TextView.preComputeText(
  */
 inline fun preComputeTextAndRender(
     textView: TextView,
-    crossinline computeText: () -> CharSequence,
+    crossinline computeText: suspend () -> CharSequence,
     crossinline onBeforeComputeText: () -> Unit = {},
     crossinline onAfterComputeText: (CharSequence) -> Unit = {},
     coroutineScope: CoroutineScope,
@@ -114,7 +115,7 @@ inline fun preComputeTextAndRender(
  */
 @JvmName("preComputeTextAndRenderForTextView")
 inline fun TextView.preComputeTextAndRender(
-    crossinline computeText: () -> CharSequence,
+    crossinline computeText: suspend () -> CharSequence,
     crossinline onBeforeComputeText: () -> Unit = {},
     crossinline onAfterComputeText: (CharSequence) -> Unit = {},
     coroutineScope: CoroutineScope,
@@ -150,9 +151,10 @@ inline fun TextView.preComputeTextAndRender(
  * iterating through the optional [inOrderTextComputers] and providing the previous resulting
  * [CharSequence]. The resulting [CharSequence] is then returned.
  */
-inline fun computeText(
-    textComputer: () -> CharSequence,
-    vararg inOrderTextComputers: (CharSequence) -> CharSequence
+@Suppress("REDUNDANT_INLINE_SUSPEND_FUNCTION_TYPE")
+suspend inline fun computeText(
+    textComputer: suspend () -> CharSequence,
+    vararg inOrderTextComputers: suspend (CharSequence) -> CharSequence
 ): CharSequence {
     var text = textComputer()
 

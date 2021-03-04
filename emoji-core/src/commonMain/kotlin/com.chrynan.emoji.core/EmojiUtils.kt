@@ -46,7 +46,8 @@ fun <T> Map<T, Emoji>.group(): List<EmojiGroup> = entries.map { it.value }.group
  * Converts this [Collection] of [EmojiCategory] into a [List] of all of the [Emoji]s from every [EmojiGroup] in every
  * [EmojiCategory] in this [Collection].
  */
-fun Collection<EmojiCategory>.allEmojisFromCategories(): List<Emoji> = flatMap { it.groups.allEmojisFromGroups() }
+fun Collection<EmojiCategory>.allEmojisFromCategories(): List<Emoji> =
+    flatMap { it.groups.allEmojisFromGroups() }
 
 /**
  * Converts this [Collection] of [EmojiCategory] into a [List] of all of the [Emoji]s from every [Emoji] in this
@@ -58,38 +59,137 @@ fun Collection<EmojiGroup>.allEmojisFromGroups(): List<Emoji> = flatMap { it.emo
  * Converts this [Emoji.name] to a name that is useful for quick lookup. The resulting [String] is equivalent to
  * "$lookupChar$name$lookupChar".
  *
- * Note that this does not check if the name already begins or ends with the [lookupChar].
+ * @param [lookupChar] The prefix and suffix character used in the resulting [String].
+ *
+ * @param [allowDuplicateLookupChars] Whether to allow the [lookupChar] to have consecutive
+ * duplicates in the prefix and suffix. If this value is true, then no check will be performed to
+ * see if the name already begins or ends with the [lookupChar] and it will just be appended to
+ * the start and end of the name. If this value is false, then the name will be checked if it
+ * already starts or ends with the [lookupChar], if it does, the additional [lookupChar] will not
+ * be appended.
  */
-fun Emoji.shortcodeName(lookupChar: Char = Emoji.DEFAULT_SHORTCODE_CHAR): String = "$lookupChar$name$lookupChar"
+fun Emoji.shortCodeName(
+    lookupChar: Char = Emoji.DEFAULT_SHORTCODE_CHAR,
+    allowDuplicateLookupChars: Boolean = false
+): String = buildString {
+    if (allowDuplicateLookupChars) {
+        append("$lookupChar$name$lookupChar")
+    } else {
+        if (!name.startsWith(lookupChar)) {
+            append(lookupChar)
+        }
+
+        append(name)
+
+        if (!name.endsWith(lookupChar)) {
+            append(lookupChar)
+        }
+    }
+}
 
 /**
  * Converts these [Emoji.aliases] to aliases that are useful for quick lookup. The resulting [String]s are equivalent to
  * "$lookupChar$alias$lookupChar".
  *
- * Note that this does not check if the aliases already begin or end with the [lookupChar].
+ * @param [lookupChar] The prefix and suffix character used in the resulting [String]s.
+ *
+ * @param [allowDuplicateLookupChars] Whether to allow the [lookupChar] to have consecutive
+ * duplicates in the prefix and suffix. If this value is true, then no check will be performed to
+ * see if the alias already begins or ends with the [lookupChar] and it will just be appended to
+ * the start and end of the alias. If this value is false, then the alias will be checked if it
+ * already starts or ends with the [lookupChar], if it does, the additional [lookupChar] will not
+ * be appended.
  */
-fun Emoji.shortcodeAliases(lookupChar: Char = Emoji.DEFAULT_SHORTCODE_CHAR): List<String> =
-    aliases.map { "$lookupChar$it$lookupChar" }
+fun Emoji.shortCodeAliases(
+    lookupChar: Char = Emoji.DEFAULT_SHORTCODE_CHAR,
+    allowDuplicateLookupChars: Boolean = false
+): List<String> =
+    aliases.map {
+        buildString {
+            if (allowDuplicateLookupChars) {
+                append("$lookupChar$name$lookupChar")
+            } else {
+                if (!name.startsWith(lookupChar)) {
+                    append(lookupChar)
+                }
 
-operator fun Emoji.contains(name: String): Boolean = this.name.contains(name) || this.aliases.any { it.contains(name) }
+                append(name)
 
+                if (!name.endsWith(lookupChar)) {
+                    append(lookupChar)
+                }
+            }
+        }
+    }
+
+/**
+ * Determines whether this [Emoji.name] or any [Emoji.aliases] contains the provided [name].
+ */
+operator fun Emoji.contains(name: String): Boolean =
+    this.name.contains(name) || this.aliases.any { it.contains(name) }
+
+/**
+ * Determines whether this [Emoji.name] or any [Emoji.aliases] contains the provided [name] using
+ * the provided [ignoreCase] value.
+ */
 fun Emoji.contains(name: String, ignoreCase: Boolean): Boolean =
     this.name.contains(name, ignoreCase) || this.aliases.any { it.contains(name, ignoreCase) }
 
-fun Emoji.containsShortcode(
-    shortcode: String,
+/**
+ * Determines whether this [Emoji.shortCodeName] or any [Emoji.shortCodeAliases] contains the
+ * provided [shortCode] using the provided [ignoreCase] and [allowDuplicateLookupChars] values.
+ */
+fun Emoji.containsShortCode(
+    shortCode: String,
+    ignoreCase: Boolean = false,
     lookupChar: Char = Emoji.DEFAULT_SHORTCODE_CHAR,
-    ignoreCase: Boolean = false
+    allowDuplicateLookupChars: Boolean = false
 ): Boolean {
-    val formattedShortcode = shortcode.removePrefix("$lookupChar").removeSuffix("$lookupChar")
+    val name = this.shortCodeName(
+        lookupChar = lookupChar,
+        allowDuplicateLookupChars = allowDuplicateLookupChars
+    )
+    val aliases = this.shortCodeAliases(
+        lookupChar = lookupChar,
+        allowDuplicateLookupChars = allowDuplicateLookupChars
+    )
 
-    return contains(formattedShortcode, ignoreCase)
+    return name.contains(shortCode, ignoreCase) || aliases.any {
+        it.contains(
+            shortCode,
+            ignoreCase
+        )
+    }
 }
 
 /**
  * Converts this [CharSequence] shortcode to a value that is useful for quick lookup. The resulting [String] is
  * equivalent to "$lookupChar$this$lookupChar".
  *
- * Note that this does not check if this [CharSequence] already begins or ends with the [lookupChar].
+ * @param [lookupChar] The prefix and suffix character used in the resulting [String]s.
+ *
+ * @param [allowDuplicateLookupChars] Whether to allow the [lookupChar] to have consecutive
+ * duplicates in the prefix and suffix. If this value is true, then no check will be performed to
+ * see if the alias already begins or ends with the [lookupChar] and it will just be appended to
+ * the start and end of the alias. If this value is false, then the alias will be checked if it
+ * already starts or ends with the [lookupChar], if it does, the additional [lookupChar] will not
+ * be appended.
  */
-fun CharSequence.asShortcode(lookupChar: Char = Emoji.DEFAULT_SHORTCODE_CHAR): String = "$lookupChar$this$lookupChar"
+fun CharSequence.asEmojiShortCode(
+    lookupChar: Char = Emoji.DEFAULT_SHORTCODE_CHAR,
+    allowDuplicateLookupChars: Boolean = false
+): String = buildString {
+    if (allowDuplicateLookupChars) {
+        append("$lookupChar$this$lookupChar")
+    } else {
+        if (!this.startsWith(lookupChar)) {
+            append(lookupChar)
+        }
+
+        append(this)
+
+        if (!this.endsWith(lookupChar)) {
+            append(lookupChar)
+        }
+    }
+}
