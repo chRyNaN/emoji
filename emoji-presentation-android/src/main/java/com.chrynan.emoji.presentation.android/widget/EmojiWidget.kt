@@ -113,18 +113,3 @@ fun EmojiWidget(
     widget.emojiViewModel = viewModel
     return widget
 }
-
-/**
- * A convenience function for creating an [EmojiWidget] and adding it to this [ViewGroup].
- */
-fun ViewGroup.addEmojiWidget(
-    context: Context,
-    viewModel: EmojiViewModel,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-): EmojiWidget {
-    val widget = EmojiWidget(context = context, attrs = attrs, defStyleAttr = defStyleAttr)
-    widget.emojiViewModel = viewModel
-    addView(widget)
-    return widget
-}
