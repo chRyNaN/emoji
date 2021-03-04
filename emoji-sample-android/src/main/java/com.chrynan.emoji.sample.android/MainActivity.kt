@@ -3,7 +3,7 @@ package com.chrynan.emoji.sample.android
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.chrynan.emoji.presentation.android.util.showEmojiBottomSheetDialogFragment
+import com.chrynan.emoji.presentation.android.util.showEmojiPicker
 import com.chrynan.emoji.presentation.core.listener.EmojiListItemSelectedListener
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel
 import com.chrynan.emoji.repo.sqlite.EmojiDatabase
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(),
         val emojiDialogButton = findViewById<Button>(R.id.emojiDialogButton)
 
         emojiDialogButton.setOnClickListener {
-            supportFragmentManager.showEmojiBottomSheetDialogFragment(repository = repository)
+            supportFragmentManager.showEmojiPicker(repository = repository)
         }
     }
 

@@ -14,23 +14,12 @@ import com.chrynan.emoji.presentation.android.dialog.EmojiBottomSheetDialogFragm
 import com.chrynan.emoji.presentation.core.listener.EmojiListItemSelectedListener
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiCategoryListItemViewModel
 
-internal fun FragmentManager.delegateFragmentFactory(factory: FragmentFactory) {
-    val currentFactory = fragmentFactory
-
-    if (currentFactory is DelegateFragmentFactory) {
-        currentFactory.factories = currentFactory.factories + factory
-        fragmentFactory = currentFactory
-    } else {
-        fragmentFactory = DelegateFragmentFactory(initialFactories = setOf(currentFactory, factory))
-    }
-}
-
 /**
  * Creates an instance of an [EmojiBottomSheetDialogFragment] and shows it using the
  * [EmojiBottomSheetDialogFragment.show] function, then returns the
  * [EmojiBottomSheetDialogFragment] for future use.
  */
-fun FragmentManager.showEmojiBottomSheetDialogFragment(
+fun FragmentManager.showEmojiPicker(
     repository: EmojiRepository,
     categoryComparator: Comparator<EmojiCategoryListItemViewModel> = collatorCompareBy { it.category.toString() },
     dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers,
@@ -80,7 +69,7 @@ fun FragmentManager.showEmojiBottomSheetDialogFragment(
  * [EmojiBottomSheetDialogFragment.showNow] function, then returns the
  * [EmojiBottomSheetDialogFragment] for future use.
  */
-fun FragmentManager.showEmojiBottomSheetDialogFragmentNow(
+fun FragmentManager.showEmojiPickerNow(
     repository: EmojiRepository,
     categoryComparator: Comparator<EmojiCategoryListItemViewModel> = collatorCompareBy { it.category.toString() },
     dispatchers: CoroutineDispatchers = com.chrynan.dispatchers.dispatchers,
@@ -123,4 +112,15 @@ fun FragmentManager.showEmojiBottomSheetDialogFragmentNow(
     fragment.showNow(this, fragmentTag)
 
     return fragment
+}
+
+internal fun FragmentManager.delegateFragmentFactory(factory: FragmentFactory) {
+    val currentFactory = fragmentFactory
+
+    if (currentFactory is DelegateFragmentFactory) {
+        currentFactory.factories = currentFactory.factories + factory
+        fragmentFactory = currentFactory
+    } else {
+        fragmentFactory = DelegateFragmentFactory(initialFactories = setOf(currentFactory, factory))
+    }
 }
