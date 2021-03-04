@@ -7,7 +7,6 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -100,16 +99,17 @@ class EmojiWidget : FrameLayout {
 }
 
 /**
- * A convenience function for creating an [EmojiWidget] for the provided [viewModel]. This is shorthand for creating an
- * [EmojiWidget] and assigning the [viewModel] to its [EmojiWidget.emojiViewModel] property.
+ * A convenience function for creating an [EmojiWidget] for the provided [emojiViewModel]. This is
+ * shorthand for creating an [EmojiWidget] and assigning the [emojiViewModel] to its
+ * [EmojiWidget.emojiViewModel] property.
  */
 fun EmojiWidget(
+    emojiViewModel: EmojiViewModel,
     context: Context,
-    viewModel: EmojiViewModel,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ): EmojiWidget {
     val widget = EmojiWidget(context = context, attrs = attrs, defStyleAttr = defStyleAttr)
-    widget.emojiViewModel = viewModel
+    widget.emojiViewModel = emojiViewModel
     return widget
 }
