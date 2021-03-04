@@ -60,9 +60,12 @@ dependencies {
     implementation "com.chrynan.aaaah:aaaah-annotation:0.9.0"
     kapt "com.chrynan.aaaah:aaaah-compiler:0.9.0"
 
+    // Android Emoji Support Libraries
     api "androidx.emoji:emoji:1.1.0"
     api "androidx.emoji:emoji-appcompat:1.1.0"
+    api "androidx.emoji:emoji-bundled:1.1.0"
 
+    // Image Loading - Coil
     api "io.coil-kt:coil:1.0.0"
 
     api project(":emoji-presentation-core")
