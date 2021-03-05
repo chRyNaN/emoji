@@ -52,8 +52,5 @@ publishing {
         iosX64 {
             artifactId = "emoji-presentation-core-ios-x64"
         }
-        metadata {
-            artifactId = "emoji-presentation-core-metadata"
-        }
     }
 }

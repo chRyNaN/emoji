@@ -45,8 +45,5 @@ publishing {
         iosX64 {
             artifactId = "emoji-repo-map-ios-x64"
         }
-        metadata {
-            artifactId = "emoji-repo-map-metadata"
-        }
     }
 }

@@ -22,6 +22,9 @@ kotlin {
 
                 // Kotlinx Serialization
                 api "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
+
+                // Pagination
+                api "com.chrynan.paginate:paginate-core:0.1.0"
             }
         }
     }
@@ -47,9 +50,6 @@ publishing {
         }
         iosX64 {
             artifactId = "emoji-core-ios-x64"
-        }
-        metadata {
-            artifactId = "emoji-core-metadata"
         }
     }
 }

@@ -48,8 +48,5 @@ publishing {
         iosX64 {
             artifactId = "emoji-repo-sqlite-ios-x64"
         }
-        metadata {
-            artifactId = "emoji-repo-sqlite-metadata"
-        }
     }
 }
