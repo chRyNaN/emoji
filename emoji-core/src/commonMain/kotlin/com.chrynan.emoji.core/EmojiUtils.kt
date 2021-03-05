@@ -3,7 +3,8 @@
 package com.chrynan.emoji.core
 
 /**
- * Converts this [Collection] of [Emoji]s into a [List] of [EmojiCategory] by grouping and categorizing each [Emoji].
+ * Converts this [Collection] of [Emoji]s into a [List] of [EmojiCategory] by grouping and
+ * categorizing each [Emoji].
  */
 fun Collection<Emoji>.categorize(): List<EmojiCategory> =
     groupBy { it.category }.map { categoryMap ->
@@ -43,21 +44,21 @@ fun <T> Map<T, Emoji>.categorize(): List<EmojiCategory> = entries.map { it.value
 fun <T> Map<T, Emoji>.group(): List<EmojiGroup> = entries.map { it.value }.group()
 
 /**
- * Converts this [Collection] of [EmojiCategory] into a [List] of all of the [Emoji]s from every [EmojiGroup] in every
- * [EmojiCategory] in this [Collection].
+ * Converts this [Collection] of [EmojiCategory] into a [List] of all of the [Emoji]s from every
+ * [EmojiGroup] in every [EmojiCategory] in this [Collection].
  */
 fun Collection<EmojiCategory>.allEmojisFromCategories(): List<Emoji> =
     flatMap { it.groups.allEmojisFromGroups() }
 
 /**
- * Converts this [Collection] of [EmojiCategory] into a [List] of all of the [Emoji]s from every [Emoji] in this
- * [Collection].
+ * Converts this [Collection] of [EmojiCategory] into a [List] of all of the [Emoji]s from every
+ * [Emoji] in this [Collection].
  */
 fun Collection<EmojiGroup>.allEmojisFromGroups(): List<Emoji> = flatMap { it.emojis }
 
 /**
- * Converts this [Emoji.name] to a name that is useful for quick lookup. The resulting [String] is equivalent to
- * "$lookupChar$name$lookupChar".
+ * Converts this [Emoji.name] to a name that is useful for quick lookup. The resulting [String] is
+ * equivalent to "$lookupChar$name$lookupChar".
  *
  * @param [lookupChar] The prefix and suffix character used in the resulting [String].
  *
@@ -88,8 +89,8 @@ fun Emoji.shortCodeName(
 }
 
 /**
- * Converts these [Emoji.aliases] to aliases that are useful for quick lookup. The resulting [String]s are equivalent to
- * "$lookupChar$alias$lookupChar".
+ * Converts these [Emoji.aliases] to aliases that are useful for quick lookup. The resulting
+ * [String]s are equivalent to "$lookupChar$alias$lookupChar".
  *
  * @param [lookupChar] The prefix and suffix character used in the resulting [String]s.
  *
@@ -163,8 +164,8 @@ fun Emoji.containsShortCode(
 }
 
 /**
- * Converts this [CharSequence] shortcode to a value that is useful for quick lookup. The resulting [String] is
- * equivalent to "$lookupChar$this$lookupChar".
+ * Converts this [CharSequence] shortcode to a value that is useful for quick lookup. The resulting
+ * [String] is equivalent to "$lookupChar$this$lookupChar".
  *
  * @param [lookupChar] The prefix and suffix character used in the resulting [String]s.
  *

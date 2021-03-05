@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * Represents a category, or collection of groups of emojis.
+ * Represents a category, or collection of [EmojiGroup]s.
  *
  * @property [name] The name of this category.
  * @property [groups] The list of [EmojiGroup]s within this category.

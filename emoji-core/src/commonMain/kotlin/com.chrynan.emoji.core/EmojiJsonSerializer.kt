@@ -12,13 +12,17 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.*
 
+/**
+ * A [KSerializer] for the [Emoji] class.
+ */
 @OptIn(InternalSerializationApi::class, ExperimentalSerializationApi::class)
 object EmojiJsonSerializer : KSerializer<Emoji> {
 
-    override val descriptor: SerialDescriptor = buildSerialDescriptor("Emoji", PolymorphicKind.SEALED) {
-        element<Emoji.Unicode>(elementName = "Unicode")
-        element<Emoji.Custom>(elementName = "Custom")
-    }
+    override val descriptor: SerialDescriptor =
+        buildSerialDescriptor("Emoji", PolymorphicKind.SEALED) {
+            element<Emoji.Unicode>(elementName = "Unicode")
+            element<Emoji.Custom>(elementName = "Custom")
+        }
 
     override fun serialize(encoder: Encoder, value: Emoji) =
         when (value) {
@@ -28,7 +32,8 @@ object EmojiJsonSerializer : KSerializer<Emoji> {
 
     override fun deserialize(decoder: Decoder): Emoji {
         val jsonDecoder =
-            decoder as? JsonDecoder ?: throw SerializationException("Expected Json Decoder for ${decoder}.")
+            decoder as? JsonDecoder
+                ?: throw SerializationException("Expected Json Decoder for ${decoder}.")
         val jsonObject = jsonDecoder.decodeJsonElement().jsonObject
 
         return when (jsonObject.getValue("type").jsonPrimitive.content) {
@@ -46,7 +51,8 @@ object EmojiJsonSerializer : KSerializer<Emoji> {
             aliases = jsonObject.getAliases(),
             category = jsonObject["category"]?.jsonPrimitive?.content,
             group = jsonObject["group"]?.jsonPrimitive?.content,
-            iconUri = jsonObject["icon"]?.jsonPrimitive?.content ?: jsonObject["uri"]?.jsonPrimitive?.content
+            iconUri = jsonObject["icon"]?.jsonPrimitive?.content
+                ?: jsonObject["uri"]?.jsonPrimitive?.content
         )
 
     private fun decodeCustom(jsonObject: JsonObject): Emoji =
@@ -55,7 +61,8 @@ object EmojiJsonSerializer : KSerializer<Emoji> {
             aliases = jsonObject.getAliases(),
             category = jsonObject["category"]?.jsonPrimitive?.content,
             group = jsonObject["group"]?.jsonPrimitive?.content,
-            uri = jsonObject["uri"]?.jsonPrimitive?.content ?: jsonObject["icon"]!!.jsonPrimitive.content,
+            uri = jsonObject["uri"]?.jsonPrimitive?.content
+                ?: jsonObject["icon"]!!.jsonPrimitive.content,
             staticUri = jsonObject["static_uri"]?.jsonPrimitive?.content,
             mimeType = jsonObject["mime_type"]?.jsonPrimitive?.content
         )

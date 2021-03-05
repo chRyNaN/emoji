@@ -3,7 +3,8 @@
 package com.chrynan.emoji.core
 
 /**
- * Retrieves the [Emoji] with the provided [name] or null if there is no [Emoji] with the provided [name].
+ * Retrieves the [Emoji] with the provided [name] or null if there is no [Emoji] with the provided
+ * [name].
  */
 suspend fun EmojiRepository.getByNameOrNull(name: String): Emoji? =
     try {
@@ -13,7 +14,8 @@ suspend fun EmojiRepository.getByNameOrNull(name: String): Emoji? =
     }
 
 /**
- * Retrieves the [Emoji] with the provided [alias] or null if there is no [Emoji] with the provided [alias].
+ * Retrieves the [Emoji] with the provided [alias] or null if there is no [Emoji] with the provided
+ * [alias].
  */
 suspend fun EmojiRepository.getByAliasOrNull(alias: String): Emoji? =
     try {
