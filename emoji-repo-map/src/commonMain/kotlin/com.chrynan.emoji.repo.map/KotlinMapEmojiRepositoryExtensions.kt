@@ -13,12 +13,12 @@ import com.chrynan.emoji.repo.map.KotlinMapEmojiRepository
  */
 @Suppress("RedundantSuspendModifier")
 suspend fun KotlinMapEmojiRepository.init() {
-    emojiList0.associateByTo(map) { it.name }
-    emojiList1.associateByTo(map) { it.name }
-    emojiList2.associateByTo(map) { it.name }
-    emojiList3.associateByTo(map) { it.name }
-    emojiList4.associateByTo(map) { it.name }
-    emojiList5.associateByTo(map) { it.name }
+    emojiList0.associateByTo(map) { it.key }
+    emojiList1.associateByTo(map) { it.key }
+    emojiList2.associateByTo(map) { it.key }
+    emojiList3.associateByTo(map) { it.key }
+    emojiList4.associateByTo(map) { it.key }
+    emojiList5.associateByTo(map) { it.key }
 }
 
 private val emojiList0: List<Emoji>

@@ -25,7 +25,7 @@ class KotlinMapOutputHandler {
 
     private fun createKotlinExtensionOutput(packageName: String, emojiLists: List<List<MimicEmoji>>): String {
         val mapInitializers = emojiLists.mapIndexed { index: Int, _: List<MimicEmoji> ->
-            "|    emojiList$index.associateByTo(map) { it.name }".trimMargin()
+            "|    emojiList$index.associateByTo(map) { it.key }".trimMargin()
         }.joinToString(separator = "\n")
 
         val lists = emojiLists.mapIndexed { index: Int, emojis: List<MimicEmoji> ->

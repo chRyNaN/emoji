@@ -89,7 +89,14 @@ sealed class Emoji {
          *
          * Note that this is derived data from the [unicodeString] value and lazily initialized.
          */
-        val unicodeList: List<String> by lazy { unicodeString.split("U+", " ", ignoreCase = true) }
+        val unicodeList: List<String> by lazy {
+            unicodeString.split(
+                "U+",
+                " ",
+                ",",
+                ignoreCase = true
+            ).map { it.trim() }
+        }
 
         companion object {
 
