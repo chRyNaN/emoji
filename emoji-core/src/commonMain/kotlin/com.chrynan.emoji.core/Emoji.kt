@@ -5,6 +5,30 @@ package com.chrynan.emoji.core
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * A sealed class that represents an Emoji. An implementation of this [Emoji] class should be able
+ * to be rendered to the UI to show the User a visual representation of the Emoji. Implementations
+ * of this [Emoji] class include [Emoji.Unicode], which represents a standard Emoji unicode
+ * sequence, and [Emoji.Custom], which represents a custom Emoji defined by a URI value.
+ *
+ * @property [typeName] An identifier value that distinguishes between the different [Emoji]
+ * implementation types. For example, a value of [Emoji.Unicode.TYPE_NAME] means the the [Emoji]
+ * should be an instance of [Emoji.Unicode].
+ *
+ * @property [name] The name used to identify this particular [Emoji]. This value should be without
+ * the lookup character prefix and suffix (:name:), and should just contain the name [String]
+ * value. However, there are ways for this property to be used correctly even if the lookup
+ * character is included in the prefix and suffix.
+ *
+ * @property [aliases] Extra names used to identify this particular [Emoji]. This provides a way
+ * for multiple and alternate names to be used for a single [Emoji].
+ *
+ * @property [category] The optional name of the category this emoji belongs to. This is useful for
+ * partitioning [Emoji]s.
+ *
+ * @property [group] The optional name of the group this emoji belongs to within the [category].
+ * This is useful for fine grained partitioning of [Emoji]s.
+ */
 @Serializable(with = EmojiJsonSerializer::class)
 sealed class Emoji {
 
@@ -18,20 +42,18 @@ sealed class Emoji {
     /**
      * Represents a Unicode [Emoji] and all of it's related data.
      *
-     * @property [unicodeString] The [String] of unicode values that represent this emoji (ex: U+1F600). Note that each
-     * unicode value should be prefaced with the "U+" String.
-     * @property [unicodeList] The [List] of unicode [String] values that represent this emoji (ex: listOf(U+1F600)). This
-     * is different from the [unicodeString] value, as that includes all of the unicode Strings in a single [String] value,
-     * whereas, this [unicodeList] contains a list of all of those unicode Strings. Note that each unicode value should be
-     * prefaced with the "U+" String.
-     * @property [char] The actual emoji character representation of this emoji (ex: 😀). Note that this is not a Kotlin
-     * [Char] value but is actually a [String].
-     * @property [name] The name of this emoji.
-     * @property [aliases] The alias name of this emoji (ex: :name:). This is useful for applications that show emoji results
-     * to the User as they type beginning with a certain character (usually ':').
-     * @property [category] The name of the category this emoji belongs to. This is useful for partitioning emojis.
-     * @property [group] The name of the group this emoji belongs to within the [category]. This is useful for fine grained
-     * partitioning of emojis.
+     * @property [unicodeString] The [String] of unicode values that represent this emoji
+     * (ex: U+1F600). Note that each unicode value should be prefaced with the "U+" String.
+     *
+     * @property [unicodeList] The [List] of unicode [String] values that represent this emoji
+     * (ex: listOf(U+1F600)). This is different from the [unicodeString] value, as that includes
+     * all of the unicode Strings in a single [String] value, whereas, this [unicodeList] contains
+     * a list of all of those unicode Strings. Note that each unicode value should be prefaced with
+     * the "U+" String.
+     *
+     * @property [char] The actual emoji character representation of this emoji (ex: 😀). Note that
+     * this is not a Kotlin [Char] value but is actually a [String].
+     *
      * @property [iconUri] An optional URI to an image representation of this emoji.
      */
     @Serializable
@@ -49,10 +71,11 @@ sealed class Emoji {
         override val typeName: String = TYPE_NAME
 
         /**
-         * Retrieves the [List] of unicode [String] values that represent this emoji (ex: listOf(U+1F600)). This
-         * is different from the [unicodeString] value, as that includes all of the unicode Strings in a single [String] value,
-         * whereas, this [unicodeList] contains a list of all of those unicode Strings. Note that each unicode value should be
-         * prefaced with the "U+" String.
+         * Retrieves the [List] of unicode [String] values that represent this emoji
+         * (ex: listOf(U+1F600)). This is different from the [unicodeString] value, as that
+         * includes all of the unicode Strings in a single [String] value, whereas, this
+         * [unicodeList] contains a list of all of those unicode Strings. Note that each unicode
+         * value should be prefaced with the "U+" String.
          *
          * Note that this is derived data from the [unicodeString] value and lazily initialized.
          */
@@ -65,9 +88,17 @@ sealed class Emoji {
     }
 
     /**
-     * Represents a Custom [Emoji] and all of it's related data. A Custom [Emoji] does not have a unicode value or
-     * character representing the [Emoji]. Instead it is represented by a [uri] value that points to a resource that
-     * illustrates the [Emoji].
+     * Represents a Custom [Emoji] and all of it's related data. A Custom [Emoji] does not have a
+     * unicode value or character representing the [Emoji]. Instead it is represented by a [uri]
+     * value that points to a resource that illustrates the [Emoji].
+     *
+     * @property [uri] The URI value to the image resource visually representing this [Emoji].
+     *
+     * @property [staticUri] An optional URI value to a static version of the image resource
+     * visually representing this [Emoji]. This is useful as an alternative and regular image
+     * resource if the [uri] value is an animated GIF.
+     *
+     * @property [mimeType] The optional mime type of the image located at the [uri] value.
      */
     @Serializable
     data class Custom(
@@ -91,6 +122,11 @@ sealed class Emoji {
 
     companion object {
 
+        /**
+         * The default short code lookup character used. When the User begins typing with a short
+         * code lookup character, the application knows to look for an [Emoji] with the name
+         * following the short code lookup character.
+         */
         const val DEFAULT_SHORTCODE_CHAR = ':'
     }
 }
