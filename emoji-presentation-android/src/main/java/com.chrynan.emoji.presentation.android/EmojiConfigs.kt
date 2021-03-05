@@ -33,4 +33,12 @@ object EmojiConfigs {
 
         return FontRequestEmojiCompatConfig(context, fontRequest)
     }
+
+    /**
+     * Retrieves an [EmojiCompat.Config] from the provided [fontRequest] and [context].
+     */
+    fun getFromFont(
+        context: Context,
+        fontRequest: FontRequest
+    ): EmojiCompat.Config = FontRequestEmojiCompatConfig(context, fontRequest)
 }
