@@ -31,6 +31,11 @@ import kotlinx.serialization.Serializable
  *
  * @property [key] A unique key identifier for this [Emoji]. This value could be used to uniquely
  * identify [Emoji]s within a [Collection].
+ *
+ * @property [variant] The name of the variant of the core [Emoji]. This is useful when there are
+ * multiple of the same [Emoji] but with slight deviations. For instance, some hand gesture
+ * [Emoji]s have variants for different skin tones. They are the same [Emoji] but with slight
+ * deviations. Note that not all [Emoji]s have variants, and as such, this property is optional.
  */
 @Serializable(with = EmojiJsonSerializer::class)
 sealed class Emoji {
@@ -42,6 +47,7 @@ sealed class Emoji {
     abstract val category: String?
     abstract val group: String?
     abstract val key: Key
+    abstract val variant: String?
 
     /**
      * Represents a Unicode [Emoji] and all of it's related data.
@@ -68,6 +74,7 @@ sealed class Emoji {
         @SerialName(value = "aliases") override val aliases: List<String> = emptyList(),
         @SerialName(value = "category") override val category: String? = null,
         @SerialName(value = "group") override val group: String? = null,
+        @SerialName(value = "variant") override val variant: String? = null,
         @SerialName(value = "icon") val iconUri: String? = null
     ) : Emoji() {
 
@@ -123,6 +130,7 @@ sealed class Emoji {
         @SerialName(value = "aliases") override val aliases: List<String> = emptyList(),
         @SerialName(value = "category") override val category: String? = null,
         @SerialName(value = "group") override val group: String? = null,
+        @SerialName(value = "variant") override val variant: String? = null,
         @SerialName(value = "uri") val uri: String,
         @SerialName(value = "static_uri") val staticUri: String? = null,
         @SerialName(value = "mime_type") val mimeType: String? = null
@@ -144,8 +152,8 @@ sealed class Emoji {
     }
 
     /**
-     * Represents a key identifier for an [Emoji]. The [typeName], [name], and [id] value should be
-     * enough to uniquely identify an [Emoji] within a collection of values.
+     * Represents a key identifier for an [Emoji]. The [typeName], [name], [id], and [variant]
+     * values should be enough to uniquely identify an [Emoji] within a collection of values.
      *
      * @property [typeName] The [Emoji.typeName] value of the [Emoji] that this [Key] represents.
      * This value is important to uniquely identify the [Emoji] because different [Emoji]
@@ -159,39 +167,47 @@ sealed class Emoji {
      * @property [id] The unique identifier value for this [Emoji]. Note that different [Emoji]
      * implementations may provide different [id] value implementations. This is why the [typeName]
      * property is important to include, so that the [id] values can be differentiated.
+     *
+     * @property [variant] The [Emoji.variant] value of the [Emoji] that this [Key] represents.
+     * This value is important to uniquely identify the [Emoji] because some [Emoji]s have multiple
+     * variants with the same name.
      */
     @Serializable
     data class Key(
         @SerialName(value = "type_name") val typeName: String,
         @SerialName(value = "name") val name: String,
+        @SerialName(value = "variant") val variant: String? = null,
         @SerialName(value = "id") val id: String
     ) {
 
-        override fun toString(): String = "$typeName:$id"
+        override fun toString(): String = "$typeName:$name:$id:$variant"
 
         companion object {
 
             /**
              * Retrieves a [Key] from the provided [String] [value]. Note that the provided [value]
-             * is expected to be in the format "typeName:name:id". Also, note that if there is less
-             * than two colons (:) character, this function will throw an
+             * is expected to be in the format "typeName:name:id:variant". Also, note that if there
+             * is less than three colon (:) characters, this function will throw an
              * [IllegalArgumentException].
              *
-             * @param [value] The [String] value in the format "typeName:name:id".
+             * Note that the variant part of the formatted [String] [value] is optional. It can
+             * either be omitted or a value of "null".
+             *
+             * @param [value] The [String] value in the format "typeName:name:id:variant".
              *
              * @return The [Key] derived from the specially formatted [String] [value].
              */
             fun fromString(value: String): Key {
-                val separatorIndex = value.indexOf(':')
-                val lastSeparatorIndex = value.lastIndexOf(':')
+                val parts = value.split(':')
 
-                require(separatorIndex != -1)
-                require(lastSeparatorIndex != -1)
+                require(parts.size > 3)
 
                 return Key(
-                    typeName = value.substring(0, separatorIndex),
-                    name = value.substring(separatorIndex, lastSeparatorIndex),
-                    id = value.substring(lastSeparatorIndex)
+                    typeName = parts[0],
+                    name = parts[1],
+                    id = parts[2],
+                    variant = parts.lastOrNull()
+                        ?.let { if (it.toLowerCase() == "null" || it.isBlank()) null else it }
                 )
             }
         }
