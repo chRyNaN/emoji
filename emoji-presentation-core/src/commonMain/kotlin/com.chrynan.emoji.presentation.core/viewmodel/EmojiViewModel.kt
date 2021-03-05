@@ -3,6 +3,8 @@
 package com.chrynan.emoji.presentation.core.viewmodel
 
 import com.chrynan.emoji.core.Emoji
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * A View Model representation of an [Emoji].
@@ -13,10 +15,11 @@ import com.chrynan.emoji.core.Emoji
  * @property [isStaticUriPreferred] A [Boolean] indicating whether the [Emoji.Custom.staticUri] is preferred if it is
  * available.
  */
+@Serializable
 data class EmojiViewModel(
-    val emoji: Emoji,
-    val isIconPreferred: Boolean = false,
-    val isStaticUriPreferred: Boolean = false
+    @SerialName(value = "emoji") val emoji: Emoji,
+    @SerialName(value = "is_icon_preferred") val isIconPreferred: Boolean = false,
+    @SerialName(value = "is_static_uri_preferred") val isStaticUriPreferred: Boolean = false
 ) : ListItemViewModel {
 
     override val uniqueId: Long = hashCode().toLong()
@@ -25,5 +28,12 @@ data class EmojiViewModel(
 /**
  * A convenience function for converting this [Emoji] into an [EmojiViewModel].
  */
-fun Emoji.toViewModel(isIconPreferred: Boolean = false, isStaticUriPreferred: Boolean = false): EmojiViewModel =
-    EmojiViewModel(emoji = this, isIconPreferred = isIconPreferred, isStaticUriPreferred = isStaticUriPreferred)
+fun Emoji.toViewModel(
+    isIconPreferred: Boolean = false,
+    isStaticUriPreferred: Boolean = false
+): EmojiViewModel =
+    EmojiViewModel(
+        emoji = this,
+        isIconPreferred = isIconPreferred,
+        isStaticUriPreferred = isStaticUriPreferred
+    )
