@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:color="?attr/emojiBottomSheetDialogCategorySelectedTextColor" android:state_checked="true" />
-    <item android:color="?attr/emojiBottomSheetDialogCategorySelectedTextColor" android:state_activated="true" />
-    <item android:color="?attr/emojiBottomSheetDialogCategorySelectedTextColor" android:state_active="true" />
-    <item android:color="?attr/emojiBottomSheetDialogCategoryTextColor" />
+    <item android:color="?attr/emojiPickerCategorySelectedTextColor" android:state_checked="true" />
+    <item android:color="?attr/emojiPickerCategorySelectedTextColor" android:state_activated="true" />
+    <item android:color="?attr/emojiPickerCategorySelectedTextColor" android:state_active="true" />
+    <item android:color="?attr/emojiPickerCategoryTextColor" />
 
 </selector>

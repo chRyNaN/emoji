@@ -4,21 +4,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:background="?attr/emojiBottomSheetDialogBackgroundColor">
+        android:background="?attr/emojiPickerBackgroundColor">
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/dialogEmojiRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:paddingStart="?attr/emojiBottomSheetDialogPaddingStart"
-            android:paddingEnd="?attr/emojiBottomSheetDialogPaddingEnd"
-            android:paddingTop="?attr/emojiBottomSheetDialogPaddingTop"
-            android:paddingBottom="?attr/emojiBottomSheetDialogPaddingBottom"
+            android:paddingStart="?attr/emojiPickerItemContainerPaddingStart"
+            android:paddingEnd="?attr/emojiPickerItemContainerPaddingEnd"
+            android:paddingTop="?attr/emojiPickerItemContainerPaddingTop"
+            android:paddingBottom="?attr/emojiPickerItemContainerPaddingBottom"
             android:clipToPadding="false"
             android:clipChildren="false"
             app:layout_constraintBottom_toTopOf="@+id/dialogEmojiCategoryRecyclerView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_min="?attr/emojiBottomSheetDialogPeekHeight"
+            app:layout_constraintHeight_min="?attr/emojiPickerPeekHeight"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,10 +26,10 @@
             android:id="@+id/dialogEmojiCategoryRecyclerView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="?attr/emojiBottomSheetDialogCategoryContainerPaddingBottom"
-            android:paddingStart="?attr/emojiBottomSheetDialogCategoryContainerPaddingStart"
-            android:paddingEnd="?attr/emojiBottomSheetDialogCategoryContainerPaddingEnd"
-            android:layout_marginTop="?attr/emojiBottomSheetDialogCategoryContainerPaddingTop"
+            android:layout_marginBottom="?attr/emojiPickerCategoryContainerPaddingBottom"
+            android:paddingStart="?attr/emojiPickerCategoryContainerPaddingStart"
+            android:paddingEnd="?attr/emojiPickerCategoryContainerPaddingEnd"
+            android:layout_marginTop="?attr/emojiPickerCategoryContainerPaddingTop"
             android:clipToPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

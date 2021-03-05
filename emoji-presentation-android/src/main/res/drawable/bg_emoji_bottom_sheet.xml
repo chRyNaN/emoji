@@ -2,10 +2,10 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
         android:shape="rectangle">
 
-    <solid android:color="?attr/emojiBottomSheetDialogBackgroundColor" />
+    <solid android:color="?attr/emojiPickerBackgroundColor" />
 
     <corners
-            android:topLeftRadius="?attr/emojiBottomSheetDialogBackgroundLeftCornerRadius"
-            android:topRightRadius="?attr/emojiBottomSheetDialogBackgroundRightCornerRadius" />
+            android:topLeftRadius="?attr/emojiPickerBackgroundLeftCornerRadius"
+            android:topRightRadius="?attr/emojiPickerBackgroundRightCornerRadius" />
 
 </shape>

@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="emojiBottomSheetDialogPaddingTop" format="dimension" />
-    <attr name="emojiBottomSheetDialogPaddingBottom" format="dimension" />
-    <attr name="emojiBottomSheetDialogPaddingStart" format="dimension" />
-    <attr name="emojiBottomSheetDialogPaddingEnd" format="dimension" />
-    <attr name="emojiBottomSheetDialogCategoryContainerPaddingTop" format="dimension" />
-    <attr name="emojiBottomSheetDialogCategoryContainerPaddingBottom" format="dimension" />
-    <attr name="emojiBottomSheetDialogCategoryContainerPaddingStart" format="dimension" />
-    <attr name="emojiBottomSheetDialogCategoryContainerPaddingEnd" format="dimension" />
-    <attr name="emojiBottomSheetDialogPeekHeight" format="dimension" />
-    <attr name="emojiBottomSheetDialogItemSize" format="dimension" />
-    <attr name="emojiBottomSheetDialogBackgroundLeftCornerRadius" format="dimension" />
-    <attr name="emojiBottomSheetDialogBackgroundRightCornerRadius" format="dimension" />
+    <attr name="emojiPickerItemContainerPaddingTop" format="dimension" />
+    <attr name="emojiPickerItemContainerPaddingBottom" format="dimension" />
+    <attr name="emojiPickerItemContainerPaddingStart" format="dimension" />
+    <attr name="emojiPickerItemContainerPaddingEnd" format="dimension" />
+    <attr name="emojiPickerCategoryContainerPaddingTop" format="dimension" />
+    <attr name="emojiPickerCategoryContainerPaddingBottom" format="dimension" />
+    <attr name="emojiPickerCategoryContainerPaddingStart" format="dimension" />
+    <attr name="emojiPickerCategoryContainerPaddingEnd" format="dimension" />
+    <attr name="emojiPickerPeekHeight" format="dimension" />
+    <attr name="emojiPickerItemSize" format="dimension" />
+    <attr name="emojiPickerBackgroundLeftCornerRadius" format="dimension" />
+    <attr name="emojiPickerBackgroundRightCornerRadius" format="dimension" />
 
-    <attr name="emojiBottomSheetDialogBackgroundColor" format="reference|color" />
-    <attr name="emojiBottomSheetDialogCategoryTextColor" format="reference|color" />
-    <attr name="emojiBottomSheetDialogCategorySelectedTextColor" format="reference|color" />
-    <attr name="emojiBottomSheetDialogCategoryBackgroundColor" format="reference|color" />
-    <attr name="emojiBottomSheetDialogCategorySelectedBackgroundColor" format="reference|color" />
+    <attr name="emojiPickerBackgroundColor" format="reference|color" />
+    <attr name="emojiPickerCategoryTextColor" format="reference|color" />
+    <attr name="emojiPickerCategorySelectedTextColor" format="reference|color" />
+    <attr name="emojiPickerCategoryBackgroundColor" format="reference|color" />
+    <attr name="emojiPickerCategorySelectedBackgroundColor" format="reference|color" />
 
 </resources>

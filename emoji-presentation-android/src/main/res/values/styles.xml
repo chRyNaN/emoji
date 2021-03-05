@@ -2,31 +2,31 @@
 <resources>
 
     <style name="EmojiBottomSheetStyle" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
-        <item name="emojiBottomSheetDialogPaddingTop">12dp</item>
-        <item name="emojiBottomSheetDialogPaddingBottom">12dp</item>
-        <item name="emojiBottomSheetDialogPaddingStart">0dp</item>
-        <item name="emojiBottomSheetDialogPaddingEnd">0dp</item>
-        <item name="emojiBottomSheetDialogCategoryContainerPaddingTop">0dp</item>
-        <item name="emojiBottomSheetDialogCategoryContainerPaddingBottom">16dp</item>
-        <item name="emojiBottomSheetDialogCategoryContainerPaddingStart">12dp</item>
-        <item name="emojiBottomSheetDialogCategoryContainerPaddingEnd">12dp</item>
-        <item name="emojiBottomSheetDialogPeekHeight">300dp</item>
-        <item name="emojiBottomSheetDialogItemSize">48dp</item>
-        <item name="emojiBottomSheetDialogBackgroundLeftCornerRadius">16dp</item>
-        <item name="emojiBottomSheetDialogBackgroundRightCornerRadius">16dp</item>
+        <item name="emojiPickerItemContainerPaddingTop">12dp</item>
+        <item name="emojiPickerItemContainerPaddingBottom">12dp</item>
+        <item name="emojiPickerItemContainerPaddingStart">0dp</item>
+        <item name="emojiPickerItemContainerPaddingEnd">0dp</item>
+        <item name="emojiPickerCategoryContainerPaddingTop">0dp</item>
+        <item name="emojiPickerCategoryContainerPaddingBottom">16dp</item>
+        <item name="emojiPickerCategoryContainerPaddingStart">12dp</item>
+        <item name="emojiPickerCategoryContainerPaddingEnd">12dp</item>
+        <item name="emojiPickerPeekHeight">300dp</item>
+        <item name="emojiPickerItemSize">48dp</item>
+        <item name="emojiPickerBackgroundLeftCornerRadius">16dp</item>
+        <item name="emojiPickerBackgroundRightCornerRadius">16dp</item>
 
-        <item name="emojiBottomSheetDialogBackgroundColor">?attr/colorSurface</item>
-        <item name="emojiBottomSheetDialogCategoryTextColor">?attr/colorOnSurface</item>
-        <item name="emojiBottomSheetDialogCategorySelectedTextColor">?attr/colorControlActivated
+        <item name="emojiPickerBackgroundColor">?attr/colorSurface</item>
+        <item name="emojiPickerCategoryTextColor">?attr/colorOnSurface</item>
+        <item name="emojiPickerCategorySelectedTextColor">?attr/colorControlActivated
         </item>
-        <item name="emojiBottomSheetDialogCategoryBackgroundColor">?attr/colorSurface</item>
-        <item name="emojiBottomSheetDialogCategorySelectedBackgroundColor">?attr/colorControlHighlight</item>
+        <item name="emojiPickerCategoryBackgroundColor">?attr/colorSurface</item>
+        <item name="emojiPickerCategorySelectedBackgroundColor">?attr/colorControlHighlight</item>
 
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
 
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="behavior_peekHeight">?attr/emojiBottomSheetDialogPeekHeight</item>
+        <item name="behavior_peekHeight">?attr/emojiPickerPeekHeight</item>
         <item name="android:background">@drawable/bg_emoji_bottom_sheet</item>
         <item name="shapeAppearanceOverlay">@style/BottomSheetDialogBackgroundShape</item>
         <item name="listPreferredItemHeightSmall">64dp</item>
@@ -34,9 +34,9 @@
 
     <style name="BottomSheetDialogBackgroundShape" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopRight">?attr/emojiBottomSheetDialogBackgroundRightCornerRadius
+        <item name="cornerSizeTopRight">?attr/emojiPickerBackgroundRightCornerRadius
         </item>
-        <item name="cornerSizeTopLeft">?attr/emojiBottomSheetDialogBackgroundLeftCornerRadius</item>
+        <item name="cornerSizeTopLeft">?attr/emojiPickerBackgroundLeftCornerRadius</item>
         <item name="cornerSizeBottomRight">0dp</item>
         <item name="cornerSizeBottomLeft">0dp</item>
     </style>
