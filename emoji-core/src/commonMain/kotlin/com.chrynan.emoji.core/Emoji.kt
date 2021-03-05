@@ -28,6 +28,9 @@ import kotlinx.serialization.Serializable
  *
  * @property [group] The optional name of the group this emoji belongs to within the [category].
  * This is useful for fine grained partitioning of [Emoji]s.
+ *
+ * @property [key] A unique key identifier for this [Emoji]. This value could be used to uniquely
+ * identify [Emoji]s within a [Collection].
  */
 @Serializable(with = EmojiJsonSerializer::class)
 sealed class Emoji {
@@ -38,6 +41,7 @@ sealed class Emoji {
     abstract val aliases: List<String>
     abstract val category: String?
     abstract val group: String?
+    abstract val key: Key
 
     /**
      * Represents a Unicode [Emoji] and all of it's related data.
@@ -69,6 +73,12 @@ sealed class Emoji {
 
         @SerialName(value = "type")
         override val typeName: String = TYPE_NAME
+
+        override val key: Key = Key(
+            typeName = typeName,
+            name = name,
+            id = unicodeString
+        )
 
         /**
          * Retrieves the [List] of unicode [String] values that represent this emoji
@@ -114,9 +124,69 @@ sealed class Emoji {
         @SerialName(value = "type")
         override val typeName: String = TYPE_NAME
 
+        override val key: Key = Key(
+            typeName = typeName,
+            name = name,
+            id = uri
+        )
+
         companion object {
 
             const val TYPE_NAME = "custom"
+        }
+    }
+
+    /**
+     * Represents a key identifier for an [Emoji]. The [typeName], [name], and [id] value should be
+     * enough to uniquely identify an [Emoji] within a collection of values.
+     *
+     * @property [typeName] The [Emoji.typeName] value of the [Emoji] that this [Key] represents.
+     * This value is important to uniquely identify the [Emoji] because different [Emoji]
+     * implementations will have different [id] implementations and this provides a way to
+     * differentiate between them.
+     *
+     * @property [name] The [Emoji.name] value of the [Emoji] that this [Key] represents. This
+     * value is important to uniquely identify the [Emoji] because some implementations may use the
+     * same resource for different [Emoji]s but they still have different names.
+     *
+     * @property [id] The unique identifier value for this [Emoji]. Note that different [Emoji]
+     * implementations may provide different [id] value implementations. This is why the [typeName]
+     * property is important to include, so that the [id] values can be differentiated.
+     */
+    @Serializable
+    data class Key(
+        @SerialName(value = "type_name") val typeName: String,
+        @SerialName(value = "name") val name: String,
+        @SerialName(value = "id") val id: String
+    ) {
+
+        override fun toString(): String = "$typeName:$id"
+
+        companion object {
+
+            /**
+             * Retrieves a [Key] from the provided [String] [value]. Note that the provided [value]
+             * is expected to be in the format "typeName:name:id". Also, note that if there is less
+             * than two colons (:) character, this function will throw an
+             * [IllegalArgumentException].
+             *
+             * @param [value] The [String] value in the format "typeName:name:id".
+             *
+             * @return The [Key] derived from the specially formatted [String] [value].
+             */
+            fun fromString(value: String): Key {
+                val separatorIndex = value.indexOf(':')
+                val lastSeparatorIndex = value.lastIndexOf(':')
+
+                require(separatorIndex != -1)
+                require(lastSeparatorIndex != -1)
+
+                return Key(
+                    typeName = value.substring(0, separatorIndex),
+                    name = value.substring(separatorIndex, lastSeparatorIndex),
+                    id = value.substring(lastSeparatorIndex)
+                )
+            }
         }
     }
 
