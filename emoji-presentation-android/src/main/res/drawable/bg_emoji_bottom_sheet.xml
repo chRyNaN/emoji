@@ -5,7 +5,7 @@
     <solid android:color="?attr/emojiPickerBackgroundColor" />
 
     <corners
-            android:topLeftRadius="?attr/emojiPickerBackgroundLeftCornerRadius"
-            android:topRightRadius="?attr/emojiPickerBackgroundRightCornerRadius" />
+            android:topLeftRadius="?attr/emojiPickerBackgroundTopCornerRadius"
+            android:topRightRadius="?attr/emojiPickerBackgroundTopCornerRadius" />
 
 </shape>

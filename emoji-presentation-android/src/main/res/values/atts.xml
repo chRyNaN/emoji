@@ -14,9 +14,9 @@
     <attr name="emojiPickerCategoryPaddingTop" format="dimension" />
     <attr name="emojiPickerCategoryPaddingBottom" format="dimension" />
     <attr name="emojiPickerPeekHeight" format="dimension" />
+    <attr name="emojiPickerItemContainerMinHeight" format="dimension" />
     <attr name="emojiPickerItemSize" format="dimension" />
-    <attr name="emojiPickerBackgroundLeftCornerRadius" format="dimension" />
-    <attr name="emojiPickerBackgroundRightCornerRadius" format="dimension" />
+    <attr name="emojiPickerBackgroundTopCornerRadius" format="dimension" />
 
     <attr name="emojiPickerBackgroundColor" format="reference|color" />
     <attr name="emojiPickerCategoryTextColor" format="reference|color" />
