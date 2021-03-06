@@ -27,6 +27,7 @@ import com.chrynan.emoji.presentation.core.listener.EmojiListItemSelectedListene
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiCategoryListItemViewModel
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import kotlinx.coroutines.flow.*
 
 abstract class BaseEmojiBottomSheetDialogFragment : BaseBottomSheetDialogFragment(),
@@ -98,14 +99,19 @@ abstract class BaseEmojiBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
 
         listener = emojiListItemSelectedListener ?: getParentCallbackOrThrow()
 
-        val dialogEmojiRecyclerView = view.findViewById<RecyclerView>(R.id.dialogEmojiRecyclerView)
+        val dialogEmojiRecyclerView = view.findViewById<RecyclerView>(R.id.dialogEmojiBottomSheetRecyclerView)
         val dialogEmojiCategoryRecyclerView =
-            view.findViewById<RecyclerView>(R.id.dialogEmojiCategoryRecyclerView)
+            view.findViewById<RecyclerView>(R.id.dialogEmojiBottomSheetCategoryRecyclerView)
+        val dialogEmojiProgressBar =
+            view.findViewById<CircularProgressIndicator>(R.id.dialogEmojiBottomSheetProgressBar)
 
         dialogEmojiRecyclerView?.bindAdapterFactory(emojiGridAdapterFactory)
         dialogEmojiCategoryRecyclerView?.bindAdapterFactory(emojiCategoryAdapterFactory)
 
         flow { emit(repository.getAll().toList()) }
+            .flowOn(dispatchers.io)
+            .onStart { dialogEmojiProgressBar?.show() }
+            .flowOn(dispatchers.main)
             .map { emojiCategoryMapper.map(it) }
             .map { it.sortedWith(categoryComparator) }
             .onEach { currentCategory = it.firstOrNull() }
@@ -116,6 +122,9 @@ abstract class BaseEmojiBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
             .calculateAndDispatchDiff(emojiCategoryAdapterFactory)
             .mapNotNull { currentCategory?.emojis }
             .calculateAndDispatchDiff(emojiGridAdapterFactory)
+            .flowOn(dispatchers.io)
+            .onEach { dialogEmojiProgressBar?.hide() }
+            .flowOn(dispatchers.main)
             .catch { errorHandler(it, "Error loading emojis in EmojiBottomSheetDialogFragment.") }
             .launchIn(this)
     }

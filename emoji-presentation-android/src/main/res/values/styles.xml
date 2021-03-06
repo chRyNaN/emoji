@@ -22,10 +22,12 @@
         <item name="emojiPickerCategoryBackgroundColor">?attr/colorSurface</item>
         <item name="emojiPickerCategorySelectedBackgroundColor">?attr/colorControlHighlight</item>
 
-        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+        <item name="emojiPickerProgressBarStyle">@style/EmojiBottomSheetProgressBarStyle</item>
+
+        <item name="bottomSheetStyle">@style/EmojiBottomSheetModalStyle</item>
     </style>
 
-    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+    <style name="EmojiBottomSheetModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="behavior_peekHeight">?attr/emojiPickerPeekHeight</item>
         <item name="android:background">@drawable/bg_emoji_bottom_sheet</item>
         <item name="shapeAppearanceOverlay">@style/BottomSheetDialogBackgroundShape</item>
@@ -39,6 +41,11 @@
         <item name="cornerSizeTopLeft">?attr/emojiPickerBackgroundLeftCornerRadius</item>
         <item name="cornerSizeBottomRight">0dp</item>
         <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+
+    <style name="EmojiBottomSheetProgressBarStyle" parent="Widget.MaterialComponents.CircularProgressIndicator">
+        <item name="trackColor">?attr/colorControlHighlight</item>
+        <item name="colorAccent">?attr/colorControlHighlight</item>
     </style>
 
 </resources>

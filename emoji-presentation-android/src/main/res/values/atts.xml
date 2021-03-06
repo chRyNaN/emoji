@@ -20,4 +20,6 @@
     <attr name="emojiPickerCategoryBackgroundColor" format="reference|color" />
     <attr name="emojiPickerCategorySelectedBackgroundColor" format="reference|color" />
 
+    <attr name="emojiPickerProgressBarStyle" format="reference" />
+
 </resources>
