@@ -22,6 +22,21 @@ interface EmojiRepository {
     suspend fun getByAlias(alias: String): Emoji
 
     /**
+     * Retrieves the [EmojiCategory] with the provided [name] or throws
+     * [InvalidEmojiCategoryIdentifierException] if there is no [EmojiCategory] with the provided
+     * [name].
+     *
+     * Note that the default implementation performs a [getAll], then [categorize]s the resulting
+     * [Emoji]s, and returns the first [EmojiCategory] with the provided [name] or throws
+     * [InvalidEmojiCategoryIdentifierException] if there is no [EmojiCategory] with the provided
+     * [name]. Implementations of [EmojiRepository] can provide more efficient implementations of
+     * this function.
+     */
+    suspend fun getCategoryByName(name: String?): EmojiCategory =
+        getAll().toList().categorize().firstOrNull { it.name == name }
+            ?: throw InvalidEmojiIdentifierException(name)
+
+    /**
      * Retrieves a [Sequence] of all [Emoji]s.
      */
     suspend fun getAll(): Sequence<Emoji>
@@ -73,4 +88,15 @@ interface EmojiRepository {
      * another.
      */
     suspend fun search(query: String): List<Emoji>
+
+    /**
+     * Retrieves all of the known [EmojiCategory] names represented by this [EmojiRepository].
+     *
+     * Note that the default implementation performs a [getAll], then calls [categorize] on the
+     * resulting items, and [Collection.map]s them to a [Set] of unique [EmojiCategory] names.
+     * Implementations of [EmojiRepository] can provide more efficient implementations of this
+     * function.
+     */
+    suspend fun getAllCategoryNames(): Set<String?> =
+        getAll().toList().categorize().map { it.name }.toSet()
 }
