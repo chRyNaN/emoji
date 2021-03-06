@@ -53,36 +53,23 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/emojiDialogButton" />
 
-        <com.google.android.material.chip.ChipGroup
-                android:id="@+id/emojiDialogChipGroup"
+        <HorizontalScrollView
+                android:id="@+id/emojiDialogHorizontalScrollView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/emojiDialogChipTitleTextView"
-                app:singleLine="true"
-                app:singleSelection="false">
+                app:layout_constraintTop_toBottomOf="@+id/emojiDialogChipTitleTextView">
 
-            <com.chrynan.emoji.presentation.android.widget.EmojiChip
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:id="@+id/emojiDialogChipOne"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+            <com.chrynan.emoji.presentation.android.widget.EmojiChipGroup
+                    android:id="@+id/emojiDialogChipGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:singleLine="true"
+                    app:singleSelection="false" />
 
-            <com.chrynan.emoji.presentation.android.widget.EmojiChip
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:id="@+id/emojiDialogChipTwo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            <com.chrynan.emoji.presentation.android.widget.EmojiChip
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:id="@+id/emojiDialogChipThree"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-        </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -22,7 +22,7 @@ class EmojiGridListItemAdapter(private val listener: EmojiListItemSelectedListen
 
     override fun View.onBindItem(item: EmojiViewModel, position: Int) {
         findViewById<EmojiWidget>(R.id.adapterEmojiWidget).apply {
-            emojiViewModel = item
+            viewModel = item
 
             setOnClickListener { listener.onEmojiListItemSelected(item) }
         }

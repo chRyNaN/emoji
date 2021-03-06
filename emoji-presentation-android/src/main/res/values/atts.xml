@@ -30,4 +30,17 @@
 
     <attr name="emojiPickerCategoryTextAppearance" format="reference" />
 
+    <attr name="emojiChipGroupDefaultAddEmojiTintColor" format="reference|color" />
+
+    <attr name="emojiChipChoiceBackgroundSelectedColor" format="reference|color" />
+    <attr name="emojiChipChoiceBackgroundUnselectedColor" format="reference|color" />
+    <attr name="emojiChipChoiceRippleSelectedColor" format="reference|color" />
+    <attr name="emojiChipChoiceRippleFocusedColor" format="reference|color" />
+    <attr name="emojiChipChoiceRippleHoverColor" format="reference|color" />
+    <attr name="emojiChipChoiceRippleUnselectedColor" format="reference|color" />
+    <attr name="emojiChipChoiceRippleSelectedAlpha" format="float" />
+    <attr name="emojiChipChoiceRippleFocusedAlpha" format="float" />
+    <attr name="emojiChipChoiceRippleHoverAlpha" format="float" />
+    <attr name="emojiChipChoiceRippleUnselectedAlpha" format="float" />
+
 </resources>

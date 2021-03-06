@@ -12,7 +12,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import coil.load
 import com.chrynan.emoji.core.Emoji
+import com.chrynan.emoji.core.accessibilityName
 import com.chrynan.emoji.presentation.android.R
+import com.chrynan.emoji.presentation.android.util.setAccessibilityName
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel
 import kotlin.math.min
 
@@ -21,7 +23,7 @@ import kotlin.math.min
  */
 class EmojiWidget : FrameLayout {
 
-    var emojiViewModel: EmojiViewModel? = null
+    var viewModel: EmojiViewModel? = null
         set(value) {
             field = value
 
@@ -56,9 +58,7 @@ class EmojiWidget : FrameLayout {
                 }
             }
 
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                tooltipText = emoji?.name
-            }
+            setAccessibilityName(name = emoji?.accessibilityName)
         }
 
     constructor(context: Context) : this(context, null)
@@ -99,17 +99,17 @@ class EmojiWidget : FrameLayout {
 }
 
 /**
- * A convenience function for creating an [EmojiWidget] for the provided [emojiViewModel]. This is
- * shorthand for creating an [EmojiWidget] and assigning the [emojiViewModel] to its
- * [EmojiWidget.emojiViewModel] property.
+ * A convenience function for creating an [EmojiWidget] for the provided [viewModel]. This is
+ * shorthand for creating an [EmojiWidget] and assigning the [viewModel] to its
+ * [EmojiWidget.viewModel] property.
  */
 fun EmojiWidget(
-    emojiViewModel: EmojiViewModel,
+    viewModel: EmojiViewModel,
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ): EmojiWidget {
     val widget = EmojiWidget(context = context, attrs = attrs, defStyleAttr = defStyleAttr)
-    widget.emojiViewModel = emojiViewModel
+    widget.viewModel = viewModel
     return widget
 }

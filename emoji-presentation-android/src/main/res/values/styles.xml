@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="EmojiChipGroup" parent="Widget.MaterialComponents.ChipGroup">
+        <item name="emojiChipGroupDefaultAddEmojiTintColor">?attr/colorControlNormal</item>
+    </style>
+
     <style name="EmojiBottomSheetStyle" parent="Theme.MaterialComponents.BottomSheetDialog">
         <item name="emojiPickerItemContainerPaddingTop">12dp</item>
         <item name="emojiPickerItemContainerPaddingBottom">12dp</item>
@@ -95,6 +99,21 @@
     <style name="EmojiBottomSheetProgressBarStyle" parent="Widget.MaterialComponents.CircularProgressIndicator">
         <item name="trackColor">?attr/colorControlHighlight</item>
         <item name="colorAccent">?attr/colorControlHighlight</item>
+    </style>
+
+    <style name="EmojiChipChoiceStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="emojiChipChoiceBackgroundSelectedColor">?attr/colorPrimary</item>
+        <item name="emojiChipChoiceBackgroundUnselectedColor">?attr/colorOnSurface</item>
+        <item name="emojiChipChoiceRippleSelectedColor">?attr/colorOnSurface</item>
+        <item name="emojiChipChoiceRippleFocusedColor">?attr/colorOnSurface</item>
+        <item name="emojiChipChoiceRippleHoverColor">?attr/colorOnSurface</item>
+        <item name="emojiChipChoiceRippleUnselectedColor">?attr/colorOnSurface</item>
+        <item name="emojiChipChoiceRippleSelectedAlpha">0.12</item>
+        <item name="emojiChipChoiceRippleFocusedAlpha">0.12</item>
+        <item name="emojiChipChoiceRippleHoverAlpha">0.04</item>
+        <item name="emojiChipChoiceRippleUnselectedAlpha">0.00</item>
+        <item name="chipBackgroundColor">@color/bg_emoji_chip_choice</item>
+        <item name="rippleColor">@color/bg_emoji_chip_choice_ripple</item>
     </style>
 
 </resources>

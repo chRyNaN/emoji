@@ -224,3 +224,17 @@ fun CharSequence.asEmojiShortCode(
         }
     }
 }
+
+/**
+ * A name for this [Emoji] that is useful for accessibility services.
+ */
+val Emoji.accessibilityName: String
+    get() = buildString {
+        append(this@accessibilityName.name)
+
+        val variant = this@accessibilityName.variant
+
+        if (variant != null) {
+            append(" $variant")
+        }
+    }

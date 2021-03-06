@@ -3,9 +3,7 @@ package com.chrynan.emoji.sample.android
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.chrynan.dispatchers.dispatchers
 import com.chrynan.emoji.presentation.android.util.showEmojiPicker
-import com.chrynan.emoji.presentation.android.widget.EmojiChip
 import com.chrynan.emoji.presentation.android.widget.EmojiWidget
 import com.chrynan.emoji.presentation.core.listener.EmojiListItemSelectedListener
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel
@@ -13,11 +11,9 @@ import com.chrynan.emoji.repo.sqlite.EmojiDatabase
 import com.chrynan.emoji.repo.sqlite.SqliteEmojiRepository
 import com.chrynan.sample.R
 import com.squareup.sqldelight.android.AndroidSqliteDriver
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import com.chrynan.emoji.presentation.core.viewmodel.toViewModel
-import com.chrynan.emoji.core.getByNameOrNull
+import com.chrynan.emoji.presentation.android.widget.EmojiChipGroup
+import com.chrynan.emoji.presentation.core.listener.EmojiChipGroupListener
+import com.chrynan.emoji.presentation.core.viewmodel.EmojiChipGroupViewModel
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiChipViewModel
 
 class MainActivity : AppCompatActivity(),
@@ -38,44 +34,30 @@ class MainActivity : AppCompatActivity(),
             supportFragmentManager.showEmojiPicker(repository = repository)
         }
 
-        setupChips()
+        val emojiChipGroup = findViewById<EmojiChipGroup>(R.id.emojiDialogChipGroup)
+
+        emojiChipGroup?.listener = object : EmojiChipGroupListener {
+
+            override fun onChipSelected(emojiChipViewModel: EmojiChipViewModel) {
+
+            }
+
+            override fun onAddEmojiSelected() {
+                supportFragmentManager.showEmojiPicker(
+                    repository = repository,
+                    emojiListItemSelectedListener = { emoji ->
+                        emojiChipGroup?.addEmojiChip(
+                            EmojiChipViewModel(
+                                emojiViewModel = emoji,
+                                isSelected = true
+                            )
+                        )
+                    })
+            }
+        }
     }
 
     override fun onEmojiListItemSelected(item: EmojiViewModel) {
-        emojiWidget.emojiViewModel = item
-    }
-
-    private fun setupChips() {
-        val emojiChipOne = findViewById<EmojiChip>(R.id.emojiDialogChipOne)
-        val emojiChipTwo = findViewById<EmojiChip>(R.id.emojiDialogChipTwo)
-        val emojiChipThree = findViewById<EmojiChip>(R.id.emojiDialogChipThree)
-
-        GlobalScope.launch {
-            val emojiOne =
-                withContext(dispatchers.io) { repository.getByNameOrNull("grinning face with smiling eyes") }
-            val emojiTwo =
-                withContext(dispatchers.io) { repository.getByNameOrNull("rolling on the floor laughing") }
-            val emojiThree =
-                withContext(dispatchers.io) { repository.getByNameOrNull("face with tears of joy") }
-
-            withContext(dispatchers.main) {
-                emojiOne?.let {
-                    emojiChipOne.emojiChipViewModel =
-                        EmojiChipViewModel(emojiViewModel = it.toViewModel())
-                }
-                emojiTwo?.let {
-                    emojiChipTwo.emojiChipViewModel = EmojiChipViewModel(
-                        emojiViewModel = it.toViewModel(),
-                        count = 2
-                    )
-                }
-                emojiThree?.let {
-                    emojiChipThree.emojiChipViewModel = EmojiChipViewModel(
-                        emojiViewModel = it.toViewModel(),
-                        count = 3
-                    )
-                }
-            }
-        }
+        emojiWidget.viewModel = item
     }
 }

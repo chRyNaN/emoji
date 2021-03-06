@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.chrynan.aaaah.*
+import com.chrynan.emoji.core.accessibilityName
+import com.chrynan.emoji.presentation.android.util.setAccessibilityName
 import com.chrynan.emoji.presentation.android.util.toCharSequence
 import com.chrynan.emoji.presentation.core.listener.EmojiCategoryListItemSelectedListener
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiCategoryListItemViewModel
@@ -42,10 +44,7 @@ class EmojiCategoryListItemAdapter(private val listener: EmojiCategoryListItemSe
             item.category
         }
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            adapterEmojiCategoryTitleTextView?.tooltipText =
-                if (item.showEmojiAsTitle) null else item.category
-        }
+        adapterEmojiCategoryTitleTextView?.setAccessibilityName(name = if (item.showEmojiAsTitle) item.categoryEmoji?.emoji?.accessibilityName else item.category)
 
         adapterEmojiCategoryTitleTextView?.isActivated = item.isSelected
         adapterEmojiCategoryTitleTextView?.setOnClickListener {
