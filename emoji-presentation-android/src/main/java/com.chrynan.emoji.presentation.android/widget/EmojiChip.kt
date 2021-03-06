@@ -1,10 +1,12 @@
-@file:Suppress("unused")
+@file:Suppress("unused", "FunctionName")
 
 package com.chrynan.emoji.presentation.android.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import com.chrynan.emoji.presentation.android.util.AndroidNumberFormatter
 import com.chrynan.emoji.presentation.android.util.toCharSequence
+import com.chrynan.emoji.presentation.core.viewmodel.EmojiChipViewModel
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel
 import com.google.android.material.chip.Chip
 
@@ -17,32 +19,41 @@ class EmojiChip @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : Chip(context, attrs, defStyleAttr) {
 
-    fun setEmoji(emojiViewModel: EmojiViewModel, count: Long? = null) {
-        val emojiText = emojiViewModel.toCharSequence(
-            context = context,
-            onBuildStart = {
-                if (count != null) it.append("$count ")
-            },
-            onImageLoadError = { _, _ -> invalidate() },
-            onImageLoadSuccess = { _, _ -> invalidate() })
+    private val numberFormatter = AndroidNumberFormatter()
 
-        this.text = emojiText
-    }
+    var emojiChipViewModel: EmojiChipViewModel? = null
+        set(value) {
+            field = value
+
+            val emojiText = emojiChipViewModel?.emojiViewModel?.toCharSequence(
+                context = context,
+                onBuildStart = { stringBuilder ->
+                    emojiChipViewModel?.count?.let {
+                        val formattedCount = numberFormatter.format(it)
+                        stringBuilder.append("$formattedCount ")
+                    }
+                },
+                onImageLoadError = { _, _ -> invalidate() },
+                onImageLoadSuccess = { _, _ -> invalidate() }
+            )
+
+            this.text = emojiText
+            this.isChecked = value?.isSelected ?: false
+        }
 }
 
 /**
- * A convenience function for creating an [EmojiChip] for the provided [emojiViewModel] and
- * optional [count]. This is shorthand for creating an [EmojiChip] and assigning the values to its
- * [EmojiChip.setEmoji] function.
+ * A convenience function for creating an [EmojiChip] for the provided [emojiChipViewModel]. This
+ * is shorthand for creating an [EmojiChip] and assigning the values to its
+ * [EmojiChip.emojiChipViewModel] property.
  */
 fun EmojiChip(
-    emojiViewModel: EmojiViewModel,
-    count: Long? = null,
+    emojiChipViewModel: EmojiChipViewModel,
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ): EmojiChip {
     val chip = EmojiChip(context = context, attrs = attrs, defStyleAttr = defStyleAttr)
-    chip.setEmoji(emojiViewModel = emojiViewModel, count = count)
+    chip.emojiChipViewModel = emojiChipViewModel
     return chip
 }

@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.chrynan.emoji.presentation.core.viewmodel.toViewModel
 import com.chrynan.emoji.core.getByNameOrNull
+import com.chrynan.emoji.presentation.core.viewmodel.EmojiChipViewModel
 
 class MainActivity : AppCompatActivity(),
     EmojiListItemSelectedListener {
@@ -58,15 +59,18 @@ class MainActivity : AppCompatActivity(),
                 withContext(dispatchers.io) { repository.getByNameOrNull("face with tears of joy") }
 
             withContext(dispatchers.main) {
-                emojiOne?.let { emojiChipOne.setEmoji(emojiViewModel = it.toViewModel()) }
+                emojiOne?.let {
+                    emojiChipOne.emojiChipViewModel =
+                        EmojiChipViewModel(emojiViewModel = it.toViewModel())
+                }
                 emojiTwo?.let {
-                    emojiChipTwo.setEmoji(
+                    emojiChipTwo.emojiChipViewModel = EmojiChipViewModel(
                         emojiViewModel = it.toViewModel(),
                         count = 2
                     )
                 }
                 emojiThree?.let {
-                    emojiChipThree.setEmoji(
+                    emojiChipThree.emojiChipViewModel = EmojiChipViewModel(
                         emojiViewModel = it.toViewModel(),
                         count = 3
                     )
