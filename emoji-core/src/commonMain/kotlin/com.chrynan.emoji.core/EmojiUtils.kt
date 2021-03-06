@@ -34,14 +34,37 @@ fun Collection<Emoji>.group(): List<EmojiGroup> =
     }
 
 /**
+ * Converts this [Collection] of [Emoji]s into a [List] of [EmojiGroup]s that are derived by the
+ * [Emoji.name] property instead of the [Emoji.group] property. This allows [Emoji]s with the same
+ * [Emoji.name] to be grouped together which may possibly be the same [Emoji] but with different
+ * [Emoji.variant]s.
+ */
+fun Collection<Emoji>.groupByName(): List<EmojiGroup> =
+    groupBy { it.name }.map { groupMap ->
+        EmojiGroup(
+            name = groupMap.key,
+            emojis = groupMap.value,
+            icon = groupMap.value.firstOrNull()
+        )
+    }
+
+/**
  * Converts this [Map] with a value of [Emoji] into a [List] of [EmojiCategory].
  */
-fun <T> Map<T, Emoji>.categorize(): List<EmojiCategory> = entries.map { it.value }.categorize()
+fun <K> Map<K, Emoji>.categorize(): List<EmojiCategory> = entries.map { it.value }.categorize()
 
 /**
  * Converts this [Map] with a value of [Emoji] into a [List] of [EmojiGroup].
  */
-fun <T> Map<T, Emoji>.group(): List<EmojiGroup> = entries.map { it.value }.group()
+fun <K> Map<K, Emoji>.group(): List<EmojiGroup> = entries.map { it.value }.group()
+
+/**
+ * Converts this [Map] of [Emoji] values into a [List] of [EmojiGroup]s that are derived by the
+ * [Emoji.name] property instead of the [Emoji.group] property. This allows [Emoji]s with the same
+ * [Emoji.name] to be grouped together which may possibly be the same [Emoji] but with different
+ * [Emoji.variant]s.
+ */
+fun <K> Map<K, Emoji>.groupByName(): List<EmojiGroup> = entries.map { it.value }.groupByName()
 
 /**
  * Converts this [Collection] of [EmojiCategory] into a [List] of all of the [Emoji]s from every
