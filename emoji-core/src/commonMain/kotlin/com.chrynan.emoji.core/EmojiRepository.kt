@@ -79,6 +79,44 @@ interface EmojiRepository {
         }
 
     /**
+     * Retrieves a [PaginateRepository] to paginate through all of the available [Emoji]s for the
+     * [EmojiCategory] with the provided [name].
+     *
+     * Note that the default implementation of this function simply returns a [BasePaginateSource]
+     * whose [BasePaginateSource.fetch] function returns a [PagedResult] from calling
+     * [getCategoryByName] and returning the [allEmojisFromCategories] on the returned
+     * [EmojiCategory]. Implementations of this [EmojiRepository] can provide more efficient
+     * implementations of this function.
+     */
+    suspend fun paginateAllFromCategoryByName(name: String?): PaginateRepository<Emoji, Emoji.Key> =
+        object : BasePaginateSource<Emoji, Emoji.Key>() {
+
+            override suspend fun fetch(
+                count: Int,
+                key: Emoji.Key?,
+                direction: PageDirection,
+                currentPageCount: Int
+            ): PagedResult<Emoji, Emoji.Key> {
+                val category = getCategoryByName(name = name)
+
+                val items = category.allEmojis()
+
+                val info = PageInfo(
+                    index = 0,
+                    hasNextPage = false,
+                    hasPreviousPage = false,
+                    firstKey = items.firstOrNull()?.key,
+                    lastKey = items.lastOrNull()?.key
+                )
+
+                return PagedResult(
+                    info = info,
+                    items = items
+                )
+            }
+        }
+
+    /**
      * Searches for [Emoji]s by the provided [query] value. At the very least, this function should
      * search for an [Emoji] with an [Emoji.name] value equal to [query] and any [Emoji.aliases]
      * equal to [query].

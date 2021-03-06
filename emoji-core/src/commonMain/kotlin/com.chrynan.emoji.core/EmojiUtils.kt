@@ -80,6 +80,13 @@ fun Collection<EmojiCategory>.allEmojisFromCategories(): List<Emoji> =
 fun Collection<EmojiGroup>.allEmojisFromGroups(): List<Emoji> = flatMap { it.emojis }
 
 /**
+ * Retrieves a [List] of all of the [Emoji]s belonging to all of the [EmojiGroup]s in this
+ * [EmojiCategory].
+ */
+fun EmojiCategory.allEmojis(): List<Emoji> =
+    groups.allEmojisFromGroups()
+
+/**
  * Converts this [Emoji.name] to a name that is useful for quick lookup. The resulting [String] is
  * equivalent to "$lookupChar$name$lookupChar".
  *
