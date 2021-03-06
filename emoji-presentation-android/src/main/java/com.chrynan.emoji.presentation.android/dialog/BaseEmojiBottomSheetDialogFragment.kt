@@ -99,7 +99,8 @@ abstract class BaseEmojiBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
 
         listener = emojiListItemSelectedListener ?: getParentCallbackOrThrow()
 
-        val dialogEmojiRecyclerView = view.findViewById<RecyclerView>(R.id.dialogEmojiBottomSheetRecyclerView)
+        val dialogEmojiRecyclerView =
+            view.findViewById<RecyclerView>(R.id.dialogEmojiBottomSheetRecyclerView)
         val dialogEmojiCategoryRecyclerView =
             view.findViewById<RecyclerView>(R.id.dialogEmojiBottomSheetCategoryRecyclerView)
         val dialogEmojiProgressBar =
@@ -136,15 +137,14 @@ abstract class BaseEmojiBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
     }
 
     override fun onEmojiCategoryListItemSelected(item: EmojiCategoryListItemViewModel) {
-        currentCategory = item
-        emojiCategories = emojiCategories.map { it.copy(isSelected = it.category == item.category) }
+        flow {
+            currentCategory = item
+            emojiCategories =
+                emojiCategories.map { it.copy(isSelected = it.category == item.category) }
 
-        flow { emit(item.emojis) }
-            .calculateAndDispatchDiff(emojiGridAdapterFactory)
-            .catch { errorHandler(it, "Error loading emojis in EmojiBottomSheetDialogFragment.") }
-            .launchIn(this)
-
-        flow { emit(emojiCategories) }
+            emit(emojiCategories)
+        }
+            .flowOn(dispatchers.io)
             .calculateAndDispatchDiff(emojiCategoryAdapterFactory)
             .catch {
                 errorHandler(
@@ -152,6 +152,9 @@ abstract class BaseEmojiBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
                     "Error loading emoji categories in EmojiBottomSheetDialogFragment."
                 )
             }
+            .map { item.emojis }
+            .calculateAndDispatchDiff(emojiGridAdapterFactory)
+            .catch { errorHandler(it, "Error loading emojis in EmojiBottomSheetDialogFragment.") }
             .launchIn(this)
     }
 }

@@ -10,6 +10,10 @@
         <item name="emojiPickerCategoryContainerPaddingBottom">16dp</item>
         <item name="emojiPickerCategoryContainerPaddingStart">12dp</item>
         <item name="emojiPickerCategoryContainerPaddingEnd">12dp</item>
+        <item name="emojiPickerCategoryPaddingStart">12dp</item>
+        <item name="emojiPickerCategoryPaddingEnd">12dp</item>
+        <item name="emojiPickerCategoryPaddingTop">12dp</item>
+        <item name="emojiPickerCategoryPaddingBottom">12dp</item>
         <item name="emojiPickerPeekHeight">300dp</item>
         <item name="emojiPickerItemSize">48dp</item>
         <item name="emojiPickerBackgroundLeftCornerRadius">16dp</item>
@@ -23,6 +27,12 @@
         <item name="emojiPickerCategorySelectedBackgroundColor">?attr/colorControlHighlight</item>
 
         <item name="emojiPickerProgressBarStyle">@style/EmojiBottomSheetProgressBarStyle</item>
+
+        <item name="emojiPickerItemAnimator">@animator/emoji_item_selected_animator</item>
+
+        <item name="emojiPickerCategoryTextAppearance">
+            @style/TextAppearance.MaterialComponents.Subtitle1
+        </item>
 
         <item name="bottomSheetStyle">@style/EmojiBottomSheetModalStyle</item>
     </style>

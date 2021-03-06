@@ -9,6 +9,6 @@
             android:layout_width="?attr/emojiPickerItemSize"
             android:layout_height="?attr/emojiPickerItemSize"
             android:layout_gravity="center_horizontal"
-            android:stateListAnimator="@animator/emoji_item_selected_animator" />
+            android:stateListAnimator="?attr/emojiPickerItemAnimator" />
 
 </FrameLayout>
