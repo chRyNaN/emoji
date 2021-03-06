@@ -64,6 +64,7 @@ dependencies {
     api "androidx.emoji:emoji:1.1.0"
     api "androidx.emoji:emoji-appcompat:1.1.0"
     api "androidx.emoji:emoji-bundled:1.1.0"
+    api "de.c1710:filemojicompat:1.0.18"
 
     // Image Loading - Coil
     api "io.coil-kt:coil:1.0.0"
