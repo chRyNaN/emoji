@@ -26,9 +26,8 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url "https://jitpack.io" }
-        maven {
-            url = "https://dl.bintray.com/chrynan/chrynan"
-        }
+        maven { url "https://dl.bintray.com/chrynan/chrynan" }
+        maven { url "https://repo.repsy.io/mvn/chrynan/public" }
     }
 }
 

@@ -69,6 +69,9 @@ dependencies {
     // Image Loading - Coil
     api "io.coil-kt:coil:1.0.0"
 
+    // Android Pre-computed Text Utils
+    api "com.chrynan.precomputedtext:precomputedtext-android:0.1.0-release"
+
     api project(":emoji-presentation-core")
 }
 

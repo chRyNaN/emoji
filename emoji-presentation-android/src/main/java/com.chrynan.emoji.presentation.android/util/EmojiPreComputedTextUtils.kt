@@ -11,6 +11,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import com.chrynan.emoji.core.shortCodeName
 import com.chrynan.emoji.core.shortCodeAliases
+import com.chrynan.precomputedtext.android.preComputeText
+import com.chrynan.precomputedtext.android.preComputeTextAndRender
 
 /**
  * Pre-computes the [Emoji] text for the provided [source], [emojiViewModels], and [textView].
@@ -33,7 +35,6 @@ import com.chrynan.emoji.core.shortCodeAliases
  * @param [allowDuplicateLookupChars] Whether to allow duplicate consecutive [lookupChar]s.
  *
  * @see [preComputeText]
- * @see [emojifyAsync]
  * @see [Emoji.shortCodeName]
  * @se [Emoji.shortCodeAliases]
  */
