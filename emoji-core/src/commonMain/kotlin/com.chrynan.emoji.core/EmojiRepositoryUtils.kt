@@ -2,6 +2,8 @@
 
 package com.chrynan.emoji.core
 
+import kotlinx.serialization.json.Json
+
 /**
  * Retrieves the [Emoji] with the provided [name] or null if there is no [Emoji] with the provided
  * [name].
