@@ -2,18 +2,20 @@ import com.chrynan.emoji.buildSrc.LibraryConstants
 
 apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
-apply plugin: "digital.wup.android-maven-publish"
 apply plugin: "kotlin-kapt"
+apply plugin: "maven-publish"
+apply plugin: "org.jetbrains.dokka"
+apply plugin: "com.chrynan.target.plugin"
 
 group LibraryConstants.group
 version LibraryConstants.versionName
 
 android {
-    compileSdkVersion LibraryConstants.androidCompileSdkVersion
+    compileSdkVersion LibraryConstants.Android.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion LibraryConstants.androidMinSdkVersion
-        targetSdkVersion LibraryConstants.androidTargetSdkVersion
+        minSdkVersion LibraryConstants.Android.minSdkVersion
+        targetSdkVersion LibraryConstants.Android.targetSdkVersion
         versionCode LibraryConstants.versionCode
         versionName LibraryConstants.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -45,15 +47,15 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.constraintlayout:constraintlayout:2.0.4"
 
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
 
     // Kotlin Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3"
 
     // Kotlin Coroutine Dispatchers
     implementation "com.chrynan.dispatchers:dispatchers:0.1.1"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3"
 
     // Adapter - aaaah
     implementation "com.chrynan.aaaah:aaaah-libraryx:0.9.0"
@@ -67,7 +69,7 @@ dependencies {
     api "de.c1710:filemojicompat:1.0.18"
 
     // Image Loading - Coil
-    api "io.coil-kt:coil:1.0.0"
+    api "io.coil-kt:coil:1.1.0"
 
     // Android Pre-computed Text Utils
     api "com.chrynan.precomputedtext:precomputedtext-android:0.1.0-release"
@@ -76,10 +78,34 @@ dependencies {
 }
 
 publishing {
+    repositories {
+        maven {
+            url "https://repo.repsy.io/mvn/chrynan/public"
+
+            credentials {
+                username = project.findProperty("repsyUsername") ?: System.getenv("repsyUsername")
+                password = project.findProperty("repsyToken") ?: System.getenv("repsyToken")
+            }
+        }
+    }
+
     publications {
-        MavenPub(MavenPublication) {
-            from(components.android)
-            artifactId "emoji-presentation-android"
+        android.libraryVariants.all { variant ->
+            "maven${variant.name.capitalize()}Aar"(MavenPublication) {
+                from components.findByName("android${variant.name.capitalize()}")
+                groupId LibraryConstants.group
+                artifactId "colors-jetpack-compose"
+                version "${LibraryConstants.versionName}-${variant.name}"
+            }
+        }
+    }
+}
+
+// Documentation
+tasks.named("dokkaGfm") {
+    dokkaSourceSets {
+        configureEach {
+            includes.from("Module.md")
         }
     }
 }

@@ -2,6 +2,9 @@ import com.chrynan.emoji.buildSrc.LibraryConstants
 
 apply plugin: "kotlin-multiplatform"
 apply plugin: "kotlinx-serialization"
+apply plugin: "maven-publish"
+apply plugin: "org.jetbrains.dokka"
+apply plugin: "com.chrynan.target.plugin"
 
 group LibraryConstants.group
 version LibraryConstants.versionName
@@ -35,22 +38,37 @@ configurations {
     compileClasspath
 }
 
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
 publishing {
-    publications {
-        kotlinMultiplatform {
-            artifactId = "emoji-presentation-core"
+    repositories {
+        maven {
+            url "https://repo.repsy.io/mvn/chrynan/public"
+
+            credentials {
+                username = project.findProperty("repsyUsername") ?: System.getenv("repsyUsername")
+                password = project.findProperty("repsyToken") ?: System.getenv("repsyToken")
+            }
         }
-        jvm {
-            artifactId = "emoji-presentation-core-jvm"
-        }
-        js {
-            artifactId = "emoji-presentation-core-js"
-        }
-        iosArm64 {
-            artifactId = "emoji-presentation-core-ios-arm64"
-        }
-        iosX64 {
-            artifactId = "emoji-presentation-core-ios-x64"
+    }
+}
+
+// Target Information
+kotlinTargetDataGenerator {
+    generateJson = true
+    generateSvg = true
+    outputPath = "${projectDir.path}/targets"
+}
+
+// Documentation
+tasks.named("dokkaGfm") {
+    dokkaSourceSets {
+        configureEach {
+            includes.from("Module.md")
         }
     }
 }

@@ -1,6 +1,7 @@
 # emoji
 
-Kotlin Multi-platform Emoji Support Library.
+Kotlin Multi-platform Emoji Support Library. <br/>
+<img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/chRyNaN/emoji">
 
 ## Using the library
 
@@ -66,35 +67,51 @@ repository.getAll().group() // List<EmojiGroup>
 
 ## Building the library
 
-The library is provided through [Bintray](https://bintray.com/chrynan/chrynan). Checkout
-the [releases page](https://github.com/chRyNaN/emoji/releases) to get the latest version.
+The library is provided through [Repsy.io](https://repsy.io). Checkout the [releases page](https://github.com/chRyNaN/emoji/releases) to get the latest version. <br/>
+<img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/chRyNaN/emoji">
 
 ### Repository
 
 ```groovy
 repositories {
-    maven {
-        url = uri("https://dl.bintray.com/chrynan/chrynan")
-    }
+    maven { url = "https://repo.repsy.io/mvn/chrynan/public" }
 }
 ```
 
-### core Dependencies
+### Core Dependency
 
 ```groovy
 implementation "com.chrynan.emoji:emoji-core:$VERSION"
 ```
 
-### emoji-repo-map Dependencies
+### Map Repository Dependency
 
 ```groovy
 implementation "com.chrynan.emoji:emoji-repo-map:$VERSION"
 ```
 
-### emoji-repo-sqlite Dependencies
+### SQLite Repository Dependency
 
 ```groovy
 implementation "com.chrynan.emoji:emoji-repo-sqlite:$VERSION"
+```
+
+### Presentation Core Dependency
+
+```groovy
+implementation "com.chrynan.emoji:emoji-presentation-core:$VERSION"
+```
+
+### Presentation Android Dependency
+
+```groovy
+implementation "com.chrynan.emoji:emoji-presentation-android:$VERSION"
+```
+
+### Presentation Android Jetpack Compose Dependency
+
+```groovy
+implementation "com.chrynan.emoji:emoji-presentation-android-compose:$VERSION"
 ```
 
 ## Project Status
@@ -102,6 +119,10 @@ implementation "com.chrynan.emoji:emoji-repo-sqlite:$VERSION"
 This project is still in the early stages of development but should be good to use and test out for the `emoji-core`
 , `emoji-repo-map`, and `emoji-repo-sqlite` modules. The `emoji-ui` module is still in early development and is
 eventually intended to provide Emoji related UI components.
+
+## Documentation
+
+More detailed documentation is available in the [docs](docs) folder. The entry point to the documentation can be found [here](docs/index.md).
 
 ## License
 
