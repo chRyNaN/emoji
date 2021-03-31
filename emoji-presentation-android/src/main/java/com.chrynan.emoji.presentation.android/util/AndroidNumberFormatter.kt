@@ -7,10 +7,16 @@ import java.util.*
 /**
  * An Android implementation of [NumberFormatter].
  */
-class AndroidNumberFormatter : NumberFormatter {
+class AndroidNumberFormatter(
+    private val numberFormatterRetriever: () -> NumberFormat = {
+        NumberFormat.getInstance(
+            Locale.getDefault()
+        )
+    }
+) : NumberFormatter {
 
     override fun format(value: Number): String {
-        val formatter = NumberFormat.getInstance(Locale.getDefault())
+        val formatter = numberFormatterRetriever.invoke()
 
         return when (value) {
             is Long -> formatter.format(value)
