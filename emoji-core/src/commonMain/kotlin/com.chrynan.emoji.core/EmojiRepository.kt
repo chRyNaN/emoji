@@ -52,15 +52,15 @@ interface EmojiRepository {
      * @see [getAll]
      * @see [PaginateRepository]
      */
-    suspend fun paginateAll(): PaginateRepository<Emoji, Emoji.Key> =
-        object : BasePaginateSource<Emoji, Emoji.Key>() {
+    suspend fun paginateAll(): PaginateRepository<Emoji.Key, Emoji> =
+        object : BasePaginateSource<Emoji.Key, Emoji>() {
 
             override suspend fun fetch(
                 count: Int,
                 key: Emoji.Key?,
                 direction: PageDirection,
                 currentPageCount: Int
-            ): PagedResult<Emoji, Emoji.Key> {
+            ): PagedResult<Emoji.Key, Emoji> {
                 val emojis = getAll().toList()
 
                 val pageInfo = PageInfo(
@@ -88,15 +88,15 @@ interface EmojiRepository {
      * [EmojiCategory]. Implementations of this [EmojiRepository] can provide more efficient
      * implementations of this function.
      */
-    suspend fun paginateAllFromCategoryByName(name: String?): PaginateRepository<Emoji, Emoji.Key> =
-        object : BasePaginateSource<Emoji, Emoji.Key>() {
+    suspend fun paginateAllFromCategoryByName(name: String?): PaginateRepository<Emoji.Key, Emoji> =
+        object : BasePaginateSource<Emoji.Key, Emoji>() {
 
             override suspend fun fetch(
                 count: Int,
                 key: Emoji.Key?,
                 direction: PageDirection,
                 currentPageCount: Int
-            ): PagedResult<Emoji, Emoji.Key> {
+            ): PagedResult<Emoji.Key, Emoji> {
                 val category = getCategoryByName(name = name)
 
                 val items = category.allEmojis()

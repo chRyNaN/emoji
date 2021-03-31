@@ -27,15 +27,15 @@ class KotlinMapEmojiRepository : EmojiRepository,
 
     override suspend fun getAll(): Sequence<Emoji> = map.asSequence().map { it.value }
 
-    override suspend fun paginateAll(): PaginateRepository<Emoji, Emoji.Key> =
-        object : BasePaginateSource<Emoji, Emoji.Key>() {
+    override suspend fun paginateAll(): PaginateRepository<Emoji.Key, Emoji> =
+        object : BasePaginateSource<Emoji.Key, Emoji>() {
 
             override suspend fun fetch(
                 count: Int,
                 key: Emoji.Key?,
                 direction: PageDirection,
                 currentPageCount: Int
-            ): PagedResult<Emoji, Emoji.Key> {
+            ): PagedResult<Emoji.Key, Emoji> {
                 val entries = map.entries
                 val startIndex = if (key == null) 0 else entries.indexOfFirst { it.key == key }
 

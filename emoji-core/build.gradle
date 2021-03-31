@@ -27,7 +27,7 @@ kotlin {
                 api "org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0"
 
                 // Pagination
-                api "com.chrynan.paginate:paginate-core:0.1.0"
+                api "com.chrynan.paginate:paginate-core:0.2.0"
             }
         }
     }
