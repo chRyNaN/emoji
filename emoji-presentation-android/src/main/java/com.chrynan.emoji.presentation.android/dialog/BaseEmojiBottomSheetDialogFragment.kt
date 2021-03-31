@@ -20,8 +20,8 @@ import com.chrynan.emoji.presentation.android.adapter.EmojiGridListItemAdapter
 import com.chrynan.emoji.presentation.android.util.collatorCompareBy
 import com.chrynan.emoji.presentation.android.util.getParentCallbackOrThrow
 import com.chrynan.emoji.presentation.android.util.mapEach
-import com.chrynan.emoji.presentation.core.EmojiCategoryListMapper
-import com.chrynan.emoji.presentation.core.EmojiMapper
+import com.chrynan.emoji.presentation.core.mapper.EmojiCategoryListMapper
+import com.chrynan.emoji.presentation.core.mapper.EmojiMapper
 import com.chrynan.emoji.presentation.core.listener.EmojiCategoryListItemSelectedListener
 import com.chrynan.emoji.presentation.core.listener.EmojiListItemSelectedListener
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiCategoryListItemViewModel

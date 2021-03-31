@@ -1,4 +1,4 @@
-package com.chrynan.emoji.presentation.core
+package com.chrynan.emoji.presentation.core.util
 
 /**
  * A component that formats [Number] values into [String] values according to the current locale.

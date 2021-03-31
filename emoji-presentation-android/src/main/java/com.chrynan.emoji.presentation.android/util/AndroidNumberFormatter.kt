@@ -1,6 +1,6 @@
 package com.chrynan.emoji.presentation.android.util
 
-import com.chrynan.emoji.presentation.core.NumberFormatter
+import com.chrynan.emoji.presentation.core.util.NumberFormatter
 import java.text.NumberFormat
 import java.util.*
 

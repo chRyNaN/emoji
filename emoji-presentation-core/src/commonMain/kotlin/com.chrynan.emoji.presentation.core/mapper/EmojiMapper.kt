@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.chrynan.emoji.presentation.core
+package com.chrynan.emoji.presentation.core.mapper
 
 import com.chrynan.emoji.core.Emoji
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel
@@ -23,7 +23,9 @@ interface EmojiMapper {
  * A convenience function to create an [EmojiMapper] using the provided [block] or the default [EmojiMapper.map]
  * function if [block] is null.
  */
-fun EmojiMapper(block: (suspend (Emoji) -> EmojiViewModel)? = null): EmojiMapper = object : EmojiMapper {
+fun EmojiMapper(block: (suspend (Emoji) -> EmojiViewModel)? = null): EmojiMapper = object :
+    EmojiMapper {
 
-    override suspend fun map(emoji: Emoji): EmojiViewModel = block?.invoke(emoji) ?: super.map(emoji)
+    override suspend fun map(emoji: Emoji): EmojiViewModel =
+        block?.invoke(emoji) ?: super.map(emoji)
 }
