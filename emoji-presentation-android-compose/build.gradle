@@ -1,0 +1,93 @@
+import com.chrynan.emoji.buildSrc.LibraryConstants
+
+apply plugin: "com.android.library"
+apply plugin: "kotlin-android"
+apply plugin: "maven-publish"
+apply plugin: "org.jetbrains.dokka"
+
+group LibraryConstants.group
+version LibraryConstants.versionName
+
+android {
+    compileSdkVersion LibraryConstants.Android.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion LibraryConstants.Android.minSdkVersion
+        targetSdkVersion LibraryConstants.Android.targetSdkVersion
+        versionCode LibraryConstants.versionCode
+        versionName LibraryConstants.versionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+        // Opt-in to experimental compose APIs
+        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+        freeCompilerArgs += "-Xallow-jvm-ir-dependencies"
+    }
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion "1.0.0-beta02"
+        kotlinCompilerVersion "1.4.31"
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    implementation "androidx.compose.compiler:compiler:1.0.0-beta03"
+    implementation "androidx.compose.runtime:runtime:1.0.0-beta03"
+    implementation "androidx.compose.ui:ui:1.0.0-beta03"
+    implementation "androidx.compose.material:material:1.0.0-beta03"
+
+    api project(":emoji-presentation-android")
+}
+
+publishing {
+    repositories {
+        maven {
+            url "https://repo.repsy.io/mvn/chrynan/public"
+
+            credentials {
+                username = project.findProperty("repsyUsername") ?: System.getenv("repsyUsername")
+                password = project.findProperty("repsyToken") ?: System.getenv("repsyToken")
+            }
+        }
+    }
+
+    publications {
+        android.libraryVariants.all { variant ->
+            "maven${variant.name.capitalize()}Aar"(MavenPublication) {
+                from components.findByName("android${variant.name.capitalize()}")
+                groupId LibraryConstants.group
+                artifactId "colors-jetpack-compose"
+                version "${LibraryConstants.versionName}-${variant.name}"
+            }
+        }
+    }
+}
+
+// Documentation
+tasks.named("dokkaGfm") {
+    dokkaSourceSets {
+        configureEach {
+            includes.from("Module.md")
+        }
+    }
+}
