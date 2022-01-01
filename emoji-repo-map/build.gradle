@@ -5,7 +5,6 @@ apply plugin: "kotlin-multiplatform"
 apply plugin: KotlinMapGeneratorPlugin
 apply plugin: "maven-publish"
 apply plugin: "org.jetbrains.dokka"
-apply plugin: "com.chrynan.target.plugin"
 
 group LibraryConstants.group
 version LibraryConstants.versionName
@@ -48,13 +47,6 @@ publishing {
             }
         }
     }
-}
-
-// Target Information
-kotlinTargetDataGenerator {
-    generateJson = true
-    generateSvg = true
-    outputPath = "${projectDir.path}/targets"
 }
 
 // Documentation

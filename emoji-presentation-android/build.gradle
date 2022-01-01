@@ -5,7 +5,6 @@ apply plugin: "kotlin-android"
 apply plugin: "kotlin-kapt"
 apply plugin: "maven-publish"
 apply plugin: "org.jetbrains.dokka"
-apply plugin: "com.chrynan.target.plugin"
 
 group LibraryConstants.group
 version LibraryConstants.versionName
