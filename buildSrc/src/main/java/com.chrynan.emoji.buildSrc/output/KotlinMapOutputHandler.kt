@@ -45,9 +45,9 @@ class KotlinMapOutputHandler {
                 val mimeType = if (emoji.mime_type == null) "null" else "\"${emoji.mime_type}\""
 
                 if (emoji.type == "unicode") {
-                    "|      Emoji.Unicode(unicodeString = \"${emoji.unicode}\", char = \"${emoji.char}\", name = \"${emoji.name}\", aliases = $aliasString, category = $category, group = $group, iconUri = $icon)".trimMargin()
+                    "|      Emoji(unicodeString = \"${emoji.unicode}\", character = \"${emoji.char}\", name = \"${emoji.name}\", aliases = $aliasString, category = $category, group = $group, iconUri = $icon)".trimMargin()
                 } else {
-                    "|      Emoji.Custom(name = \"${emoji.name}\", aliases = $aliasString, category = $category, group = $group, uri = $uri, staticUri = $staticUri, mimeType = $mimeType)".trimMargin()
+                    "|      Emoji(name = \"${emoji.name}\", aliases = $aliasString, category = $category, group = $group, uri = $uri, staticUri = $staticUri, mimeType = $mimeType)".trimMargin()
                 }
             }
 
