@@ -2,8 +2,10 @@
 
 package com.chrynan.emoji.core
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonNames
 
 /**
  * A sealed class that represents an Emoji. An implementation of this [Emoji] class should be able
@@ -67,6 +69,7 @@ sealed class Emoji {
      * @property [iconUri] An optional URI to an image representation of this emoji.
      */
     @Serializable
+    @OptIn(ExperimentalSerializationApi::class)
     data class Unicode internal constructor(
         @SerialName(value = "name") override val name: String,
         @SerialName(value = "aliases") override val aliases: List<String> = emptyList(),
@@ -76,7 +79,7 @@ sealed class Emoji {
         @SerialName(value = "icon") val iconUri: String? = null,
         @SerialName(value = "unicode") val unicodeString: String,
         @SerialName(value = "unicode_list") val unicodeList: List<String>,
-        @SerialName(value = "char") val character: String
+        @SerialName(value = "char") @JsonNames("character") val character: String
     ) : Emoji() {
 
         @SerialName(value = "type")
