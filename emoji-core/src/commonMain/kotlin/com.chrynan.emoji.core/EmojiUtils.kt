@@ -228,11 +228,11 @@ fun CharSequence.asEmojiShortCode(
 /**
  * A name for this [Emoji] that is useful for accessibility services.
  */
-val Emoji.accessibilityName: String
+val Emoji.defaultAccessibilityName: String
     get() = buildString {
-        append(this@accessibilityName.name)
+        append(this@defaultAccessibilityName.name)
 
-        val variant = this@accessibilityName.variant
+        val variant = this@defaultAccessibilityName.variant
 
         if (variant != null) {
             append(" $variant")

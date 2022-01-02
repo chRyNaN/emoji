@@ -12,7 +12,7 @@ Emoji(
     unicodeString = "U+1F600",
     character = "😀",
     name = "grinning face",
-    alias = ":grinning_face:",
+    aliases = listOf("grinning_face", "grin_face", "grin face"),
     category = "Smileys & Emotion",
     group = "face-smiling",
     iconUri = null
