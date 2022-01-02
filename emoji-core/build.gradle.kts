@@ -35,10 +35,10 @@ kotlin {
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
 
                 // Kotlinx Serialization
-                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
 
                 // Pagination
-                api("com.chrynan.paginate:paginate-core:0.2.0")
+                api("com.chrynan.paginate:paginate-core:0.2.1")
             }
         }
     }

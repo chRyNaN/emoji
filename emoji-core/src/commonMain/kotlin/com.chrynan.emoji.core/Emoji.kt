@@ -37,7 +37,7 @@ import kotlinx.serialization.Serializable
  * [Emoji]s have variants for different skin tones. They are the same [Emoji] but with slight
  * deviations. Note that not all [Emoji]s have variants, and as such, this property is optional.
  */
-@Serializable(with = EmojiJsonSerializer::class)
+@Serializable
 sealed class Emoji {
 
     @SerialName(value = "type")
@@ -67,19 +67,19 @@ sealed class Emoji {
      * @property [iconUri] An optional URI to an image representation of this emoji.
      */
     @Serializable
-    data class Unicode(
-        @SerialName(value = "unicode") val unicodeString: String,
-        @SerialName(value = "char") val char: String,
+    data class Unicode internal constructor(
         @SerialName(value = "name") override val name: String,
         @SerialName(value = "aliases") override val aliases: List<String> = emptyList(),
         @SerialName(value = "category") override val category: String? = null,
         @SerialName(value = "group") override val group: String? = null,
         @SerialName(value = "variant") override val variant: String? = null,
-        @SerialName(value = "icon") val iconUri: String? = null
+        @SerialName(value = "icon") val iconUri: String? = null,
+        @SerialName(value = "unicode") val unicodeString: String,
+        @SerialName(value = "char") val character: String
     ) : Emoji() {
 
         @SerialName(value = "type")
-        override val typeName: String = TYPE_NAME
+        override val typeName: String = "unicode"
 
         override val key: Key = Key(
             typeName = typeName,
@@ -104,11 +104,6 @@ sealed class Emoji {
                 ignoreCase = true
             ).map { it.trim() }
         }
-
-        companion object {
-
-            const val TYPE_NAME = "unicode"
-        }
     }
 
     /**
@@ -125,7 +120,7 @@ sealed class Emoji {
      * @property [mimeType] The optional mime type of the image located at the [uri] value.
      */
     @Serializable
-    data class Custom(
+    data class Custom internal constructor(
         @SerialName(value = "name") override val name: String,
         @SerialName(value = "aliases") override val aliases: List<String> = emptyList(),
         @SerialName(value = "category") override val category: String? = null,
@@ -137,18 +132,13 @@ sealed class Emoji {
     ) : Emoji() {
 
         @SerialName(value = "type")
-        override val typeName: String = TYPE_NAME
+        override val typeName: String = "custom"
 
         override val key: Key = Key(
             typeName = typeName,
             name = name,
             id = uri
         )
-
-        companion object {
-
-            const val TYPE_NAME = "custom"
-        }
     }
 
     /**
@@ -187,7 +177,7 @@ sealed class Emoji {
             /**
              * Retrieves a [Key] from the provided [String] [value]. Note that the provided [value]
              * is expected to be in the format "typeName:name:id:variant". Also, note that if there
-             * is less than three colon (:) characters, this function will throw an
+             * is less than two colon (':') characters, this function will throw an
              * [IllegalArgumentException].
              *
              * Note that the variant part of the formatted [String] [value] is optional. It can
@@ -200,14 +190,14 @@ sealed class Emoji {
             fun fromString(value: String): Key {
                 val parts = value.split(':')
 
-                require(parts.size > 3)
+                require(parts.size >= 3)
 
                 return Key(
                     typeName = parts[0],
                     name = parts[1],
                     id = parts[2],
-                    variant = parts.lastOrNull()
-                        ?.let { if (it.toLowerCase() == "null" || it.isBlank()) null else it }
+                    variant = parts.getOrNull(3)
+                        ?.let { if (it.trim().lowercase() == "null" || it.isBlank()) null else it }
                 )
             }
         }
@@ -223,3 +213,45 @@ sealed class Emoji {
         const val DEFAULT_SHORTCODE_CHAR = ':'
     }
 }
+
+@Suppress("FunctionName")
+fun Emoji(
+    name: String,
+    aliases: List<String> = emptyList(),
+    category: String? = null,
+    group: String? = null,
+    variant: String? = null,
+    iconUri: String? = null,
+    unicodeString: String,
+    character: String
+): Emoji.Unicode = Emoji.Unicode(
+    name = name,
+    aliases = aliases,
+    category = category,
+    group = group,
+    variant = variant,
+    iconUri = iconUri,
+    unicodeString = unicodeString,
+    char = character
+)
+
+@Suppress("FunctionName")
+fun Emoji(
+    name: String,
+    aliases: List<String> = emptyList(),
+    category: String? = null,
+    group: String? = null,
+    variant: String? = null,
+    uri: String,
+    staticUri: String? = null,
+    mimeType: String? = null
+): Emoji.Custom = Emoji.Custom(
+    name = name,
+    aliases = aliases,
+    category = category,
+    group = group,
+    variant = variant,
+    uri = uri,
+    staticUri = staticUri,
+    mimeType = mimeType
+)
