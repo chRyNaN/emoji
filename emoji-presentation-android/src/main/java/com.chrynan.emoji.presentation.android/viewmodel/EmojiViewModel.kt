@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.chrynan.emoji.presentation.core.viewmodel
+package com.chrynan.emoji.presentation.android.viewmodel
 
 import com.chrynan.emoji.core.Emoji
 import kotlinx.serialization.SerialName

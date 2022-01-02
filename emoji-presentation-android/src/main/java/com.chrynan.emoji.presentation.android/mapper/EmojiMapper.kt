@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.chrynan.emoji.presentation.core.mapper
+package com.chrynan.emoji.presentation.android.mapper
 
 import com.chrynan.emoji.core.Emoji
 import com.chrynan.emoji.presentation.core.viewmodel.EmojiViewModel

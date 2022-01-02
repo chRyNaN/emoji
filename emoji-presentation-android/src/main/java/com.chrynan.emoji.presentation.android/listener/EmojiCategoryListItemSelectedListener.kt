@@ -1,6 +1,6 @@
-package com.chrynan.emoji.presentation.core.listener
+package com.chrynan.emoji.presentation.android.listener
 
-import com.chrynan.emoji.presentation.core.viewmodel.EmojiCategoryListItemViewModel
+import com.chrynan.emoji.presentation.android.viewmodel.EmojiCategoryListItemViewModel
 
 fun interface EmojiCategoryListItemSelectedListener {
 

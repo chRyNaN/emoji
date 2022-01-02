@@ -1,4 +1,4 @@
-package com.chrynan.emoji.presentation.core.viewmodel
+package com.chrynan.emoji.presentation.android.viewmodel
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -1,4 +1,4 @@
-package com.chrynan.emoji.presentation.core.viewmodel
+package com.chrynan.emoji.presentation.android.viewmodel
 
 expect interface ListItemViewModel {
 
