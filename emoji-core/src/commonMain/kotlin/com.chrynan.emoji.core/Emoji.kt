@@ -57,7 +57,7 @@ sealed class Emoji {
      *
      * @property [unicodeList] The [List] of unicode [String] values that represent this emoji
      * (ex: listOf(U+1F600)). This is different from the [unicodeString] value, as that includes
-     * all of the unicode Strings in a single [String] value, whereas, this [unicodeList] contains
+     * all the unicode Strings in a single [String] value, whereas, this [unicodeList] contains
      * a list of all of those unicode Strings. Note that each unicode value should be prefaced with
      * the "U+" String.
      *
@@ -75,6 +75,7 @@ sealed class Emoji {
         @SerialName(value = "variant") override val variant: String? = null,
         @SerialName(value = "icon") val iconUri: String? = null,
         @SerialName(value = "unicode") val unicodeString: String,
+        @SerialName(value = "unicode_list") val unicodeList: List<String>,
         @SerialName(value = "char") val character: String
     ) : Emoji() {
 
@@ -86,24 +87,6 @@ sealed class Emoji {
             name = name,
             id = unicodeString
         )
-
-        /**
-         * Retrieves the [List] of unicode [String] values that represent this emoji
-         * (ex: listOf(U+1F600)). This is different from the [unicodeString] value, as that
-         * includes all of the unicode Strings in a single [String] value, whereas, this
-         * [unicodeList] contains a list of all of those unicode Strings. Note that each unicode
-         * value should be prefaced with the "U+" String.
-         *
-         * Note that this is derived data from the [unicodeString] value and lazily initialized.
-         */
-        val unicodeList: List<String> by lazy {
-            unicodeString.split(
-                "U+",
-                " ",
-                ",",
-                ignoreCase = true
-            ).map { it.trim() }
-        }
     }
 
     /**
@@ -232,7 +215,38 @@ fun Emoji(
     variant = variant,
     iconUri = iconUri,
     unicodeString = unicodeString,
-    char = character
+    unicodeList = unicodeString.trim()
+        .split(
+            "U+",
+            " ",
+            ",",
+            ignoreCase = true
+        ).map { it.trim() }
+        .filter { it.isNotBlank() }
+        .map { if (it.startsWith("U+")) it else "U+$it" },
+    character = character
+)
+
+@Suppress("FunctionName")
+fun Emoji(
+    name: String,
+    aliases: List<String> = emptyList(),
+    category: String? = null,
+    group: String? = null,
+    variant: String? = null,
+    iconUri: String? = null,
+    unicodeList: List<String>,
+    character: String
+): Emoji.Unicode = Emoji.Unicode(
+    name = name,
+    aliases = aliases,
+    category = category,
+    group = group,
+    variant = variant,
+    iconUri = iconUri,
+    unicodeString = unicodeList.joinToString(separator = "") { if (it.startsWith("U+")) it else "U+$it" },
+    unicodeList = unicodeList,
+    character = character
 )
 
 @Suppress("FunctionName")

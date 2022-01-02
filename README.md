@@ -3,14 +3,14 @@
 Kotlin Multi-platform Emoji Support Library. <br/>
 <img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/chRyNaN/emoji">
 
-## Using the library
+## Usage
 
-**Create an Emoji:**
+### Create an Emoji
 
 ```kotlin
-Emoji.Unicode(
+Emoji(
     unicodeString = "U+1F600",
-    char = "😀",
+    character = "😀",
     name = "grinning face",
     alias = ":grinning_face:",
     category = "Smileys & Emotion",
@@ -19,7 +19,8 @@ Emoji.Unicode(
 )
 ```
 
-**Accessing Emojis:**
+### Accessing Emojis
+
 Emojis can be retrieved from a `EmojiRepository` instance:
 
 ```kotlin
@@ -28,7 +29,8 @@ val emojiByAlias = emojiRepository.getByAlias(":grinning_face:")
 val allEmojis = emojiRepository.getAll()
 ```
 
-**Retrieving an EmojiRepository:**
+#### Retrieving an EmojiRepository
+
 The `EmojiRepository` interface is in the `emoji-core` module but there are different implementations in
 the `emoji-repo-map` and `emoji-repo-sqlite` modules. Note that the `emoji-repo-sqlite` module uses
 the [sqldelight](https://github.com/cashapp/sqldelight) library and requires a `SqlDriver` to obtain an instance of
@@ -47,7 +49,8 @@ val database = EmojiDatabase(sqldriver)
 val repo = SqliteEmojiRepository(database)
 ```
 
-**Initializing an EmojiRepository:**
+#### Initializing an EmojiRepository
+
 Before the `EmojiRepository` implementation class is used for the first time, it has to be initialized by calling
 the `init()` function. This loads the emoji data set. Note that the `init()` function is only on the implementation
 classes and not on the `EmojiRepository` interface.
@@ -56,7 +59,8 @@ classes and not on the `EmojiRepository` interface.
 repository.init()
 ```
 
-**Categorizing Emojis:**
+### Categorizing Emojis
+
 It may be useful to have the Emojis grouped by their `category` and/or `group` properties. There are convenience
 functions to achieve this.
 
@@ -67,7 +71,8 @@ repository.getAll().group() // List<EmojiGroup>
 
 ## Building the library
 
-The library is provided through [Repsy.io](https://repsy.io). Checkout the [releases page](https://github.com/chRyNaN/emoji/releases) to get the latest version. <br/>
+The library is provided through [Repsy.io](https://repsy.io). Checkout
+the [releases page](https://github.com/chRyNaN/emoji/releases) to get the latest version. <br/>
 <img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/chRyNaN/emoji">
 
 ### Repository
@@ -114,15 +119,10 @@ implementation "com.chrynan.emoji:emoji-presentation-android:$VERSION"
 implementation "com.chrynan.emoji:emoji-presentation-android-compose:$VERSION"
 ```
 
-## Project Status
-
-This project is still in the early stages of development but should be good to use and test out for the `emoji-core`
-, `emoji-repo-map`, and `emoji-repo-sqlite` modules. The `emoji-ui` module is still in early development and is
-eventually intended to provide Emoji related UI components.
-
 ## Documentation
 
-More detailed documentation is available in the [docs](docs) folder. The entry point to the documentation can be found [here](docs/index.md).
+More detailed documentation is available in the [docs](docs) folder. The entry point to the documentation can be
+found [here](docs/index.md).
 
 ## License
 
