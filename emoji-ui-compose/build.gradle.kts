@@ -32,7 +32,7 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.material)
 
-                implementation("com.chrynan.ui-components:ui-components-image:0.1.5")
+                implementation("com.chrynan.ui-components:ui-components-image:0.1.6")
             }
         }
         val androidMain by getting {
