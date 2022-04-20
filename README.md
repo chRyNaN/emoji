@@ -69,7 +69,7 @@ repository.getAll().categorize() // List<EmojiCategory>
 repository.getAll().group() // List<EmojiGroup>
 ```
 
-## Building the library
+## Building
 
 The library is provided through [Repsy.io](https://repsy.io). Checkout
 the [releases page](https://github.com/chRyNaN/emoji/releases) to get the latest version. <br/>
@@ -77,46 +77,34 @@ the [releases page](https://github.com/chRyNaN/emoji/releases) to get the latest
 
 ### Repository
 
-```groovy
+```kotlin
 repositories {
-    maven { url = "https://repo.repsy.io/mvn/chrynan/public" }
+    maven { url = uri("https://repo.repsy.io/mvn/chrynan/public") }
 }
 ```
 
 ### Core Dependency
 
-```groovy
-implementation "com.chrynan.emoji:emoji-core:$VERSION"
+```kotlin
+implementation("com.chrynan.emoji:emoji-core:$VERSION")
 ```
 
 ### Map Repository Dependency
 
-```groovy
-implementation "com.chrynan.emoji:emoji-repo-map:$VERSION"
+```kotlin
+implementation("com.chrynan.emoji:emoji-repo-map:$VERSION")
 ```
 
 ### SQLite Repository Dependency
 
-```groovy
-implementation "com.chrynan.emoji:emoji-repo-sqlite:$VERSION"
+```kotlin
+implementation("com.chrynan.emoji:emoji-repo-sqlite:$VERSION")
 ```
 
-### Presentation Core Dependency
+### Jetpack Compose Dependency
 
-```groovy
-implementation "com.chrynan.emoji:emoji-presentation-core:$VERSION"
-```
-
-### Presentation Android Dependency
-
-```groovy
-implementation "com.chrynan.emoji:emoji-presentation-android:$VERSION"
-```
-
-### Presentation Android Jetpack Compose Dependency
-
-```groovy
-implementation "com.chrynan.emoji:emoji-presentation-android-compose:$VERSION"
+```kotlin
+implementation("com.chrynan.emoji:emoji-presentation-android-compose:$VERSION")
 ```
 
 ## Documentation
