@@ -15,7 +15,6 @@ version = LibraryConstants.versionName
 kotlin {
     android {
         publishAllLibraryVariants()
-        publishLibraryVariantsGroupedByFlavor = true
     }
     targets {
         android()
@@ -25,22 +24,24 @@ kotlin {
             nodejs()
         }
         ios()
+        iosSimulatorArm64()
     }
     sourceSets {
         all {
-            languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
+            languageSettings.optIn("kotlin.RequiresOptIn")
         }
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
-
                 // Kotlinx Serialization
-                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
 
                 // Pagination
-                api("com.chrynan.paginate:paginate-core:0.2.1")
+                api("com.chrynan.paginate:paginate-core:0.3.0")
             }
         }
+        val iosMain by sourceSets.getting
+        val iosSimulatorArm64Main by sourceSets.getting
+        iosSimulatorArm64Main.dependsOn(iosMain)
     }
 }
 
@@ -69,7 +70,7 @@ android {
             jvmTarget = "1.8"
             // Opt-in to experimental compose APIs
             freeCompilerArgs = listOf(
-                    "-Xopt-in=kotlin.RequiresOptIn"
+                "-Xopt-in=kotlin.RequiresOptIn"
             )
         }
     }

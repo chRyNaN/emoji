@@ -83,13 +83,18 @@ sealed class Emoji {
     ) : Emoji() {
 
         @SerialName(value = "type")
-        override val typeName: String = "unicode"
+        override val typeName: String = TYPE_NAME
 
         override val key: Key = Key(
             typeName = typeName,
             name = name,
             id = unicodeString
         )
+
+        companion object {
+
+            const val TYPE_NAME = "unicode"
+        }
     }
 
     /**
@@ -118,13 +123,18 @@ sealed class Emoji {
     ) : Emoji() {
 
         @SerialName(value = "type")
-        override val typeName: String = "custom"
+        override val typeName: String = TYPE_NAME
 
         override val key: Key = Key(
             typeName = typeName,
             name = name,
             id = uri
         )
+
+        companion object {
+
+            const val TYPE_NAME = "custom"
+        }
     }
 
     /**
@@ -200,6 +210,11 @@ sealed class Emoji {
     }
 }
 
+/**
+ * Creates an [Emoji.Unicode] instance using the provided values.
+ *
+ * @see [Emoji.Unicode]
+ */
 @Suppress("FunctionName")
 fun Emoji(
     name: String,
@@ -230,6 +245,11 @@ fun Emoji(
     character = character
 )
 
+/**
+ * Creates an [Emoji.Unicode] instance using the provided values.
+ *
+ * @see [Emoji.Unicode]
+ */
 @Suppress("FunctionName")
 fun Emoji(
     name: String,
@@ -252,6 +272,11 @@ fun Emoji(
     character = character
 )
 
+/**
+ * Creates an [Emoji.Custom] instance using the provided values.
+ *
+ * @see [Emoji.Custom]
+ */
 @Suppress("FunctionName")
 fun Emoji(
     name: String,

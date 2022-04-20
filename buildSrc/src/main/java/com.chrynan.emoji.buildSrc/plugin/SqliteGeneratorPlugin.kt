@@ -11,7 +11,7 @@ import org.gradle.kotlin.dsl.create
 
 /**
  * A Gradle [Plugin] used to generate a Sqlite (.sq) file that can be read by SqlDelight and a corresponding Kotlin
- * extension file that calls some of the SqlDelight generated code to initialize the database.
+ * extension file that calls some SqlDelight generated code to initialize the database.
  *
  * Note that this is for internal use only and not meant to be public. There are hardcoded values which work only for
  * generating code within specific modules of this project.

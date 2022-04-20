@@ -18,7 +18,6 @@ version = LibraryConstants.versionName
 kotlin {
     android {
         publishAllLibraryVariants()
-        publishLibraryVariantsGroupedByFlavor = true
     }
     targets {
         android()
@@ -28,15 +27,17 @@ kotlin {
             nodejs()
         }
         ios()
+        iosSimulatorArm64()
     }
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
-
                 api(project(":emoji-core"))
             }
         }
+        val iosMain by sourceSets.getting
+        val iosSimulatorArm64Main by sourceSets.getting
+        iosSimulatorArm64Main.dependsOn(iosMain)
     }
 }
 
@@ -65,7 +66,7 @@ android {
             jvmTarget = "1.8"
             // Opt-in to experimental compose APIs
             freeCompilerArgs = listOf(
-                    "-Xopt-in=kotlin.RequiresOptIn"
+                "-Xopt-in=kotlin.RequiresOptIn"
             )
         }
     }

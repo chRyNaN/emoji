@@ -10,9 +10,9 @@ internal class SqliteEmojiMapper {
 
     fun map(sqliteEmoji: Emoji): com.chrynan.emoji.core.Emoji =
         if (sqliteEmoji.type == com.chrynan.emoji.core.Emoji.Unicode.TYPE_NAME && sqliteEmoji.unicode != null && sqliteEmoji.char != null) {
-            com.chrynan.emoji.core.Emoji.Unicode(
+            com.chrynan.emoji.core.Emoji(
                 unicodeString = sqliteEmoji.unicode,
-                char = sqliteEmoji.char,
+                character = sqliteEmoji.char,
                 name = sqliteEmoji.name,
                 aliases = sqliteEmoji.alias.split(","),
                 category = sqliteEmoji.category,
@@ -20,7 +20,7 @@ internal class SqliteEmojiMapper {
                 iconUri = sqliteEmoji.icon
             )
         } else {
-            com.chrynan.emoji.core.Emoji.Custom(
+            com.chrynan.emoji.core.Emoji(
                 name = sqliteEmoji.name,
                 aliases = sqliteEmoji.alias.split(","),
                 category = sqliteEmoji.category,
@@ -39,7 +39,7 @@ internal class SqliteEmojiMapper {
             category = emoji.category,
             group = emoji.group,
             unicode = if (emoji is com.chrynan.emoji.core.Emoji.Unicode) emoji.unicodeString else null,
-            char = if (emoji is com.chrynan.emoji.core.Emoji.Unicode) emoji.char else null,
+            char = if (emoji is com.chrynan.emoji.core.Emoji.Unicode) emoji.character else null,
             icon = if (emoji is com.chrynan.emoji.core.Emoji.Unicode) emoji.iconUri else null,
             uri = if (emoji is com.chrynan.emoji.core.Emoji.Custom) emoji.uri else null,
             static_uri = if (emoji is com.chrynan.emoji.core.Emoji.Custom) emoji.staticUri else null,

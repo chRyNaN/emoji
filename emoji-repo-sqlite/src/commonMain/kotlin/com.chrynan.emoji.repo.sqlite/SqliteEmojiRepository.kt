@@ -60,7 +60,7 @@ class SqliteEmojiRepository(internal val database: EmojiDatabase) : EmojiReposit
             category = emoji.category,
             group = emoji.group,
             unicode = if (emoji is Emoji.Unicode) emoji.unicodeString else null,
-            char = if (emoji is Emoji.Unicode) emoji.char else null,
+            char = if (emoji is Emoji.Unicode) emoji.character else null,
             icon = if (emoji is Emoji.Unicode) emoji.iconUri else null,
             uri = if (emoji is Emoji.Custom) emoji.uri else null,
             static_uri = if (emoji is Emoji.Custom) emoji.staticUri else null,

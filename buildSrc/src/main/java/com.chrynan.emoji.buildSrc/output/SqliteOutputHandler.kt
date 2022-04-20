@@ -5,7 +5,7 @@ import com.chrynan.emoji.buildSrc.util.file
 
 /**
  * A helper class responsible for generating a Sqlite file (.sq) that will be used in the "emoji-repo-sqlite" module so
- * that Sqldelight can auto-generate the necessary Kotlin database files.
+ * that SqlDelight can auto-generate the necessary Kotlin database files.
  *
  * Note that this is for internal use only and not meant to be public. There are hardcoded values which work only for
  * generating code within specific modules of this project.
@@ -97,14 +97,14 @@ class SqliteOutputHandler {
             |       name = :name,
             |       alias = :alias,
             |       category = :category,
-            |       group = :group,
+            |       ${"\""}group${"\""} = :group,
             |       icon = :icon,
             |       uri = :uri,
             |       static_uri = :static_uri,
             |       mime_type = :mime_type
             |   WHERE type = :type AND name = :name;
             |
-            |   INSERT OR IGNORE INTO emoji (type, unicode, char, name, alias, category, group, icon, uri, static_uri, mime_type)
+            |   INSERT OR IGNORE INTO emoji (type, unicode, char, name, alias, category, ${"\""}group${"\""}, icon, uri, static_uri, mime_type)
             |   VALUES (:type, :unicode, :char, :name, :alias, :category, :group, :icon, :uri, :static_uri, :mime_type);
             |}
             |

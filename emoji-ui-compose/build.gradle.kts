@@ -15,7 +15,6 @@ version = LibraryConstants.versionName
 kotlin {
     android {
         publishAllLibraryVariants()
-        publishLibraryVariantsGroupedByFlavor = true
     }
     targets {
         android()
@@ -30,21 +29,14 @@ kotlin {
                 api(project(":emoji-core"))
 
                 implementation(compose.runtime)
-
-                implementation("com.chrynan.ui-components:ui-components-image:0.1.3")
-            }
-        }
-        val jvmMain by getting {
-            dependencies {
                 implementation(compose.ui)
                 implementation(compose.material)
+
+                implementation("com.chrynan.ui-components:ui-components-image:0.1.5")
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation(compose.ui)
-                implementation(compose.material)
-
                 // Android Emoji Support Libraries
                 api("androidx.emoji:emoji:1.1.0")
                 api("androidx.emoji:emoji-appcompat:1.1.0")

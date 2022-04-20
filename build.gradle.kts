@@ -12,10 +12,10 @@ buildscript {
     }
     dependencies {
         classpath("com.android.tools.build:gradle:4.2.2")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.5.30")
-        classpath("org.jetbrains.kotlin:kotlin-serialization:1.5.32")
-        classpath("org.jetbrains.compose:compose-gradle-plugin:1.0.0")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.6.10")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:1.6.10")
+        classpath("org.jetbrains.compose:compose-gradle-plugin:1.1.1")
         classpath("com.squareup.sqldelight:gradle-plugin:1.5.3")
     }
 }
@@ -29,6 +29,10 @@ allprojects {
         maven { url = uri("https://repo.repsy.io/mvn/chrynan/public") }
         maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
     }
+}
+
+rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {
+    rootProject.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeVersion = "16.0.0"
 }
 
 // Documentation
