@@ -104,7 +104,7 @@ implementation("com.chrynan.emoji:emoji-repo-sqlite:$VERSION")
 ### Jetpack Compose Dependency
 
 ```kotlin
-implementation("com.chrynan.emoji:emoji-presentation-android-compose:$VERSION")
+implementation("com.chrynan.emoji:emoji-ui-compose:$VERSION")
 ```
 
 ## Documentation
