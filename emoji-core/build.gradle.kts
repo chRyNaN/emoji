@@ -33,7 +33,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 // Kotlinx Serialization
-                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 
                 // Pagination
                 api("com.chrynan.paginate:paginate-core:0.3.0")

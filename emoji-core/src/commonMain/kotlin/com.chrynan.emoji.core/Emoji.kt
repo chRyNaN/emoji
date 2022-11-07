@@ -29,7 +29,7 @@ import kotlinx.serialization.json.JsonNames
  * partitioning [Emoji]s.
  *
  * @property [group] The optional name of the group this emoji belongs to within the [category].
- * This is useful for fine grained partitioning of [Emoji]s.
+ * This is useful for fine-grained partitioning of [Emoji]s.
  *
  * @property [key] A unique key identifier for this [Emoji]. This value could be used to uniquely
  * identify [Emoji]s within a [Collection].
@@ -63,7 +63,7 @@ sealed class Emoji {
      * a list of all of those unicode Strings. Note that each unicode value should be prefaced with
      * the "U+" String.
      *
-     * @property [char] The actual emoji character representation of this emoji (ex: 😀). Note that
+     * @property [character] The actual emoji character representation of this emoji (ex: 😀). Note that
      * this is not a Kotlin [Char] value but is actually a [String].
      *
      * @property [iconUri] An optional URI to an image representation of this emoji.
@@ -88,7 +88,8 @@ sealed class Emoji {
         override val key: Key = Key(
             typeName = typeName,
             name = name,
-            id = unicodeString
+            id = unicodeString,
+            variant = variant
         )
 
         companion object {
@@ -99,8 +100,8 @@ sealed class Emoji {
 
     /**
      * Represents a Custom [Emoji] and all of it's related data. A Custom [Emoji] does not have a
-     * unicode value or character representing the [Emoji]. Instead it is represented by a [uri]
-     * value that points to a resource that illustrates the [Emoji].
+     * unicode value or character representing the [Emoji]. Instead, it is represented by a [uri]
+     * value that points to an image resource that illustrates the [Emoji].
      *
      * @property [uri] The URI value to the image resource visually representing this [Emoji].
      *
@@ -128,7 +129,8 @@ sealed class Emoji {
         override val key: Key = Key(
             typeName = typeName,
             name = name,
-            id = uri
+            id = uri,
+            variant = variant
         )
 
         companion object {

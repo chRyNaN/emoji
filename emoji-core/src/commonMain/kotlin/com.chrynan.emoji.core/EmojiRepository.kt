@@ -42,7 +42,7 @@ interface EmojiRepository {
     suspend fun getAll(): Sequence<Emoji>
 
     /**
-     * Retrieves a [PaginateRepository] to paginate through all of the available [Emoji]s.
+     * Retrieves a [PaginateRepository] to paginate through all the available [Emoji]s.
      *
      * Note that this defaults to returning a [BasePaginateSource] implementation whose
      * [BasePaginateSource.fetch] function simply returns a [PagedResult] containing the result of
@@ -79,7 +79,7 @@ interface EmojiRepository {
         }
 
     /**
-     * Retrieves a [PaginateRepository] to paginate through all of the available [Emoji]s for the
+     * Retrieves a [PaginateRepository] to paginate through all the available [Emoji]s for the
      * [EmojiCategory] with the provided [name].
      *
      * Note that the default implementation of this function simply returns a [BasePaginateSource]
@@ -128,7 +128,7 @@ interface EmojiRepository {
     suspend fun search(query: String): List<Emoji>
 
     /**
-     * Retrieves all of the known [EmojiCategory] names represented by this [EmojiRepository].
+     * Retrieves all the known [EmojiCategory] names represented by this [EmojiRepository].
      *
      * Note that the default implementation performs a [getAll], then calls [categorize] on the
      * resulting items, and [Collection.map]s them to a [Set] of unique [EmojiCategory] names.
