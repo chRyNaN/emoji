@@ -238,3 +238,22 @@ val Emoji.defaultAccessibilityName: String
             append(" $variant")
         }
     }
+
+@ExperimentalEmojiApi
+operator fun Emoji.Unicode.plus(other: Emoji.Unicode): Emoji.Unicode =
+    Emoji.Unicode(
+        name = "${this.name} ${other.name}",
+        aliases = this.aliases + other.aliases,
+        category = this.category,
+        group = this.group,
+        variant = when {
+            this.variant != null && other.variant != null -> "${this.variant}+${other.variant}"
+            this.variant != null -> this.variant
+            other.variant != null -> other.variant
+            else -> null
+        },
+        iconUri = null,
+        unicodeString = "${this.unicodeString}${other.unicodeString}",
+        unicodeList = this.unicodeList + other.unicodeList,
+        character = "${this.character}${other.character}"
+    )
