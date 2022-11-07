@@ -209,6 +209,94 @@ sealed class Emoji {
          * following the short code lookup character.
          */
         const val DEFAULT_SHORTCODE_CHAR = ':'
+
+        /**
+         * Zero Width Joiner (ZWJ) is a Unicode character that joins two or more other characters together in sequence
+         * to create a new emoji.
+         *
+         * Zero Width Joiner, pronounced "zwidge", is not an emoji and has no appearance by itself. This is an
+         * invisible character when used alone.
+         *
+         * Zero Width Joiner was approved as part of [Unicode 1.1](https://emojipedia.org/unicode-1.1/) in 1993 and
+         * added to [Emoji 11.0](https://emojipedia.org/emoji-11.0/) in 2018.
+         *
+         * @see [Emojipedia Definition](https://emojipedia.org/zero-width-joiner/)
+         */
+        const val ZWJ = "\u200D"
+
+        /**
+         * Represents the skin tone modifier for an emoji.
+         */
+        const val SKIN_TONE = "\uD83C"
+
+        /**
+         * A pale skin tone modifier, which can be applied to a range of human emoji characters.
+         *
+         * Type 1 on the Fitzpatrick Scale of skin tones is described as: Pale white; blond or red hair; blue eyes;
+         * freckles
+         *
+         * Type 2 on the Fitzpatrick Scale of skin tones is described as: White; fair; blond or red hair; blue, green,
+         * or hazel eyes
+         *
+         * This is a combination of type 1 (pale white) and type 2 (white). Despite the descriptions, Apple’s artwork
+         * tends to display this type-1-2 skin tone modifier with dark hair.
+         *
+         * Light Skin Tone was approved as part of Unicode 8.0 in 2015 under the name “Emoji Modifier Fitzpatrick
+         * Type-1-2” and added to Emoji 1.0 in 2015.
+         *
+         * @see [Emojipedia Definition](https://emojipedia.org/light-skin-tone/)
+         */
+        const val SKIN_TONE_LIGHT = "\uD83C\uDFFB"
+
+        /**
+         * A cream white skin tone modifier, which can be applied to a range of human emoji characters.
+         *
+         * Type 3 on the Fitzpatrick Scale of skin tones is described as: Cream white; fair with any hair or eye color;
+         * quite common
+         *
+         * Medium-Light Skin Tone was approved as part of Unicode 8.0 in 2015 under the name “Emoji Modifier
+         * Fitzpatrick Type-3” and added to Emoji 1.0 in 2015.
+         *
+         * @see [Emojipedia Definition](https://emojipedia.org/medium-light-skin-tone/)
+         */
+        const val SKIN_TONE_MEDIUM_LIGHT = "\uD83C\uDFFC"
+
+        /**
+         * A moderate brown skin tone modifier, which can be applied to a range of human emoji characters.
+         *
+         * Type 4 on the Fitzpatrick Scale of skin tones is described as: Moderate brown; typical Mediterranean skin
+         * tone — Rarely burns, always tans well
+         *
+         * Medium Skin Tone was approved as part of Unicode 8.0 in 2015 under the name “Emoji Modifier Fitzpatrick
+         * Type-4” and added to Emoji 1.0 in 2015.
+         *
+         * @see [Emojipedia Definition](https://emojipedia.org/medium-skin-tone/)
+         */
+        const val SKIN_TONE_MEDIUM = "\uD83C\uDFFD"
+
+        /**
+         * A dark brown skin tone modifier, which can be applied to a range of human emoji characters.
+         *
+         * Type 5 on the Fitzpatrick Scale of skin tones is described as:  Dark brown; Middle Eastern skin types
+         *
+         * Medium-Dark Skin Tone was approved as part of Unicode 8.0 in 2015 under the name “Emoji Modifier Fitzpatrick
+         * Type-5” and added to Emoji 1.0 in 2015.
+         *
+         * @see [Emojipedia Definition](https://emojipedia.org/medium-dark-skin-tone/)
+         */
+        const val SKIN_TONE_MEDIUM_DARK = "\uD83C\uDFFE"
+
+        /**
+         * A black skin tone modifier, which can be applied to a range of human emoji characters.
+         *
+         * Type 6 on the Fitzpatrick Scale of skin tones is described as: Deeply pigmented dark brown to black
+         *
+         * Dark Skin Tone was approved as part of Unicode 8.0 in 2015 under the name “Emoji Modifier Fitzpatrick
+         * Type-6” and added to Emoji 1.0 in 2015.
+         *
+         * @see [Emojipedia Definition](https://emojipedia.org/dark-skin-tone/)
+         */
+        const val SKIN_TONE_DARK = "\uD83C\uDFFF"
     }
 }
 
