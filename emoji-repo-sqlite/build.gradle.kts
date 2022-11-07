@@ -23,6 +23,10 @@ kotlin {
     targets {
         android()
         jvm()
+        js(BOTH) {
+            browser()
+            nodejs()
+        }
         ios()
         iosSimulatorArm64()
     }
