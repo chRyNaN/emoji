@@ -19,6 +19,11 @@ kotlin {
     targets {
         android()
         jvm()
+        ios()
+        iosSimulatorArm64()
+        js(IR) {
+            browser()
+        }
     }
     sourceSets {
         all {
@@ -32,19 +37,21 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.material)
 
-                implementation("com.chrynan.ui-components:ui-components-image:0.1.6")
+                implementation("com.chrynan.ui-components:ui-components-image:0.1.13")
             }
         }
-        val androidMain by getting {
-            dependencies {
-                // Android Emoji Support Libraries
-                api("androidx.emoji:emoji:1.1.0")
-                api("androidx.emoji:emoji-appcompat:1.1.0")
-                api("androidx.emoji:emoji-bundled:1.1.0")
-                api("de.c1710:filemojicompat:1.0.18")
-            }
-        }
+        val iosMain by sourceSets.getting
+        val iosSimulatorArm64Main by sourceSets.getting
+        iosSimulatorArm64Main.dependsOn(iosMain)
     }
+}
+
+dependencies {
+    // Android Emoji Support Libraries
+    api("androidx.emoji:emoji:1.1.0")
+    api("androidx.emoji:emoji-appcompat:1.1.0")
+    api("androidx.emoji:emoji-bundled:1.1.0")
+    api("de.c1710:filemojicompat:3.2.6")
 }
 
 android {
